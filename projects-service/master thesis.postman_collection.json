@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "7927b49e-5976-4d32-9863-37669f51db1c",
+		"name": "master thesis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17951052"
+	},
+	"item": [
+		{
+			"name": "Add stationary project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"acronym\": \"tmp_stationary\",\r\n    \"name\": \"test_stationary\",\r\n    \"description\": \"Test project stationary\",\r\n    \"timeMode\": \"OFFLINE\",\r\n    \"spatialMode\": \"STATIONARY\",\r\n    \"measurementMode\": \"SINGLE\",\r\n    \"sensors\": [\r\n        {\r\n            \"deviceId\": \"1\",\r\n            \"latitude\": 12.4214,\r\n            \"longitude\": 52.124124, \r\n            \"altitude\": 1224.0,\r\n\t\t\t\"spatialMode\": \"STATIONARY\",\t\t\t\r\n            \"measurementSchema\": {\r\n                \"measurements\": [\r\n                    {\r\n                        \"name\": \"temperature\",\r\n                        \"description\": \"test temperature\",\r\n                        \"unit\": \"C\",\r\n                        \"range\": {\r\n                            \"min\": -50.0,\r\n                            \"max\": 100.0\r\n                        },\r\n                        \"accuracy\": 3,\r\n                        \"validate\": true,\r\n                        \"errorValue\": 999,\r\n                        \"timestamp\": {\r\n                            \"maxBreak\": 30,\r\n                            \"aggregationIntervals\": [\r\n                                \"MIN\" \r\n                            ],\r\n                            \"alertType\": \"SMS\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"deviceMetadata\": {\r\n\t\t\t\t\t\"spatialMode\": \"STATIONARY\",\r\n                    \"date\": \"2022-12-19\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/project",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add mobile 2D project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"acronym\": \"tmp_mobile_2D\",\r\n    \"name\": \"Test Mobile\",\r\n    \"description\": \"Mobile 2D measurement\",\r\n    \"timeMode\": \"TEMPORARY\",\r\n    \"spatialMode\": \"MOBILE_2D\",\r\n    \"measurementMode\": \"SINGLE\",\r\n    \"sensors\": [\r\n        {\r\n            \"deviceId\": \"2\",\r\n\t\t\t\"spatialMode\": \"MOBILE_2D\",\r\n            \"measurementSchema\": {\r\n                \"measurements\": [\r\n                    {\r\n                        \"name\": \"humidity\",\r\n                        \"description\": \"Test humidity measurement\",\r\n                        \"unit\": \"%\",\r\n                        \"range\": {\r\n                            \"min\": 0,\r\n                            \"max\": 100\r\n                        },\r\n                        \"accuracy\": 1,\r\n                        \"validate\": true,\r\n                        \"errorValue\": 999,\r\n                        \"timestamp\": {\r\n                            \"maxBreak\": 1, \r\n                            \"aggregationIntervals\": [\r\n                                \"HOUR\"\r\n                            ],\r\n                            \"alertType\": \"STATUS\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"deviceMetadata\": {\r\n\t\t\t\t\t\"spatialMode\": \"MOBILE_2D\",\r\n                    \"date\": \"2023-01-16\",\r\n                    \"latitude\": 12.4214, \r\n                    \"longitude\": 52.124124, \r\n                    \"altitude\": 1224.0, \r\n                    \"speed\": 10.214, \r\n                    \"direction\": 36\r\n                }\r\n            }\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/project",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add mobile 3D project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"acronym\": \"tmp_mobile_3D\",\r\n    \"name\": \"Test Mobile 3D\",\r\n    \"description\": \"Mobile 3D measurement\",\r\n    \"timeMode\": \"TEMPORARY\",\r\n    \"spatialMode\": \"MOBILE_3D\",\r\n    \"measurementMode\": \"SINGLE\",\r\n    \"sensors\": [\r\n        {\r\n            \"deviceId\": \"3\",\r\n\t\t\t\"spatialMode\": \"MOBILE_3D\",\r\n            \"measurementSchema\": {\r\n                \"measurements\": [\r\n                    {\r\n                        \"name\": \"temperature\",\r\n                        \"description\": \"Test temperature measurement\",\r\n                        \"unit\": \"C\",\r\n                        \"range\": {\r\n                            \"min\": -100,\r\n                            \"max\": 100\r\n                        },\r\n                        \"accuracy\": 5,\r\n                        \"validate\": true,\r\n                        \"errorValue\": -1,\r\n                        \"timestamp\": {\r\n                            \"maxBreak\": 2, \r\n                            \"aggregationIntervals\": [\r\n                                \"TEN_MIN\"\r\n                            ],\r\n                            \"alertType\": \"EMAIL\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"deviceMetadata\": {\r\n\t\t\t\t\t\"spatialMode\": \"MOBILE_3D\",\r\n                    \"date\": \"2023-01-16\",\r\n                    \"latitude\": 0.4214, \r\n                    \"longitude\": 22.124124, \r\n                    \"altitude\": 563.0, \r\n                    \"speed\": 35.643169, \r\n                    \"direction\": 124\r\n                }\r\n            }\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/project",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get stationary project",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/project/test_stationary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project",
+						"test_stationary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all projects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/project/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete project",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/project/Test Mobile 3D",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project",
+						"Test Mobile 3D"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
