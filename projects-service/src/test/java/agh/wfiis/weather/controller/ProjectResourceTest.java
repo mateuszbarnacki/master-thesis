@@ -107,6 +107,13 @@ class ProjectResourceTest {
     }
 
     @Test
+    void emptyTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/projects")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
     void shouldDeleteProject() throws Exception {
         mvc.perform(MockMvcRequestBuilders.delete("/projects/{name}", "test"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
