@@ -1,3 +1,4 @@
 rootProject.name = 'weather'
 
 include 'projects-service'
+include 'auth-service'
