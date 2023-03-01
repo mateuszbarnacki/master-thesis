@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'agh.wfiis'
+version = '0.0.1'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('gatewayVersion', "4.0.1")
+    set('contractStubRunnerVersion', "4.0.1")
+    set('junitVersion', "5.9.2")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-dependencies:3.0.3'
+    implementation "org.springframework.cloud:spring-cloud-starter-gateway:${gatewayVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner:${contractStubRunnerVersion}"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.junit:junit-bom:${junitVersion}"
+    }
+}
+
+tasks {
+    bootJar {
+        archiveFileName.set("api-gateway.jar")
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
