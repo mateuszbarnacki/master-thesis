@@ -12,7 +12,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-properties = {"uri.httpUri=http://localhost:${wiremock.server.port}"})
+                properties = {"uri.httpUri=http://localhost:${wiremock.server.port}"})
 @AutoConfigureWireMock(port = 0)
 class GatewayConfigurationTest {
 
