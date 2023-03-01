@@ -17,19 +17,19 @@ public class MeasurementDto {
     @NotNull
     private final TimestampDto timestamp;
 
-    private MeasurementDto(Builder builder) {
-        this.name = builder.name;
-        this.description = builder.description;
-        this.unit = builder.unit;
-        this.range = builder.range;
-        this.accuracy = builder.accuracy;
-        this.validate = builder.validate;
-        this.errorValue = builder.errorValue;
-        this.timestamp = builder.timestamp;
+    MeasurementDto(String name, String description, String unit, RangeDto range, int accuracy, boolean validate, int errorValue, TimestampDto timestamp) {
+        this.name = name;
+        this.description = description;
+        this.unit = unit;
+        this.range = range;
+        this.accuracy = accuracy;
+        this.validate = validate;
+        this.errorValue = errorValue;
+        this.timestamp = timestamp;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static MeasurementDtoBuilder builder() {
+        return new MeasurementDtoBuilder();
     }
 
     public String getName() {
@@ -64,7 +64,7 @@ public class MeasurementDto {
         return timestamp;
     }
 
-    public static class Builder {
+    public static class MeasurementDtoBuilder {
         private String name;
         private String description;
         private String unit;
@@ -74,48 +74,48 @@ public class MeasurementDto {
         private int errorValue;
         private TimestampDto timestamp;
 
-        public Builder name(final String name) {
+        public MeasurementDtoBuilder name(final String name) {
             this.name = name;
             return this;
         }
 
-        public Builder description(final String description) {
+        public MeasurementDtoBuilder description(final String description) {
             this.description = description;
             return this;
         }
 
-        public Builder unit(final String unit) {
+        public MeasurementDtoBuilder unit(final String unit) {
             this.unit = unit;
             return this;
         }
 
-        public Builder range(final RangeDto range) {
+        public MeasurementDtoBuilder range(final RangeDto range) {
             this.range = range;
             return this;
         }
 
-        public Builder accuracy(final int accuracy) {
+        public MeasurementDtoBuilder accuracy(final int accuracy) {
             this.accuracy = accuracy;
             return this;
         }
 
-        public Builder validate(final boolean validate) {
+        public MeasurementDtoBuilder validate(final boolean validate) {
             this.validate = validate;
             return this;
         }
 
-        public Builder errorValue(final int errorValue) {
+        public MeasurementDtoBuilder errorValue(final int errorValue) {
             this.errorValue = errorValue;
             return this;
         }
 
-        public Builder timestamp(final TimestampDto timestamp) {
+        public MeasurementDtoBuilder timestamp(final TimestampDto timestamp) {
             this.timestamp = timestamp;
             return this;
         }
 
         public MeasurementDto build() {
-            return new MeasurementDto(this);
+            return new MeasurementDto(name, description, unit, range, accuracy, validate, errorValue, timestamp);
         }
     }
 }

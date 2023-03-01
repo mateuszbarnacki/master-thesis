@@ -18,6 +18,19 @@ public class MobileDeviceMetadata implements DeviceMetadata {
     private BigDecimal speed;
     private int direction;
 
+    public MobileDeviceMetadata() {
+
+    }
+
+    public MobileDeviceMetadata(Date date, BigDecimal longitude, BigDecimal latitude, BigDecimal altitude, BigDecimal speed, int direction) {
+        this.date = date;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.direction = direction;
+    }
+
     public Date getDate() {
         return date;
     }

@@ -7,10 +7,10 @@ public class TimestampDto {
     private final Set<AggregationType> aggregationIntervals;
     private final AlertType alertType;
 
-    private TimestampDto(TimestampDtoBuilder builder) {
-        this.maxBreak = builder.maxBreak;
-        this.aggregationIntervals = builder.aggregationIntervals;
-        this.alertType = builder.alertType;
+    TimestampDto(int maxBreak, Set<AggregationType> aggregationIntervals, AlertType alertType) {
+        this.maxBreak = maxBreak;
+        this.aggregationIntervals = aggregationIntervals;
+        this.alertType = alertType;
     }
 
     public static TimestampDtoBuilder builder() {
@@ -54,7 +54,7 @@ public class TimestampDto {
         }
 
         public TimestampDto build() {
-            return new TimestampDto(this);
+            return new TimestampDto(maxBreak, aggregationIntervals, alertType);
         }
     }
 

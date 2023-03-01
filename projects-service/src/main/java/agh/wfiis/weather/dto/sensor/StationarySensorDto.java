@@ -15,12 +15,12 @@ public class StationarySensorDto implements SensorDto {
     @NotNull
     private final MeasurementSchemaDto measurementSchema;
 
-    private StationarySensorDto(StationarySensorDtoBuilder builder) {
-        this.deviceId = builder.deviceId;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.altitude = builder.altitude;
-        this.measurementSchema = builder.measurementSchema;
+    StationarySensorDto(String deviceId, BigDecimal latitude, BigDecimal longitude, BigDecimal altitude, MeasurementSchemaDto measurementSchema) {
+        this.deviceId = deviceId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+        this.measurementSchema = measurementSchema;
     }
 
     public static StationarySensorDtoBuilder builder() {
@@ -80,7 +80,7 @@ public class StationarySensorDto implements SensorDto {
         }
 
         public StationarySensorDto build() {
-            return new StationarySensorDto(this);
+            return new StationarySensorDto(deviceId, latitude, longitude, altitude, measurementSchema);
         }
     }
 }

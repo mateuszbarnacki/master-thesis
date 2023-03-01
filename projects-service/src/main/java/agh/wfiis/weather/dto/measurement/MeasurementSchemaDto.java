@@ -14,9 +14,9 @@ public class MeasurementSchemaDto {
     @NotNull
     private final DeviceMetadataDto deviceMetadata;
 
-    private MeasurementSchemaDto(MeasurementSchemaDtoBuilder measurementSchemaDtoBuilder) {
-        this.measurements = measurementSchemaDtoBuilder.measurements;
-        this.deviceMetadata = measurementSchemaDtoBuilder.deviceMetadata;
+    MeasurementSchemaDto(List<MeasurementDto> measurements, DeviceMetadataDto deviceMetadata) {
+        this.measurements = measurements;
+        this.deviceMetadata = deviceMetadata;
     }
 
     public static MeasurementSchemaDtoBuilder builder() {
@@ -51,7 +51,7 @@ public class MeasurementSchemaDto {
         }
 
         public MeasurementSchemaDto build() {
-            return new MeasurementSchemaDto(this);
+            return new MeasurementSchemaDto(measurements, deviceMetadata);
         }
     }
 }

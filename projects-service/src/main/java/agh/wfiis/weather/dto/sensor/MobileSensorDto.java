@@ -10,9 +10,9 @@ public class MobileSensorDto implements SensorDto {
     @NotNull
     private final MeasurementSchemaDto measurementSchema;
 
-    private MobileSensorDto(MobileSensorDtoBuilder builder) {
-        this.deviceId = builder.deviceId;
-        this.measurementSchema = builder.measurementSchema;
+    MobileSensorDto(String deviceId, MeasurementSchemaDto measurementSchema) {
+        this.deviceId = deviceId;
+        this.measurementSchema = measurementSchema;
     }
 
     public static MobileSensorDtoBuilder builder() {
@@ -42,7 +42,7 @@ public class MobileSensorDto implements SensorDto {
         }
 
         public MobileSensorDto build() {
-            return new MobileSensorDto(this);
+            return new MobileSensorDto(deviceId, measurementSchema);
         }
     }
 }

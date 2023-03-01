@@ -11,13 +11,13 @@ public class MobileDeviceMetadataDto implements DeviceMetadataDto {
     private final BigDecimal speed;
     private final int direction;
 
-    private MobileDeviceMetadataDto(MobileDeviceMetadataDtoBuilder mobileDeviceMetadataDtoBuilder) {
-        this.date = mobileDeviceMetadataDtoBuilder.date;
-        this.longitude = mobileDeviceMetadataDtoBuilder.longitude;
-        this.latitude = mobileDeviceMetadataDtoBuilder.latitude;
-        this.altitude = mobileDeviceMetadataDtoBuilder.altitude;
-        this.speed = mobileDeviceMetadataDtoBuilder.speed;
-        this.direction = mobileDeviceMetadataDtoBuilder.direction;
+    MobileDeviceMetadataDto(Date date, BigDecimal longitude, BigDecimal latitude, BigDecimal altitude, BigDecimal speed, int direction) {
+        this.date = date;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.direction = direction;
     }
 
     public static MobileDeviceMetadataDtoBuilder builder() {
@@ -87,7 +87,7 @@ public class MobileDeviceMetadataDto implements DeviceMetadataDto {
         }
 
         public MobileDeviceMetadataDto build() {
-            return new MobileDeviceMetadataDto(this);
+            return new MobileDeviceMetadataDto(date, longitude, latitude, altitude, speed, direction);
         }
     }
 }

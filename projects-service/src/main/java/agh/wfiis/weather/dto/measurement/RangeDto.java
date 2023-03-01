@@ -10,9 +10,9 @@ public class RangeDto {
     @NotNull
     private final BigDecimal max;
 
-    private RangeDto(RangeDtoBuilder builder) {
-        this.min = builder.min;
-        this.max = builder.max;
+    RangeDto(BigDecimal min, BigDecimal max) {
+        this.min = min;
+        this.max = max;
     }
 
     public static RangeDtoBuilder builder() {
@@ -47,7 +47,7 @@ public class RangeDto {
         }
 
         public RangeDto build() {
-            return new RangeDto(this);
+            return new RangeDto(min, max);
         }
     }
 }
