@@ -1,8 +1,8 @@
-package agh.wfiis.weather.service;
+package agh.wfiis.weather.user.service;
 
-import agh.wfiis.weather.dto.UserDto;
-import agh.wfiis.weather.model.UserEntity;
-import agh.wfiis.weather.repository.UserRepository;
+import agh.wfiis.weather.user.dto.UserDto;
+import agh.wfiis.weather.user.model.UserEntity;
+import agh.wfiis.weather.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
