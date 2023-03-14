@@ -1,7 +1,7 @@
-package agh.wfiis.weather.controller;
+package agh.wfiis.weather.user.controller;
 
-import agh.wfiis.weather.dto.UserDto;
-import agh.wfiis.weather.service.UserService;
+import agh.wfiis.weather.user.dto.UserDto;
+import agh.wfiis.weather.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

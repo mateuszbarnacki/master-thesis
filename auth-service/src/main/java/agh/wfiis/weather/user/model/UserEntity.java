@@ -1,4 +1,4 @@
-package agh.wfiis.weather.model;
+package agh.wfiis.weather.user.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

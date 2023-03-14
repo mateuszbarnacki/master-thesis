@@ -1,6 +1,6 @@
-package agh.wfiis.weather.service;
+package agh.wfiis.weather.user.service;
 
-import agh.wfiis.weather.dto.UserDto;
+import agh.wfiis.weather.user.dto.UserDto;
 
 public interface UserService {
     /**

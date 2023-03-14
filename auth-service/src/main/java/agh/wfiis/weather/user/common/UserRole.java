@@ -1,4 +1,4 @@
-package agh.wfiis.weather.common;
+package agh.wfiis.weather.user.common;
 
 public enum UserRole {
     ADMIN("ADMIN"),
