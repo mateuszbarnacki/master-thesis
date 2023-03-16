@@ -19,9 +19,9 @@ public class TokenValidator {
     @Autowired
     public TokenValidator(UserRepository userRepository) {
         this.validators = List.of(
-                new JwtExpirationDateValidator(),
-                new JwtSubjectValidator(userRepository),
-                new JwtIssuerValidator());
+                new ExpirationDateValidator(),
+                new SubjectValidator(userRepository),
+                new IssuerValidator());
     }
 
     public TokenValidator(List<JwtValidator> validators) {
@@ -37,14 +37,14 @@ public class TokenValidator {
     }
 }
 
-class JwtExpirationDateValidator implements JwtValidator {
+class ExpirationDateValidator implements JwtValidator {
     @Override
     public ValidationResult validate(Jwt jwt) {
         Instant expireAt = jwt.getExpiresAt();
-        return new ValidationResult(buildMessageList(expireAt));
+        return new ValidationResult(buildErrorMessageList(expireAt));
     }
 
-    private List<String> buildMessageList(Instant expireAt) {
+    private List<String> buildErrorMessageList(Instant expireAt) {
         return Optional.ofNullable(expireAt)
                 .filter(expirationTime -> Instant.now().isAfter(expireAt))
                 .map(expirationTime -> List.of("JWT is already expired!"))
@@ -52,32 +52,34 @@ class JwtExpirationDateValidator implements JwtValidator {
     }
 }
 
-class JwtIssuerValidator implements JwtValidator {
+class IssuerValidator implements JwtValidator {
+    private static final String ISSUER_CLAIM = "iss";
+
     @Override
     public ValidationResult validate(Jwt jwt) {
-        String issuer = jwt.getIssuer().toString();
-        return new ValidationResult(buildMessageList(issuer));
+        String issuer = jwt.getClaimAsString(ISSUER_CLAIM);
+        return new ValidationResult(buildErrorMessageList(issuer));
     }
 
-    private List<String> buildMessageList(String issuer) {
+    private List<String> buildErrorMessageList(String issuer) {
         return JWT_ISSUER.equals(issuer) ? Collections.emptyList() : List.of("Invalid JWT issuer!");
     }
 }
 
-class JwtSubjectValidator implements JwtValidator {
+class SubjectValidator implements JwtValidator {
     private final UserRepository userRepository;
 
-    public JwtSubjectValidator(UserRepository userRepository) {
+    public SubjectValidator(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public ValidationResult validate(Jwt jwt) {
         String username = jwt.getSubject();
-        return new ValidationResult(buildMessageList(username));
+        return new ValidationResult(buildErrorMessageList(username));
     }
 
-    private List<String> buildMessageList(String username) {
+    private List<String> buildErrorMessageList(String username) {
         return Optional.ofNullable(username)
                 .map(userRepository::findByUsername)
                 .filter(Optional::isEmpty)
