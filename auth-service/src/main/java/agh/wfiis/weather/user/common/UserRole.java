@@ -3,7 +3,7 @@ package agh.wfiis.weather.user.common;
 public enum UserRole {
     ADMIN("ADMIN"),
     READER("READER"),
-    OFF_LINE_WRITER("OFF_LINE_WRITER");
+    OFF_LINE_WRITER("OFFLINE_WRITER");
 
     private final String role;
 
