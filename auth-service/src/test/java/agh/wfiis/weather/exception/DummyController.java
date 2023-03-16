@@ -14,4 +14,9 @@ public class DummyController {
     public ResponseEntity<UserDto> testRoleNotFoundException() {
         throw new RoleNotFoundException("KLAUN");
     }
+
+    @GetMapping("user-already-exists")
+    public ResponseEntity<UserDto> testUserAlreadyExists() {
+        throw new UserAlreadyExistsException();
+    }
 }

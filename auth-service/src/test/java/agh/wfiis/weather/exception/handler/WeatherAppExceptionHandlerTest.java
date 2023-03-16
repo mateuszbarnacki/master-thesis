@@ -34,4 +34,14 @@ class WeatherAppExceptionHandlerTest {
                 .andExpect(jsonPath("$.message").value("Could not find role with name <KLAUN>"))
                 .andExpect(jsonPath("$.errorCode").value("NOT_FOUND"));
     }
+
+    @Test
+    @WithMockUser
+    void shouldThrowUserAlreadyExistsException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/error/user-already-exists"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("User with given username already exists in database!"))
+                .andExpect(jsonPath("$.errorCode").value("BAD_REQUEST"));
+    }
 }
