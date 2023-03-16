@@ -39,7 +39,7 @@ public class RestUserService implements UserService, UserDetailsService {
     public void registerUser(UserDto userDto) {
         checkIfUserExists(userDto.username());
         UserEntity newUser = userMapper.mapDtoToEntity(userDto);
-        //newUser.setPassword(passwordEncoder.encode(userDto.password()));
+        newUser.setPassword(passwordEncoder.encode(userDto.password()));
         userRepository.save(newUser);
     }
 
