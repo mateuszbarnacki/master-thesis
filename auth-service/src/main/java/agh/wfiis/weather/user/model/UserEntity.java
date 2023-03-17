@@ -11,12 +11,13 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -56,7 +57,12 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return roles.stream()
+                .map(RoleEntity::getPrivileges)
+                .flatMap(Collection::stream)
+                .map(PrivilegeEntity::getName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override

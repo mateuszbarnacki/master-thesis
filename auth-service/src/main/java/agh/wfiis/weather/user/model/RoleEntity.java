@@ -10,6 +10,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,13 +23,13 @@ public class RoleEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users = Set.of();
+    private Set<UserEntity> users = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_privileges",
     joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private Set<PrivilegeEntity> privileges = Set.of();
+    private Set<PrivilegeEntity> privileges = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -44,5 +45,9 @@ public class RoleEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<PrivilegeEntity> getPrivileges() {
+        return privileges;
     }
 }
