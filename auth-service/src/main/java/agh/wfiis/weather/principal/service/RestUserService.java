@@ -1,9 +1,9 @@
-package agh.wfiis.weather.user.service;
+package agh.wfiis.weather.principal.service;
 
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
-import agh.wfiis.weather.user.dto.UserDto;
-import agh.wfiis.weather.user.model.UserEntity;
-import agh.wfiis.weather.user.repository.UserRepository;
+import agh.wfiis.weather.principal.dto.UserDto;
+import agh.wfiis.weather.principal.model.UserEntity;
+import agh.wfiis.weather.principal.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

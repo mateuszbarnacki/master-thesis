@@ -1,7 +1,7 @@
 package agh.wfiis.weather.auth.jwt;
 
-import agh.wfiis.weather.user.model.UserEntity;
-import agh.wfiis.weather.user.repository.UserRepository;
+import agh.wfiis.weather.principal.model.UserEntity;
+import agh.wfiis.weather.principal.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,7 +1,7 @@
 package agh.wfiis.weather.auth.jwt;
 
-import agh.wfiis.weather.user.model.UserEntity;
-import agh.wfiis.weather.user.repository.UserRepository;
+import agh.wfiis.weather.principal.model.UserEntity;
+import agh.wfiis.weather.principal.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

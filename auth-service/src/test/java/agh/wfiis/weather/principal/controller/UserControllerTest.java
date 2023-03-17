@@ -1,8 +1,8 @@
-package agh.wfiis.weather.user.controller;
+package agh.wfiis.weather.principal.controller;
 
-import agh.wfiis.weather.user.common.UserRole;
-import agh.wfiis.weather.user.dto.UserDto;
-import agh.wfiis.weather.user.service.RestUserService;
+import agh.wfiis.weather.config.UserRole;
+import agh.wfiis.weather.principal.dto.UserDto;
+import agh.wfiis.weather.principal.service.RestUserService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

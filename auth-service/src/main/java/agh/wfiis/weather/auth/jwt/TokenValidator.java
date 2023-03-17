@@ -1,6 +1,6 @@
 package agh.wfiis.weather.auth.jwt;
 
-import agh.wfiis.weather.user.repository.UserRepository;
+import agh.wfiis.weather.principal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;

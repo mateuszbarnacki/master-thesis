@@ -1,6 +1,6 @@
-package agh.wfiis.weather.user.repository;
+package agh.wfiis.weather.principal.repository;
 
-import agh.wfiis.weather.user.model.UserEntity;
+import agh.wfiis.weather.principal.model.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

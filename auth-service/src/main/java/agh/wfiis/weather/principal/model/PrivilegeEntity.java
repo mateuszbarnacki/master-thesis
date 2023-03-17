@@ -1,4 +1,4 @@
-package agh.wfiis.weather.user.model;
+package agh.wfiis.weather.principal.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

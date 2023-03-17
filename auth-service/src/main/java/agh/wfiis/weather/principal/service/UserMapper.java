@@ -1,11 +1,11 @@
-package agh.wfiis.weather.user.service;
+package agh.wfiis.weather.principal.service;
 
-import agh.wfiis.weather.user.common.UserRole;
-import agh.wfiis.weather.user.dto.UserDto;
+import agh.wfiis.weather.config.UserRole;
+import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.exception.RoleNotFoundException;
-import agh.wfiis.weather.user.model.RoleEntity;
-import agh.wfiis.weather.user.model.UserEntity;
-import agh.wfiis.weather.user.repository.RoleRepository;
+import agh.wfiis.weather.principal.model.RoleEntity;
+import agh.wfiis.weather.principal.model.UserEntity;
+import agh.wfiis.weather.principal.repository.RoleRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
