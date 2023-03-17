@@ -15,6 +15,11 @@ public class DummyController {
         throw new RoleNotFoundException("KLAUN");
     }
 
+    @GetMapping("/privilege-not-found")
+    public ResponseEntity<UserDto> testPrivilegeNotFoundException() {
+        throw new PrivilegeNotFoundException("TEST");
+    }
+
     @GetMapping("user-already-exists")
     public ResponseEntity<UserDto> testUserAlreadyExists() {
         throw new UserAlreadyExistsException();

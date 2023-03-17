@@ -31,6 +31,10 @@ public class RoleEntity {
     inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Set<PrivilegeEntity> privileges = new HashSet<>();
 
+    public void addPrivileges(Set<PrivilegeEntity> privileges) {
+        this.privileges.addAll(privileges);
+    }
+
     public Long getId() {
         return id;
     }

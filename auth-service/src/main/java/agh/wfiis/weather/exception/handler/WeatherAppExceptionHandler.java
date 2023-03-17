@@ -1,5 +1,6 @@
 package agh.wfiis.weather.exception.handler;
 
+import agh.wfiis.weather.exception.PrivilegeNotFoundException;
 import agh.wfiis.weather.exception.RoleNotFoundException;
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.exception.WeatherAppException;
@@ -16,6 +17,12 @@ public class WeatherAppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RoleNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<RestErrorDto> handleRoleNotFoundException(RoleNotFoundException exception) {
+        return new ResponseEntity<>(buildRestErrorDto(exception), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({PrivilegeNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<RestErrorDto> handlePrivilegeNotFoundException(PrivilegeNotFoundException exception) {
         return new ResponseEntity<>(buildRestErrorDto(exception), HttpStatus.NOT_FOUND);
     }
 

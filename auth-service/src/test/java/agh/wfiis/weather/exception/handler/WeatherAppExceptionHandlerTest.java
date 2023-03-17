@@ -37,6 +37,16 @@ class WeatherAppExceptionHandlerTest {
 
     @Test
     @WithMockUser
+    void shouldThrowPrivilegeNotFoundException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/error/privilege-not-found"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Could not find privilege with name <TEST>"))
+                .andExpect(jsonPath("$.errorCode").value("NOT_FOUND"));
+    }
+
+    @Test
+    @WithMockUser
     void shouldThrowUserAlreadyExistsException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/error/user-already-exists"))
                 .andExpect(status().isBadRequest())
