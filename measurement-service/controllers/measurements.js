@@ -21,5 +21,6 @@ const addMeasurement = async (req, res) => {
 };
 
 module.exports = {
-    getMeasurements
+    getMeasurements,
+    addMeasurement
 };
