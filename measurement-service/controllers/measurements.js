@@ -1,19 +1,19 @@
-const Measurement = require('../models/measurement');
+const connection = require('../db/connection');
 
 const getMeasurements = async (req, res) => {
     try {
-        const measurements = await Measurement.find();
-        res.json(measurements);
+        const db = await connection.getConnection();
+        const result = await db.collection('test').find().toArray();
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).send({message: error.message});
     }
 };
 
 const addMeasurement = async (req, res) => {
-    const measurement = new Measurement(req.body);
-
     try {
-        const newMeasurement = await measurement.save();
+        const db = await connection.getConnection();
+        const newMeasurement = await db.collection('test').insertOne(req.body);
         res.status(201).json(newMeasurement);
     } catch (error) {
         res.status(400).json({message: error.message});
