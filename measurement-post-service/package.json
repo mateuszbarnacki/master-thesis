@@ -1,5 +1,5 @@
 {
-  "name": "measurement-service",
+  "name": "measurement-post-service",
   "version": "1.0.0",
   "description": "Measurement service for weather app",
   "main": "server.js",
