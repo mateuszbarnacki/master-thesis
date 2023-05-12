@@ -13,7 +13,7 @@ public class GatewayConfiguration {
         return builder.routes()
                 .route(p -> p
                         .path("/projects/**")
-                        .uri("http://localhost:13401/projects/"))
+                        .uri("http://projects-service:13401/projects/"))
                 .build();
     }
 }

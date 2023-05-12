@@ -5,57 +5,67 @@ services:
     build: ./api-gateway
     container_name: api-gateway
     restart: on-failure
+    depends_on:
+      - projects-service
     ports:
       - "8080:8080"
     image: api-gateway:latest
 
   auth-service:
-    build: ./auth-service
+    build:
+      context: ./
+      dockerfile: ./auth-service/Dockerfile
     container_name: auth-service
     restart: on-failure
+    depends_on:
+      - postgres
     ports:
       - "13402:13402"
-#    environment:
-#      DB_URL: jdbc:postgresql://postgres/auth
     image: auth-service:latest
 
   measurement-get-service:
     build: ./measurement-get-service
     container_name: measurement-get-service
     restart: on-failure
+    depends_on:
+      - mongodb
     ports:
       - "13404:13404"
-    environment:
-      DB_URL: mongodb://mongo/weather
     image: measurement-get-service:latest
 
   measurement-post-service:
     build: ./measurement-post-service
     container_name: measurement-post-service
     restart: on-failure
+    depends_on:
+      - mongodb
+      - projects-service
     ports:
       - "13403:13403"
-    environment:
-      DB_URL: mongodb//mongo/weather
     image: measurement-post-service:latest
 
   projects-service:
-    build: ./projects-service
+    build:
+      context: ./
+      dockerfile: ./projects-service/Dockerfile
     container_name: projects-service
     restart: on-failure
+    depends_on:
+      - mongodb
     ports:
       - "13401:13401"
-    environment:
-      DB_URL: mongodb://mongo/weather
     image: projects-service:latest
 
-  mongo:
+  mongodb:
     image: mongo:6.0.5
     ports:
       - "27017:27017"
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
-      - ./docker-volumes/mongo/data:/data/db
+      - ./docker-volumes/mongo:/data/db
 
   postgres:
     image: postgres:15.3

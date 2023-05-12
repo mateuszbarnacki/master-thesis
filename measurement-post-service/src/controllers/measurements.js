@@ -8,11 +8,10 @@ const connection = require('../db/connection');
 * Should APIKey be encrypted and decrypted?
 *
 */
-
 const addMeasurement = async (req, res) => {
     try {
         const apiKey = req.header(process.env.API_KEY_HEADER);
-        const {data: project} = await axios.get(`http://localhost:13401/projects/${req.params.project}`);
+        const {data: project} = await axios.get(process.env.PROJECTS_URL + '/' + req.params.project);
 
         if (apiKey === generateAPIKeyForProject(project)) {
             const parametersToValidate = getParametersToValidate(project, req.params.deviceId);
@@ -39,7 +38,7 @@ const addMeasurementsFromFile = async (req, res) => {
         const errors = [];
         const documents = [];
         const stream = Readable.from(req.files.file.data);
-        const {data: project} = await axios.get(`http://localhost:13401/projects/${req.params.project}`);
+        const {data: project} = await axios.get(process.env.PROJECTS_URL + '/' + req.params.project);
         const { measurements } = getMeasurementSchema(project, req.params.deviceId);
 
         stream.pipe(parse({ delimiter: '\n' }))
@@ -67,7 +66,6 @@ const addMeasurementsFromFile = async (req, res) => {
                 }
                 documents.push(newMeasurement);
             })
-            //.on('end', () => console.log(documents))
             .on('error', (error) => errors.push(error));
 
         if (errors.length === 0) {
