@@ -23,13 +23,14 @@ const addMeasurement = async (req, res) => {
                 res.status(201).json(newMeasurement);
             } else {
                 console.log(errors.join());
-                res.status(400).json({message: errors.join()});
+                res.status(500).json({message: errors.join()});
             }
         } else {
             res.status(401).json({message: 'Invalid API Key!'});
         }
     } catch (error) {
-        res.status(400).json({message: error.message});
+        console.log(error.message);
+        res.status(500).json({message: error.message});
     }
 };
 
