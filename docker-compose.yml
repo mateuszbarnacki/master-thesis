@@ -7,6 +7,9 @@ services:
     restart: on-failure
     depends_on:
       - projects-service
+      - auth-service
+      - measurement-get-service
+      - measurement-post-service
     ports:
       - "8080:8080"
     image: api-gateway:latest

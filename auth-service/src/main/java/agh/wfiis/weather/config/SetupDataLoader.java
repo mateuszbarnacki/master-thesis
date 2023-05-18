@@ -64,7 +64,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private void setUpRoles() {
         createRoleIfNotExists(UserRole.ADMIN, Set.of(Privilege.CREATE_PROJECT, Privilege.READ_PROJECT, Privilege.DELETE_PROJECT));
         createRoleIfNotExists(UserRole.READER, Set.of(Privilege.READ_PROJECT));
-        createRoleIfNotExists(UserRole.OFF_LINE_WRITER, Set.of(Privilege.CREATE_PROJECT, Privilege.DELETE_PROJECT));
+        createRoleIfNotExists(UserRole.OFFLINE_WRITER, Set.of(Privilege.CREATE_PROJECT, Privilege.DELETE_PROJECT));
     }
 
     private void createRoleIfNotExists(UserRole role, Set<Privilege> privileges) {

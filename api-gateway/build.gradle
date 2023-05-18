@@ -17,13 +17,15 @@ repositories {
 }
 
 ext {
+    set('springBootVersion', "3.0.3")
     set('gatewayVersion', "4.0.1")
     set('contractStubRunnerVersion', "4.0.1")
     set('junitVersion', "5.9.2")
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-dependencies:3.0.3'
+    implementation "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server:${springBootVersion}"
     implementation "org.springframework.cloud:spring-cloud-starter-gateway:${gatewayVersion}"
     implementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner:${contractStubRunnerVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
