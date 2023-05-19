@@ -1,11 +1,8 @@
-package agh.wfiis.weather.auth.jwt;
+package agh.wfiis.weather.jwt.validator;
 
-import agh.wfiis.weather.principal.model.UserEntity;
-import agh.wfiis.weather.principal.repository.UserRepository;
+import joptsimple.internal.Strings;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -15,59 +12,64 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class SubjectValidatorTest {
-    @InjectMocks
-    private SubjectValidator subjectValidator;
-    @Mock
-    private UserRepository userRepository;
+class ClaimsValidatorTest {
+    private static final String ISSUER = "self";
+    private static final String SCOPE_CLAIM = "scope";
+    private static final String TEST_PRIVILEGE = "TEST";
+    private final ClaimsValidator claimsValidator;
     @Autowired
     private JwtEncoder jwtEncoder;
 
+    ClaimsValidatorTest() {
+        this.claimsValidator = new ClaimsValidator();
+    }
+
     @Test
     void shouldReturnValidationResultWithEmptyErrorMessage() {
-        Jwt jwt = givenGeneratedJwt();
+        Jwt jwt = givenJwtWithNotEmptyScope();
 
-        ValidationResult validationResult = whenUserExists(jwt);
+        ValidationResult validationResult = whenJwtIsValidated(jwt);
 
         thenErrorMessageIsEmpty(validationResult.getErrorMessage());
     }
 
     @Test
     void shouldReturnValidationResultWithNotEmptyErrorMessage() {
-        Jwt jwt = givenGeneratedJwt();
+        Jwt jwt = givenJwtWithEmptyScope();
 
-        ValidationResult validationResult = whenUserDoesNotExist(jwt);
+        ValidationResult validationResult = whenJwtIsValidated(jwt);
 
         thenErrorMessageIsNotEmpty(validationResult.getErrorMessage());
     }
 
-    private Jwt givenGeneratedJwt() {
+    private Jwt givenJwtWithEmptyScope() {
         Instant now = Instant.now();
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
-                .issuer("self")
+                .issuer(ISSUER)
                 .issuedAt(now)
                 .expiresAt(now.plus(10, ChronoUnit.SECONDS))
-                .subject("Test")
+                .claim(SCOPE_CLAIM, Strings.EMPTY)
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet));
     }
 
-    private ValidationResult whenUserExists(Jwt jwt) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername("Test");
-        when(userRepository.findByUsername("Test")).thenReturn(Optional.of(userEntity));
+    private Jwt givenJwtWithNotEmptyScope() {
+        Instant now = Instant.now();
+        JwtClaimsSet claimsSet = JwtClaimsSet.builder()
+                .issuer(ISSUER)
+                .issuedAt(now)
+                .expiresAt(now.plus(10, ChronoUnit.SECONDS))
+                .claim(SCOPE_CLAIM, TEST_PRIVILEGE)
+                .build();
 
-        return subjectValidator.validate(jwt);
+        return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet));
     }
 
-    private ValidationResult whenUserDoesNotExist(Jwt jwt) {
-        return subjectValidator.validate(jwt);
+    private ValidationResult whenJwtIsValidated(Jwt jwt) {
+        return claimsValidator.validate(jwt);
     }
 
     private void thenErrorMessageIsEmpty(String errorMessage) {
@@ -75,6 +77,6 @@ class SubjectValidatorTest {
     }
 
     private void thenErrorMessageIsNotEmpty(String errorMessage) {
-        Assertions.assertEquals("Given username does not exists!", errorMessage);
+        Assertions.assertEquals("Empty privileges list!", errorMessage);
     }
 }

@@ -1,5 +1,8 @@
-package agh.wfiis.weather.jwt;
+package agh.wfiis.weather.jwt.parser;
 
+import agh.wfiis.weather.exception.MalformedJwtException;
+import agh.wfiis.weather.jwt.validator.TokenValidator;
+import agh.wfiis.weather.jwt.validator.ValidationResult;
 import joptsimple.internal.Strings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -13,21 +16,25 @@ import java.util.Optional;
 @Component
 public class JwtParser {
     private static final String AUTH_HEADER = "Authorization";
-    private static final String SCOPE_CLAIM = "scope";
     private final JwtDecoder jwtDecoder;
 
     public JwtParser(JwtDecoder jwtDecoder) {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public String getScopeClaim(ServerWebExchange exchange) {
+    public Jwt getJWT(ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
-        String token = getJWT(request);
+        String token = getToken(request);
         Jwt jwt = jwtDecoder.decode(token);
-        return jwt.getClaimAsString(SCOPE_CLAIM);
+        TokenValidator tokenValidator = new TokenValidator();
+        ValidationResult validationResult = tokenValidator.validate(jwt);
+        if (!validationResult.isValid()) {
+            throw new MalformedJwtException(validationResult.getErrorMessage());
+        }
+        return jwt;
     }
 
-    private String getJWT(ServerHttpRequest request) {
+    private String getToken(ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
         String authHeader = headers.getFirst(AUTH_HEADER);
         return Optional.ofNullable(authHeader)

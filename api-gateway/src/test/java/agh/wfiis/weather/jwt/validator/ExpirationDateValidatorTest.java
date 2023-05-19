@@ -1,4 +1,4 @@
-package agh.wfiis.weather.auth.jwt;
+package agh.wfiis.weather.jwt.validator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
