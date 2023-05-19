@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -73,30 +72,5 @@ class AuthenticationControllerTest {
     void shouldNotCreateToken() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/authentication/auth").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser
-    void shouldCheckToken() throws Exception {
-        Object checkTokenDto = new Object() {
-            private final String token = "TestToken";
-        };
-        String jsonCheckTokenDto = objectMapper.writeValueAsString(checkTokenDto);
-
-        when(jwtService.checkToken(anyString())).thenReturn(true);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/authentication/check-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(StandardCharsets.UTF_8)
-                .with(csrf())
-                .content(jsonCheckTokenDto);
-
-        mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("TestToken"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").isEmpty());
-
-        verify(jwtService).checkToken(anyString());
     }
 }

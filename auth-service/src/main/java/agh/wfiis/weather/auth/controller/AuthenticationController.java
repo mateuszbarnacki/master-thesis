@@ -3,8 +3,6 @@ package agh.wfiis.weather.auth.controller;
 import agh.wfiis.weather.auth.jwt.service.JwtService;
 import agh.wfiis.weather.auth.dto.AuthenticationDto;
 import agh.wfiis.weather.auth.dto.AuthenticationResponseDto;
-import agh.wfiis.weather.auth.dto.CheckTokenDto;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,11 +30,5 @@ public class AuthenticationController {
         String token = jwtService.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new AuthenticationResponseDto(token, authentication.getName());
-    }
-
-    @PostMapping("/check-token")
-    public AuthenticationResponseDto checkToken(@RequestBody CheckTokenDto dto) {
-        jwtService.checkToken(dto.token());
-        return new AuthenticationResponseDto(dto.token(), StringUtils.EMPTY);
     }
 }
