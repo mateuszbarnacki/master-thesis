@@ -1,4 +1,4 @@
-package agh.wfiis.weather.configuration;
+package agh.wfiis.weather.gateway;
 
 import agh.wfiis.weather.filter.PrivilegeFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -24,31 +24,31 @@ public class GatewayConfiguration {
                         .and()
                         .method(HttpMethod.GET)
                         .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
-                        .uri("http://localhost:13401/projects/"))
+                        .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/projects")
                         .and()
                         .method(HttpMethod.POST)
                         .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
-                        .uri("http://localhost:13401/projects/"))
+                        .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.DELETE)
                         .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
-                        .uri("http://localhost:13401/projects/"))
+                        .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/authentication/**")
-                        .uri("http://localhost:13402/authentication/"))
+                        .uri("http://auth-service:13402/authentication/"))
                 .route(p -> p
                         .path("/user")
-                        .uri("http://localhost:13402/user/"))
-                /*.route(p -> p
+                        .uri("http://auth-service:13402/user/"))
+                .route(p -> p
                         .path("/measurements/**")
                         .uri("http://measurement-post-service:13403/measurements/"))
                 .route(p -> p
                         .path("/results/**")
-                        .uri("http://measurement-get-service:13404/results/"))*/
+                        .uri("http://measurement-get-service:13404/results/"))
                 .build();
     }
 }
