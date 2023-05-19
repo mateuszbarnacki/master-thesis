@@ -1,6 +1,8 @@
 package agh.wfiis.weather.gateway;
 
-import agh.wfiis.weather.filter.PrivilegeFilter;
+import agh.wfiis.weather.filter.CreatePrivilegeFilter;
+import agh.wfiis.weather.filter.DeletePrivilegeFilter;
+import agh.wfiis.weather.filter.ReadPrivilegeFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,19 +25,19 @@ public class GatewayConfiguration {
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.GET)
-                        .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
+                        .filters(f -> f.filter(new ReadPrivilegeFilter(this.jwtDecoder)))
                         .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/projects")
                         .and()
                         .method(HttpMethod.POST)
-                        .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
+                        .filters(f -> f.filter(new CreatePrivilegeFilter(this.jwtDecoder)))
                         .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.DELETE)
-                        .filters(f -> f.filter(new PrivilegeFilter(this.jwtDecoder)))
+                        .filters(f -> f.filter(new DeletePrivilegeFilter(this.jwtDecoder)))
                         .uri("http://projects-service:13401/projects/"))
                 .route(p -> p
                         .path("/authentication/**")
