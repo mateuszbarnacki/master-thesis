@@ -2,52 +2,18 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import {Fragment, useState} from "react";
-import Card from "react-bootstrap/Card";
-import CardHeader from "react-bootstrap/CardHeader";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Button from "react-bootstrap/Button";
 import {isStringNullOrEmpty} from "./addProject/FormValidator";
 
-const mock = [
-    'proj1',
-    'pomiar powietrza',
-    'proj352',
-    'Test',
-    'pomiar zanieczyszczenia powietrza',
-    'pomiar',
-    'pomiar testowy',
-    'pomiar2',
-    'project'
-];
-
-function ProjectList() {
-    const [list, setList] = useState(mock);
+function ProjectList({projectsList, handleListOnClick}) {
+    const [list, setList] = useState(projectsList);
     const handleOnChange = (event) => {
         const searchValue = event.target.value;
-        console.log(searchValue);
         if (isStringNullOrEmpty(searchValue)) {
-            setList(mock);
+            setList(projectsList);
         } else {
-            const newList = mock.slice().filter(value => value.match(searchValue + ".*"));
+            const newList = projectsList.slice().filter(value => value.name.match(searchValue + ".*"));
             setList(newList);
         }
-    };
-    const displayCard = (item) => {
-        return (
-            <Card>
-                <CardHeader>item</CardHeader>
-                <Card.Body>
-                    <Card.Title>Informacje o projekcie</Card.Title>
-                    <Card.Text>Opis projektu</Card.Text>
-                    <ButtonGroup>
-                        <Button variant="light">Edytuj</Button>
-                        <Button variant="light">Wyczyść</Button>
-                        <Button variant="light">Archiwizuj</Button>
-                        <Button variant="light">Usuń</Button>
-                    </ButtonGroup>
-                </Card.Body>
-            </Card>
-        )
     };
 
     return (
@@ -61,10 +27,10 @@ function ProjectList() {
                            overflowY: "auto",
                            marginTop: "2vh"}}>
                 {list.map(item =>
-                    <ListGroupItem key={item}
+                    <ListGroupItem key={item.name}
                                    action
-                                   onClick={() => displayCard(item)}>
-                        {item}
+                                   onClick={() => handleListOnClick(item)}>
+                        {item.name}
                     </ListGroupItem>)}
             </ListGroup>
         </Fragment>

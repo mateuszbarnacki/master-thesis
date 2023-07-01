@@ -3,13 +3,13 @@ import Card from "react-bootstrap/Card";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
-function ProjectCard() {
+function ProjectCard({item}) {
     return (
         <Card className="border-black m-3">
-            <CardHeader as="h5">Test</CardHeader>
+            <CardHeader as="h5">{item.name}</CardHeader>
             <Card.Body>
                 <Card.Title>Informacje o projekcie</Card.Title>
-                <Card.Text>Opis projektu</Card.Text>
+                <Card.Text>{item.description}</Card.Text>
                 <ButtonGroup className="mb-2">
                     <Button variant="outline-dark"
                             style={{border: "1px solid black"}}>Dodaj pomiary</Button>
