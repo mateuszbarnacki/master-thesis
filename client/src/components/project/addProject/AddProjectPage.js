@@ -13,14 +13,14 @@ function AddProjectPage() {
         const newIds = ids.slice();
         newIds.push(counter);
         setIds(newIds);
-        setCounter(counter+1);
+        setCounter(counter + 1);
     };
     const handleRemoveSensorClick = (id) => {
         const newIds = ids.slice();
         newIds.splice(id, 1);
         if (newIds.length === 0) {
             newIds.push(counter);
-            setCounter(counter+1);
+            setCounter(counter + 1);
         }
         setIds(newIds);
     };
@@ -36,11 +36,12 @@ function AddProjectPage() {
                     <Card className="border-black m-3 bg-light-subtle">
                         <CardHeader>Etap 2. Uzupełnij informacje o czujnikach</CardHeader>
                         <Card.Body>
-                            {ids.map((sensorId, index) => <SensorForm id={index}
-                                                             key={"sensor-" + sensorId}
-                                                             onAddSensorClick={() => handleAddSensorClick()}
-                                                             onRemoveSensorClick={() => handleRemoveSensorClick(index)}
-                                                             isAddButtonVisible={index === ids.length-1}/>)}
+                            {ids.map((sensorId, index) =>
+                                <SensorForm id={index}
+                                            key={"sensor-" + sensorId}
+                                            handleAddSensorClick={() => handleAddSensorClick()}
+                                            handleRemoveSensorClick={() => handleRemoveSensorClick(index)}
+                                            isAddSensorButtonVisible={index === ids.length - 1}/>)}
                         </Card.Body>
                     </Card>
                     <Button variant="dark" className="me-3 rounded-5 float-end">Zapisz projekt</Button>
