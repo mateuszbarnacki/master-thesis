@@ -2,3 +2,8 @@
     max-width: 40px;
     margin-left: 15px;
 }
+
+.delete-modal {
+    width: 20vw;
+    max-width: 20vw;
+}
