@@ -3,6 +3,12 @@
     margin-left: 15px;
 }
 
+.modal-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .delete-modal {
     width: 20vw;
     max-width: 20vw;

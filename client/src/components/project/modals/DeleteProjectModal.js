@@ -8,11 +8,7 @@ import Button from "react-bootstrap/Button";
 function DeleteProjectModal({show, closeModal}) {
     return (
         <Modal show={show} centered dialogClassName="delete-modal">
-            <ModalHeader style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }}>
+            <ModalHeader className="modal-center">
                 <ModalTitle as="h3">
                     Usuń projekt
                 </ModalTitle>
@@ -20,11 +16,7 @@ function DeleteProjectModal({show, closeModal}) {
             <ModalBody className="text-center" as="h5">
                 Czy na pewno chcesz usunąć projekt?
             </ModalBody>
-            <ModalFooter style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }}>
+            <ModalFooter className="modal-center">
                 <Button variant="danger" onClick={closeModal} size="lg">
                     Nie
                 </Button>
