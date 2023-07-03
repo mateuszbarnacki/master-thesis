@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 
 function DeleteProjectModal({show, closeModal}) {
     return (
-        <Modal show={show} centered dialogClassName="delete-modal">
+        <Modal show={show} centered dialogClassName="delete-modal-size">
             <ModalHeader className="modal-center">
                 <ModalTitle as="h3">
                     Usuń projekt

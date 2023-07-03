@@ -9,7 +9,8 @@
     align-items: center;
 }
 
-.delete-modal {
+.delete-modal-size {
     width: 20vw;
     max-width: 20vw;
 }
+
