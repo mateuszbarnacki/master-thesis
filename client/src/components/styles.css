@@ -10,7 +10,29 @@
 }
 
 .delete-modal-size {
-    width: 20vw;
-    max-width: 20vw;
+    width: 25vw;
+    max-width: 25vw;
+}
+
+.file-uploader-area {
+    display: table-cell;
+    border: black dashed 2pt;
+    border-radius: 2em;
+    text-align: center;
+    vertical-align: middle;
+    width: 50vw;
+    max-width: 50vw;
+    height: 20vh;
+    max-height: 20vh;
+}
+
+.file-uploader-area:hover {
+    background-color: #efefef;
+    cursor: pointer;
+}
+
+.file-uploader {
+    opacity: 0;
+    visibility: hidden;
 }
 
