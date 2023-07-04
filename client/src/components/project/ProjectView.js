@@ -14,13 +14,13 @@ const mock = [
         description: 'Mój pierwszy projekt',
         sensors: [
             {
-                id: "sensor1"
+                deviceId: "sensor1"
             },
             {
-                id: "sensor2"
+                deviceId: "sensor2"
             },
             {
-                id: "sensor3"
+                deviceId: "sensor3"
             }
         ]
     },
@@ -29,13 +29,13 @@ const mock = [
         description: 'Projekt sprawdzający parametry atmosferyczne',
         sensors: [
             {
-                id: "sensor-1"
+                deviceId: "sensor-1"
             },
             {
-                id: "sensor-2"
+                deviceId: "sensor-2"
             },
             {
-                id: "sensor-3"
+                deviceId: "sensor-3"
             }
         ]
     },
@@ -44,10 +44,10 @@ const mock = [
         description: "Projekt utworzony w ramach testu",
         sensors: [
             {
-                id: "Sensor1"
+                deviceId: "Sensor1"
             },
             {
-                id: "Sensor2"
+                deviceId: "Sensor2"
             }
         ]
     },
@@ -56,13 +56,13 @@ const mock = [
         description: "Test generalny",
         sensors: [
             {
-                id: "Sensor-1"
+                deviceId: "Sensor-1"
             },
             {
-                id: "Sensor-2"
+                deviceId: "Sensor-2"
             },
             {
-                id: "Sensor-3"
+                deviceId: "Sensor-3"
             }
         ]
     },
@@ -71,7 +71,7 @@ const mock = [
         description: 'Projekt sprawdzający stan jakości powietrza',
         sensors: [
             {
-                id: "Sensor-13"
+                deviceId: "Sensor-13"
             }
         ]
     },
@@ -80,10 +80,10 @@ const mock = [
         description: 'Projekt testujący pojedynczy pomiar',
         sensors: [
             {
-                id: "sensor1"
+                deviceId: "sensor1"
             },
             {
-                id: "sensor22"
+                deviceId: "sensor22"
             }
         ]
     },
@@ -92,7 +92,7 @@ const mock = [
         description: '',
         sensors: [
             {
-                id: "sensor1"
+                deviceId: "sensor1"
             }
         ]
     },
@@ -101,22 +101,22 @@ const mock = [
         description: 'Ostateczny test pomiarów',
         sensors: [
             {
-                id: "sensor1"
+                deviceId: "sensor1"
             },
             {
-                id: "sensor2"
+                deviceId: "sensor2"
             },
             {
-                id: "sensor3"
+                deviceId: "sensor3"
             },
             {
-                id: "sensor7777"
+                deviceId: "sensor7777"
             },
             {
-                id: "sensor12"
+                deviceId: "sensor12"
             },
             {
-                id: "sensor352"
+                deviceId: "sensor352"
             }
         ]
     },
@@ -125,10 +125,54 @@ const mock = [
         description: 'Projekt ostateczny',
         sensors: [
             {
-                id: "Sensor-4"
+                deviceId: "Sensor-4"
             },
             {
-                id: "Sensor-13"
+                deviceId: "Sensor-13"
+            }
+        ]
+    },
+    {
+        acronym: "tmp_stationary",
+        name: "test_stationary",
+        description: "Test project stationary",
+        timeMode: "OFFLINE",
+        spatialMode: "STATIONARY",
+        measurementMode: "SINGLE",
+        sensors: [
+            {
+                deviceId: "1",
+                latitude: 12.4214,
+                longitude: 52.124124,
+                altitude: 1224.0,
+                spatialMode: "STATIONARY",
+                measurementSchema: {
+                    measurements: [
+                        {
+                            name: "temperature",
+                            description: "test temperature",
+                            unit: "C",
+                            range: {
+                                "min": -50.0,
+                                "max": 100.0
+                            },
+                            accuracy: 3,
+                            validate: true,
+                            errorValue: 999,
+                            timestamp: {
+                                maxBreak: 30,
+                                aggregationIntervals: [
+                                    "MIN"
+                                ],
+                                alertType: "SMS"
+                            }
+                        }
+                    ],
+                    deviceMetadata: {
+                        spatialMode: "STATIONARY",
+                        date: "2022-12-19"
+                    }
+                }
             }
         ]
     }

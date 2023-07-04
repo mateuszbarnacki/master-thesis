@@ -30,7 +30,7 @@ function UploadMeasurementsModal({sensors, show, closeModal}) {
                 <Form>
                     <FormLabel htmlFor="sensorId" as="h6">Identyfikator czujnika:</FormLabel>
                     <FormSelect id="sensorId">
-                        {sensors.map(item => <option key={item.id}>{item.id}</option>)}
+                        {sensors.map(item => <option key={item.deviceId}>{item.deviceId}</option>)}
                     </FormSelect>
                 </Form>
                 <DragAndDropFile changeFile={(file) => setFile(file)}/>
