@@ -21,8 +21,11 @@ function ProjectCard({item}) {
             <Card className="border-black m-3">
                 <CardHeader as="h5">{item.name}</CardHeader>
                 <Card.Body className="text-center">
-                    <Card.Title>Informacje o projekcie</Card.Title>
-                    <Card.Text>{item.description}</Card.Text>
+                    {item.description ?
+                        (<>
+                            <Card.Title>Informacje o projekcie</Card.Title>
+                            <Card.Text>{item.description}</Card.Text>
+                        </>) : null}
                     <ButtonGroup className="mb-2">
                         <Button variant="outline-dark" style={{border: "1px solid black"}}
                                 onClick={() => setShowUploadMeasurementsModal(true)}>
@@ -37,7 +40,7 @@ function ProjectCard({item}) {
                     </ButtonGroup>
                 </Card.Body>
             </Card>
-            <UploadMeasurementsModal show={showUploadMeasurementsModal}
+            <UploadMeasurementsModal sensors={item.sensors} show={showUploadMeasurementsModal}
                                      closeModal={handleUploadMeasurementsModalClose}/>
             <DeleteProjectModal show={showDeleteProjectModal}
                                 closeModal={handleDeleteProjectModalClose}/>

@@ -1,14 +1,17 @@
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import FormSelect from "react-bootstrap/FormSelect";
 import Modal from "react-bootstrap/Modal";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
-import Button from "react-bootstrap/Button";
 import DragAndDropFile from "../../DragAndDropFile";
 import {useState} from "react";
 import FileInfo from "../../FileInfo";
+import FormLabel from "react-bootstrap/FormLabel";
 
-function UploadMeasurementsModal({show, closeModal}) {
+function UploadMeasurementsModal({sensors, show, closeModal}) {
     const [file, setFile] = useState(null);
 
     const handleCancelAction = () => {
@@ -24,6 +27,12 @@ function UploadMeasurementsModal({show, closeModal}) {
                 </ModalTitle>
             </ModalHeader>
             <ModalBody>
+                <Form>
+                    <FormLabel htmlFor="sensorId" as="h6">Identyfikator czujnika:</FormLabel>
+                    <FormSelect id="sensorId">
+                        {sensors.map(item => <option key={item.id}>{item.id}</option>)}
+                    </FormSelect>
+                </Form>
                 <DragAndDropFile changeFile={(file) => setFile(file)}/>
                 {file ? <FileInfo file={file} changeFile={(file) => setFile(file)}/> : null}
             </ModalBody>
