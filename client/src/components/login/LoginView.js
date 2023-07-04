@@ -4,7 +4,7 @@ import {Fragment} from "react";
 import Menu from "../Menu";
 import LoginForm from "./LoginForm";
 
-function LoginPage() {
+function LoginView() {
     return (
         <Fragment>
             <Menu isLogged={true} canRead={true} canAdd={true}/>
@@ -17,4 +17,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default LoginView;

@@ -134,7 +134,7 @@ const mock = [
     }
 ];
 
-function ProjectPage() {
+function ProjectView() {
     const defaultCard = (
         <Card className="border-black m-3">
             <CardHeader as="h5">Karta zarządzania projektem</CardHeader>
@@ -167,4 +167,4 @@ function ProjectPage() {
     );
 }
 
-export default ProjectPage;
+export default ProjectView;

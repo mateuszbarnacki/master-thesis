@@ -6,7 +6,7 @@ import {Fragment} from "react";
 import UserList from "./UserList";
 import UserForm from "./UserForm";
 
-function UserPage(props) {
+function UserView(props) {
     return (
         <Fragment>
             <Menu isLogged={true} canRead={true} canAdd={true}/>
@@ -24,4 +24,4 @@ function UserPage(props) {
     );
 }
 
-export default UserPage;
+export default UserView;

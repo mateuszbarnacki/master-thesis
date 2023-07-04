@@ -1,18 +1,18 @@
 import {Route, Routes} from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProjectPage from "./components/project/ProjectPage";
-import UserPage from "./components/user/UserPage";
-import AddProjectPage from "./components/project/addProject/AddProjectPage";
-import LoginPage from "./components/login/LoginPage";
+import ProjectView from "./components/project/ProjectView";
+import UserView from "./components/user/UserView";
+import AddProjectView from "./components/project/addProject/AddProjectView";
+import LoginView from "./components/login/LoginView";
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<LoginPage/>}/>
-            <Route path="/list" element={<ProjectPage/>}/>
-            <Route path="/add" element={<AddProjectPage/>}/>
-            <Route path="/users" element={<UserPage/>}/>
+            <Route path="/" element={<LoginView/>}/>
+            <Route path="/list" element={<ProjectView/>}/>
+            <Route path="/add" element={<AddProjectView/>}/>
+            <Route path="/users" element={<UserView/>}/>
         </Routes>
     );
 }

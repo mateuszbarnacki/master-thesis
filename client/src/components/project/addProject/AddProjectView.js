@@ -6,7 +6,7 @@ import Menu from "../../Menu";
 import ProjectForm from "./ProjectForm";
 import CardHeader from "react-bootstrap/CardHeader";
 
-function AddProjectPage() {
+function AddProjectView() {
     const [ids, setIds] = useState(Array.of(0));
     const [counter, setCounter] = useState(1);
     const handleAddSensorClick = () => {
@@ -51,4 +51,4 @@ function AddProjectPage() {
     );
 }
 
-export default AddProjectPage;
+export default AddProjectView;
