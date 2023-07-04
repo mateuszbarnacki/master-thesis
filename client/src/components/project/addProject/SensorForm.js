@@ -11,27 +11,30 @@ import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import {isNumberOutOfRange, isStringNullOrEmpty} from "./FormValidator";
 
-function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSensorButtonVisible}) {
-    const [measurements, setMeasurements] = useState(Array.of(0));
-    const [counter, setCounter] = useState(1);
+function SensorForm({id, sensor, handleAddSensorClick, handleRemoveSensorClick, isAddSensorButtonVisible}) {
+    const sensorMeasurements = (sensor && sensor.measurementSchema) ?
+        sensor.measurementSchema.measurements.map((item, index) => ({...item, id: index})) :
+        Array.of({id: 0});
+    const [measurements, setMeasurements] = useState(sensorMeasurements);
+    const [counter, setCounter] = useState((sensor && sensor.measurementSchema) ? sensor.measurementSchema.measurements.length + 1 : 1);
     const [isSensorIdInvalid, setIsSensorIdInvalid] = useState(false);
     const [isLongitudeInvalid, setIsLongitudeInvalid] = useState(false);
     const [isLatitudeInvalid, setIsLatitudeInvalid] = useState(false);
-    const handleOnChangeSensorId = (event) => {
+    const handleOnChangeSensorId = () => {
         const sensorId = document.getElementById("sensorId").value;
         setIsSensorIdInvalid(isStringNullOrEmpty(sensorId));
     };
-    const handleOnChangeLongitude = (event) => {
+    const handleOnChangeLongitude = () => {
         const longitude = document.getElementById("longitude").value;
         setIsLongitudeInvalid(isNumberOutOfRange(longitude, -180.0, 180.0));
     };
-    const handleOnChangeLatitude = (event) => {
+    const handleOnChangeLatitude = () => {
         const latitude = document.getElementById("latitude").value;
         setIsLatitudeInvalid(isNumberOutOfRange(latitude, -90.0, 90.0));
     };
     const handleAddMeasurementClick = () => {
         const newMeasurements = measurements.slice();
-        newMeasurements.push(counter);
+        newMeasurements.push({id: counter});
         setMeasurements(newMeasurements);
         setCounter(counter + 1);
     };
@@ -39,7 +42,7 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
         const newMeasurements = measurements.slice();
         newMeasurements.splice(id, 1);
         if (newMeasurements.length === 0) {
-            newMeasurements.push(counter);
+            newMeasurements.push({id: counter});
             setCounter(counter + 1);
         }
         setMeasurements(newMeasurements);
@@ -56,6 +59,7 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
                 <FormControl required
                              id="sensorId"
                              type="text"
+                             defaultValue={sensor ? sensor.deviceId : null}
                              placeholder="Identyfikator urządzenia pomiarowego"
                              onChange={handleOnChangeSensorId}
                              isInvalid={isSensorIdInvalid}/>
@@ -63,17 +67,13 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
                     Proszę uzupełnić identyfikator urządzenia pomiarowego
                 </FormControl.Feedback>
             </FormGroup>
-            <FormGroup className="mt-3">
-                <FormLabel htmlFor="sensorDescription">Opis czujnika:</FormLabel>
-                <FormControl id="sensorDescription" type="text" as="textarea" rows={3}
-                             placeholder="Opis projektu"/>
-            </FormGroup>
             <FormLabel as="h5" className="mt-3">Położenie czujnika:</FormLabel>
             <Row xs={3}>
                 <FormGroup className="mt-2 mb-3">
                     <FormLabel htmlFor="longitude">Długość geograficzna:</FormLabel>
                     <FormControl id="longitude"
                                  type="number"
+                                 defaultValue={sensor ? sensor.longitude : null}
                                  onChange={handleOnChangeLongitude}
                                  isInvalid={isLongitudeInvalid}
                                  placeholder="Długość geograficzna"/>
@@ -86,6 +86,7 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
                         geograficzna:</FormLabel>
                     <FormControl id="latitude"
                                  type="number"
+                                 defaultValue={sensor ? sensor.latitude : null}
                                  onChange={handleOnChangeLatitude}
                                  isInvalid={isLatitudeInvalid}
                                  placeholder="Szerokość geograficzna"/>
@@ -95,7 +96,10 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
                 </FormGroup>
                 <FormGroup className="mt-2 mb-3">
                     <FormLabel htmlFor="altitude">Wysokość n.p.m.:</FormLabel>
-                    <FormControl id="altitude" type="number" placeholder="Wysokość"/>
+                    <FormControl id="altitude"
+                                 type="number"
+                                 defaultValue={sensor ? sensor.altitude : null}
+                                 placeholder="Wysokość"/>
                 </FormGroup>
             </Row>
             <Card className="border-black m-3 bg-light-subtle">
@@ -103,9 +107,10 @@ function SensorForm({id, handleAddSensorClick, handleRemoveSensorClick, isAddSen
                     Etap 3. Uzupełnij informacje o parametrach pomiarowych tego czujnika
                 </CardHeader>
                 <Card.Body>
-                    {measurements.map((measurementId, index) =>
+                    {measurements.map((measurement, index) =>
                         <ParameterForm id={index}
-                                       key={"measurement-" + measurementId}
+                                       key={"measurement-" + measurement.id}
+                                       measurement={measurement}
                                        handleAddMeasurementClick={() => handleAddMeasurementClick()}
                                        handleRemoveMeasurementClick={() => handleRemoveMeasurementClick(index)}
                                        isAddMeasurementButtonVisible={index === measurements.length - 1}/>)}

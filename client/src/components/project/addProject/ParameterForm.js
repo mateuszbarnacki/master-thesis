@@ -8,16 +8,22 @@ import Row from "react-bootstrap/Row";
 import {useState} from "react";
 import {isStringNullOrEmpty} from "./FormValidator";
 
-function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementClick, isAddMeasurementButtonVisible}) {
+function ParameterForm({
+                           id,
+                           measurement,
+                           handleAddMeasurementClick,
+                           handleRemoveMeasurementClick,
+                           isAddMeasurementButtonVisible
+                       }) {
     const [isMeasurementNameInvalid, setIsMeasurementNameInvalid] = useState(false);
     const [isMaxBreakInvalid, setIsMaxBreakInvalid] = useState(false);
     const [isErrorValueInvalid, setIsErrorValueInvalid] = useState(false);
     const [isValueRangeInvalid, setIsValuesRangeInvalid] = useState(false);
-    const handleOnChangeMeasurementName = (event) => {
+    const handleOnChangeMeasurementName = () => {
         const measurementName = document.getElementById("measurementName").value;
         setIsMeasurementNameInvalid(isStringNullOrEmpty(measurementName));
     };
-    const handleOnChangeAggregate = (event) => {
+    const handleOnChangeAggregate = () => {
         const aggregate = document.getElementById("aggregate").value;
         if (aggregate === "tak") {
             document.getElementById("aggregationInterval").disabled = false;
@@ -28,11 +34,11 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
             document.getElementById("maxBreak").disabled = true;
         }
     };
-    const handleOnChangeMaxBreak = (event) => {
+    const handleOnChangeMaxBreak = () => {
         const maxBreak = document.getElementById("maxBreak").value;
         setIsMaxBreakInvalid((!maxBreak || maxBreak <= 0));
     };
-    const handleOnChangeValidate = (event) => {
+    const handleOnChangeValidate = () => {
         const validate = document.getElementById("validate").value;
         if (validate === "tak") {
             setIsValuesRangeInvalid(checkValuesRange());
@@ -44,10 +50,10 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
             document.getElementById("maxValue").disabled = true;
         }
     };
-    const handleOnChangeValuesRange = (event) => {
+    const handleOnChangeValuesRange = () => {
         setIsValuesRangeInvalid(checkValuesRange());
     };
-    const handleOnInputErrorValue = (event) => {
+    const handleOnInputErrorValue = () => {
         const errorValue = document.getElementById("errorValue").value;
         setIsErrorValueInvalid(!errorValue);
     };
@@ -71,6 +77,7 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                              type="text"
                              onChange={handleOnChangeMeasurementName}
                              isInvalid={isMeasurementNameInvalid}
+                             defaultValue={measurement ? measurement.name : null}
                              placeholder="Nazwa pomiaru"
                              required/>
                 <FormControl.Feedback type="invalid">
@@ -83,7 +90,8 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                 </FormLabel>
                 <FormControl id="measurementUnit"
                              type="text"
-                             placeholder="Jednostka pomiaru"/>
+                             placeholder="Jednostka pomiaru"
+                             defaultValue={measurement ? measurement.unit : null}/>
             </FormGroup>
             <FormGroup className="mt-3">
                 <FormLabel htmlFor="measurementDescription">
@@ -93,29 +101,32 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                              type="text"
                              as="textarea"
                              rows={3}
-                             placeholder="Opis pomiaru"/>
+                             placeholder="Opis pomiaru"
+                             defaultValue={measurement ? measurement.description : null}/>
             </FormGroup>
             <Row xs={3}>
                 <FormGroup className="mt-3">
                     <FormLabel htmlFor="aggregate">
                         Agregacja:
                     </FormLabel>
-                    <FormSelect id="aggregate" onChange={handleOnChangeAggregate}>
-                        <option>tak</option>
-                        <option>nie</option>
+                    <FormSelect id="aggregate" onChange={handleOnChangeAggregate}
+                                defaultValue={measurement ? measurement.aggregate : null}>
+                        <option value="true">tak</option>
+                        <option value="false">nie</option>
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3">
                     <FormLabel htmlFor="aggregationInterval">
                         Jednostka częstości pomiaru:
                     </FormLabel>
-                    <FormSelect id="aggregationInterval">
-                        <option>minuta</option>
-                        <option>10 minut</option>
-                        <option>godzina</option>
-                        <option>dzień</option>
-                        <option>tydzień</option>
-                        <option>miesiąc</option>
+                    <FormSelect id="aggregationInterval"
+                                defaultValue={measurement ? measurement.aggregationInterval : null}>
+                        <option value="MIN">minuta</option>
+                        <option value="TEN_MIN">10 minut</option>
+                        <option value="HOUR">godzina</option>
+                        <option value="DAY">dzień</option>
+                        <option value="WEEK">tydzień</option>
+                        <option value="MONTH">miesiąc</option>
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3">
@@ -126,7 +137,8 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                                  type="number"
                                  isInvalid={isMaxBreakInvalid}
                                  onChange={handleOnChangeMaxBreak}
-                                 placeholder="sekundy"/>
+                                 placeholder="sekundy"
+                                 defaultValue={measurement ? measurement.maxBreak : null}/>
                     <FormControl.Feedback type="invalid">
                         Wartość musi być większa od 0
                     </FormControl.Feedback>
@@ -137,30 +149,33 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                     <FormLabel htmlFor="validate">
                         Walidacja:
                     </FormLabel>
-                    <FormSelect id="validate" onChange={handleOnChangeValidate}>
-                        <option>tak</option>
-                        <option>nie</option>
+                    <FormSelect id="validate" onChange={handleOnChangeValidate}
+                                defaultValue={measurement ? measurement.validate : null}>
+                        <option value="true">tak</option>
+                        <option value="false">nie</option>
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
                     <FormLabel htmlFor="minValue">
-                        Minimalna poprawna wartość:
+                        Minimalna wartość:
                     </FormLabel>
                     <FormControl id="minValue"
                                  type="number"
                                  onChange={handleOnChangeValuesRange}
                                  isInvalid={isValueRangeInvalid}
-                                 placeholder="Minimalna wartość"/>
+                                 placeholder="Minimalna wartość"
+                                 defaultValue={measurement.range ? measurement.range.min : null}/>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
                     <FormLabel htmlFor="maxValue">
-                        Maksymalna poprawna wartość:
+                        Maksymalna wartość:
                     </FormLabel>
                     <FormControl id="maxValue"
                                  type="number"
                                  onChange={handleOnChangeValuesRange}
                                  isInvalid={isValueRangeInvalid}
-                                 placeholder="Maksymalna wartość"/>
+                                 placeholder="Maksymalna wartość"
+                                 defaultValue={measurement.range ? measurement.range.max : null}/>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
                     <FormLabel htmlFor="errorValue">
@@ -170,14 +185,16 @@ function ParameterForm({id, handleAddMeasurementClick, handleRemoveMeasurementCl
                                  type="number"
                                  onInput={handleOnInputErrorValue}
                                  isInvalid={isErrorValueInvalid}
-                                 placeholder="Wartość błędu"/>
+                                 placeholder="Wartość błędu"
+                                 defaultValue={measurement ? measurement.errorValue : null}/>
                     <FormControl.Feedback type="invalid">
                         Podaj wartość błędu
                     </FormControl.Feedback>
                 </FormGroup>
             </Row>
             <div style={isAddMeasurementButtonVisible ? {} : {display: "none"}}>
-                <Button variant="outline-dark" className="ms-2 me-2 rounded-5 float-end" onClick={handleAddMeasurementClick}>+</Button>
+                <Button variant="outline-dark" className="ms-2 me-2 rounded-5 float-end"
+                        onClick={handleAddMeasurementClick}>+</Button>
                 <h5 className="float-end mt-2">Dodaj parametr</h5>
             </div>
         </div>

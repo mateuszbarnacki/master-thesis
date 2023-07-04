@@ -5,12 +5,17 @@ import Button from "react-bootstrap/Button";
 import {Fragment, useState} from "react";
 import DeleteProjectModal from "./modals/DeleteProjectModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
+import CloneProjectModal from "./modals/CloneProjectModal";
 
 function ProjectCard({item}) {
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
+    const [showCloneProjectModal, setShowCloneProjectModal] = useState(false);
     const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
     const handleUploadMeasurementsModalClose = () => {
         setShowUploadMeasurementsModal(false);
+    };
+    const handleCloneProjectModalClose = () => {
+        setShowCloneProjectModal(false);
     };
     const handleDeleteProjectModalClose = () => {
         setShowDeleteProjectModal(false);
@@ -31,8 +36,10 @@ function ProjectCard({item}) {
                                 onClick={() => setShowUploadMeasurementsModal(true)}>
                             Dodaj pomiar
                         </Button>
-                        <Button variant="outline-dark"
-                                style={{border: "1px solid black"}}>Sklonuj</Button>
+                        <Button variant="outline-dark" style={{border: "1px solid black"}}
+                                onClick={() => setShowCloneProjectModal(true)}>
+                            Sklonuj
+                        </Button>
                         <Button variant="outline-dark" style={{border: "1px solid black"}}
                                 onClick={() => setShowDeleteProjectModal(true)}>
                             Usuń
@@ -42,6 +49,8 @@ function ProjectCard({item}) {
             </Card>
             <UploadMeasurementsModal sensors={item.sensors} show={showUploadMeasurementsModal}
                                      closeModal={handleUploadMeasurementsModalClose}/>
+            <CloneProjectModal project={item} show={showCloneProjectModal}
+                               closeModal={handleCloneProjectModalClose}/>
             <DeleteProjectModal show={showDeleteProjectModal}
                                 closeModal={handleDeleteProjectModalClose}/>
         </Fragment>

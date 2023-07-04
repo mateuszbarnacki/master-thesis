@@ -131,50 +131,6 @@ const mock = [
                 deviceId: "Sensor-13"
             }
         ]
-    },
-    {
-        acronym: "tmp_stationary",
-        name: "test_stationary",
-        description: "Test project stationary",
-        timeMode: "OFFLINE",
-        spatialMode: "STATIONARY",
-        measurementMode: "SINGLE",
-        sensors: [
-            {
-                deviceId: "1",
-                latitude: 12.4214,
-                longitude: 52.124124,
-                altitude: 1224.0,
-                spatialMode: "STATIONARY",
-                measurementSchema: {
-                    measurements: [
-                        {
-                            name: "temperature",
-                            description: "test temperature",
-                            unit: "C",
-                            range: {
-                                "min": -50.0,
-                                "max": 100.0
-                            },
-                            accuracy: 3,
-                            validate: true,
-                            errorValue: 999,
-                            timestamp: {
-                                maxBreak: 30,
-                                aggregationIntervals: [
-                                    "MIN"
-                                ],
-                                alertType: "SMS"
-                            }
-                        }
-                    ],
-                    deviceMetadata: {
-                        spatialMode: "STATIONARY",
-                        date: "2022-12-19"
-                    }
-                }
-            }
-        ]
     }
 ];
 

@@ -23,12 +23,14 @@ function ProjectList({projectsList, handleListOnClick}) {
             <ListGroup variant="flush"
                        style={{
                            border: "1px solid black",
+                           backgroundColor: "#fefefe",
                            height: "60vh",
                            overflowY: "auto",
                            marginTop: "2vh"}}>
                 {list.map(item =>
                     <ListGroupItem key={item.name}
                                    action
+                                   variant="light"
                                    onClick={() => handleListOnClick(item)}>
                         {item.name}
                     </ListGroupItem>)}
