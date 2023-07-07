@@ -8,15 +8,15 @@ const mock = [
         projects: [
             {
                 name: "Zanieczyszczenia Kraków",
-                privileges: [true, false, true]
+                roles: [true, false, true]
             },
             {
                 name: "Projekt terenowy",
-                privileges: [true, true, false]
+                roles: [true, true, false]
             },
             {
                 name: "Zanieczyszczenia Radom",
-                privileges: [true, false, false]
+                roles: [true, false, false]
             }
         ]
     },
@@ -25,11 +25,11 @@ const mock = [
         projects: [
             {
                 name: "Zanieczyszczenia Police",
-                privileges: [true, true, true]
+                roles: [true, true, true]
             },
             {
                 name: "Klimat Szczecina",
-                privileges: [true, true, false]
+                roles: [true, true, false]
             }
         ]
     }

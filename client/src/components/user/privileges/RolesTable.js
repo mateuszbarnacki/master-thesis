@@ -1,7 +1,7 @@
 import Table from "react-bootstrap/Table";
 import FormCheck from "react-bootstrap/FormCheck";
 
-function PrivilegesTable({projects, update}) {
+function RolesTable({projects, update}) {
     return (
         <Table className="m-1">
             <thead className="border-black">
@@ -18,11 +18,11 @@ function PrivilegesTable({projects, update}) {
                 <tr>
                     <td>{projectIndex+1}</td>
                     <td>{project.name}</td>
-                    {project.privileges.map(privilege => {
+                    {project.roles.map(role => {
                         if (update) {
-                            return (<td><FormCheck defaultChecked={privilege}/></td>);
+                            return (<td><FormCheck defaultChecked={role}/></td>);
                         }
-                        return (privilege ? <td>x</td> : <td></td>);
+                        return (role ? <td>x</td> : <td></td>);
                     })}
                 </tr>
             ))}
@@ -31,4 +31,4 @@ function PrivilegesTable({projects, update}) {
     );
 }
 
-export default PrivilegesTable;
+export default RolesTable;

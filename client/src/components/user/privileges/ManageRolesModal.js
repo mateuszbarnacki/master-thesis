@@ -4,16 +4,16 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 import ModalTitle from "react-bootstrap/ModalTitle";
-import PrivilegesTable from "./PrivilegesTable";
+import RolesTable from "./RolesTable";
 
-function PrivilegesModal({projects, show, closeModal}) {
+function ManageRolesModal({projects, show, closeModal}) {
     return (
         <Modal centered show={show} size="xl">
             <ModalHeader className="modal-center">
                 <ModalTitle as="h3">Zmień uprawnienia</ModalTitle>
             </ModalHeader>
             <ModalBody className="text-center">
-                <PrivilegesTable projects={projects} update={true}/>
+                <RolesTable projects={projects} update={true}/>
             </ModalBody>
             <ModalFooter className="modal-center">
                 <Button variant="danger" size="lg" onClick={closeModal}>Anuluj</Button>
@@ -23,4 +23,4 @@ function PrivilegesModal({projects, show, closeModal}) {
     );
 }
 
-export default PrivilegesModal;
+export default ManageRolesModal;
