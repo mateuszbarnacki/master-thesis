@@ -15,14 +15,14 @@ function RolesTable({projects, update}) {
             </thead>
             <tbody>
             {projects.map((project, projectIndex) => (
-                <tr>
-                    <td>{projectIndex+1}</td>
-                    <td>{project.name}</td>
-                    {project.roles.map(role => {
+                <tr key={project.name}>
+                    <td key={project.name+' '+projects.length}>{projectIndex+1}</td>
+                    <td key={project.name+'-'+projects.length}>{project.name}</td>
+                    {project.roles.map((role, roleIndex) => {
                         if (update) {
-                            return (<td><FormCheck defaultChecked={role}/></td>);
+                            return (<td key={project.name+'-'+roleIndex}><FormCheck defaultChecked={role}/></td>);
                         }
-                        return (role ? <td>x</td> : <td></td>);
+                        return (role ? <td key={project.name+'-'+roleIndex}>x</td> : <td key={project.name+'-'+roleIndex}></td>);
                     })}
                 </tr>
             ))}
