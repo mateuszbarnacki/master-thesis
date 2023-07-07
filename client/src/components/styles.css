@@ -40,3 +40,23 @@
     visibility: hidden;
 }
 
+.custom-checkbox-input {
+    outline: 1px solid #ffffff;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(17, 116, 186, 0.8);
+}
+
+.projects-list {
+    border: 1px solid black;
+    background-color: #fefefe;
+    height: 60vh;
+    overflow-y: auto;
+    margin-top: 2vh;
+}
+
+.projects-roles-list {
+    border: 1px solid black;
+    background-color: #fefefe;
+    height: 15vh;
+    overflow-y: auto;
+}
+

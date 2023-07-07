@@ -1,5 +1,4 @@
 import Table from "react-bootstrap/Table";
-import FormCheck from "react-bootstrap/FormCheck";
 
 function RolesTable({projects, update}) {
     return (
@@ -20,7 +19,7 @@ function RolesTable({projects, update}) {
                     <td key={project.name+'-'+projects.length}>{project.name}</td>
                     {project.roles.map((role, roleIndex) => {
                         if (update) {
-                            return (<td key={project.name+'-'+roleIndex}><FormCheck defaultChecked={role}/></td>);
+                            return (<td key={project.name+'-'+roleIndex}><input type="checkbox" className="custom-checkbox-input" defaultChecked={role}/></td>);
                         }
                         return (role ? <td key={project.name+'-'+roleIndex}>x</td> : <td key={project.name+'-'+roleIndex}></td>);
                     })}

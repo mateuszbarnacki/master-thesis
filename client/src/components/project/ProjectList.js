@@ -20,13 +20,7 @@ function ProjectList({projectsList, handleListOnClick}) {
         <Fragment>
             <Form.Label htmlFor="search">Wyszukaj projekt po nazwie:</Form.Label>
             <Form.Control type="text" id="search" placeholder="Nazwa projektu" onChange={(e) => handleOnChange(e)}/>
-            <ListGroup variant="flush"
-                       style={{
-                           border: "1px solid black",
-                           backgroundColor: "#fefefe",
-                           height: "60vh",
-                           overflowY: "auto",
-                           marginTop: "2vh"}}>
+            <ListGroup variant="flush" className="projects-list">
                 {list.map(item =>
                     <ListGroupItem key={item.name}
                                    action
