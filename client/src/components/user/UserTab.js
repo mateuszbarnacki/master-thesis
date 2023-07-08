@@ -14,7 +14,7 @@ function UserTab({user, index}) {
             <AccordionItem eventKey={index}>
                 <AccordionHeader>{user.username}</AccordionHeader>
                 <AccordionBody className="text-center">
-                    <RolesForm projects={user.projects} roles={user.roles}/>
+                    <RolesForm projects={user.projects} roles={user.roles} update={false}/>
                     <Button variant="dark" className="mt-3"
                             onClick={() => setShowManageRolesModal(true)}>
                         Edytuj uprawnienia
