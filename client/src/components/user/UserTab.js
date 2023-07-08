@@ -1,10 +1,10 @@
-import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionBody from "react-bootstrap/AccordionBody";
-import Button from "react-bootstrap/Button";
+import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
-import RolesTable from "./privileges/RolesTable";
-import ManageRolesModal from "./privileges/ManageRolesModal";
+import Button from "react-bootstrap/Button";
+import ManageRolesModal from "./roles/ManageRolesModal";
 import {Fragment, useState} from "react";
+import RolesForm from "./roles/RolesForm";
 
 function UserTab({user, index}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
@@ -14,11 +14,14 @@ function UserTab({user, index}) {
             <AccordionItem eventKey={index}>
                 <AccordionHeader>{user.username}</AccordionHeader>
                 <AccordionBody className="text-center">
-                    <RolesTable projects={user.projects} update={false}/>
-                    <Button variant="dark" className="mt-3" onClick={() => setShowManageRolesModal(true)}>Edytuj uprawnienia</Button>
+                    <RolesForm projects={user.projects} roles={user.roles}/>
+                    <Button variant="dark" className="mt-3"
+                            onClick={() => setShowManageRolesModal(true)}>
+                        Edytuj uprawnienia
+                    </Button>
                 </AccordionBody>
             </AccordionItem>
-            <ManageRolesModal projects={user.projects} show={showManageRolesModal}
+            <ManageRolesModal projects={user.projects} roles={user.roles} show={showManageRolesModal}
                               closeModal={() => setShowManageRolesModal(false)}/>
         </Fragment>
     );

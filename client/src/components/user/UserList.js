@@ -5,32 +5,19 @@ import UserTab from "./UserTab";
 const mock = [
     {
         username: "Użytkownik Testowy",
+        roles: [true, false, true],
         projects: [
-            {
-                name: "Zanieczyszczenia Kraków",
-                roles: [true, false, true]
-            },
-            {
-                name: "Projekt terenowy",
-                roles: [true, true, false]
-            },
-            {
-                name: "Zanieczyszczenia Radom",
-                roles: [true, false, false]
-            }
+            "Zanieczyszczenia Kraków",
+            "Projekt terenowy",
+            "Zanieczyszczenia Radom"
         ]
     },
     {
         username: "Adam",
+        roles: [true, false, false],
         projects: [
-            {
-                name: "Zanieczyszczenia Police",
-                roles: [true, true, true]
-            },
-            {
-                name: "Klimat Szczecina",
-                roles: [true, true, false]
-            }
+            "Zanieczyszczenia Police",
+            "Klimat Szczecina"
         ]
     }
 ];

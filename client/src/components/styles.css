@@ -60,3 +60,9 @@
     overflow-y: auto;
 }
 
+.projects-form-list {
+    background-color: #fefefe;
+    height: 10vh;
+    overflow-y: auto;
+}
+

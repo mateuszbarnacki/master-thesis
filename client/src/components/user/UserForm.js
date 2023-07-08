@@ -5,8 +5,7 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import {useState} from "react";
-import ListGroup from "react-bootstrap/ListGroup";
-import ListGroupItem from "react-bootstrap/ListGroupItem";
+import UserProjectsList from "./UserProjectsList";
 
 const mock = [
     "Zanieczyszczenia Kraków",
@@ -50,13 +49,7 @@ function UserForm() {
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel className="mb-3" as="h5">Uczestnictwo w projektach:</FormLabel>
-                        <ListGroup variant="flush" className="projects-roles-list">
-                            {mock.map((item) =>
-                                <ListGroupItem key={item} className="py-2 px-4">
-                                    {item}
-                                    <input type="checkbox" className="float-end custom-checkbox-input"/>
-                                </ListGroupItem>)}
-                        </ListGroup>
+                        <UserProjectsList projects={mock}/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel htmlFor="password" className="mb-3" as="h5">Hasło:</FormLabel>
