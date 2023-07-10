@@ -37,8 +37,26 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
+    private Set<ProjectEntity> projects = new HashSet<>();
+
+    public Set<RoleEntity> getRoles() {
+        return this.roles;
+    }
+
     public void addRoles(Set<RoleEntity> roles) {
         this.roles.addAll(roles);
+    }
+
+    public Set<ProjectEntity> getProjects() {
+        return this.projects;
+    }
+
+    public void addProjects(Set<ProjectEntity> projects) {
+        this.projects.addAll(projects);
     }
 
     public Long getId() {
@@ -49,28 +67,38 @@ public class UserEntity implements UserDetails {
         this.id = id;
     }
 
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -81,16 +109,6 @@ public class UserEntity implements UserDetails {
                 .map(PrivilegeEntity::getName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
