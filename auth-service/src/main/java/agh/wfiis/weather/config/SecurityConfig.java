@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user").permitAll()
+                        .requestMatchers("/projects").permitAll()
                         .requestMatchers("/authentication/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
