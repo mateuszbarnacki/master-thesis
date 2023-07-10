@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import java.util.Set;
 
 @Entity
-@Table(name = "privileges")
+@Table(name = "privilege")
 public class PrivilegeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
