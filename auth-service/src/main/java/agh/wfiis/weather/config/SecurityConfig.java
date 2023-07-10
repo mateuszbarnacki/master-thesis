@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user").permitAll()
+                        .requestMatchers("/users").permitAll()
                         .requestMatchers("/projects").permitAll()
                         .requestMatchers("/authentication/**").permitAll()
                         .anyRequest().authenticated())

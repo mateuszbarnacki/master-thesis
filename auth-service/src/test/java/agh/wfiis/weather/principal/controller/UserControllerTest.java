@@ -2,7 +2,7 @@ package agh.wfiis.weather.principal.controller;
 
 import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.principal.dto.UserDto;
-import agh.wfiis.weather.principal.service.RestUserService;
+import agh.wfiis.weather.principal.service.user.UserRestService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +31,7 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private RestUserService userService;
+    private UserRestService userService;
 
     @BeforeAll
     public static void setUp() {
@@ -49,7 +49,7 @@ class UserControllerTest {
         };
         String json = objectMapper.writeValueAsString(user);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
                 .with(csrf())
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(json)
