@@ -23,6 +23,8 @@ class UserMapper {
         UserEntity entity = new UserEntity();
 
         entity.setUsername(userDto.username());
+        entity.setEmail(userDto.email());
+        entity.setDescription(userDto.description());
         entity.addRoles(mapUserRolesToRoleEntities(userDto.roles()));
 
         return entity;

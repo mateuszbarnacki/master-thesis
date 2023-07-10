@@ -27,6 +27,8 @@ public class UserEntity implements UserDetails {
     private Long id;
 
     private String username;
+    private String email;
+    private String description;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -51,8 +53,24 @@ public class UserEntity implements UserDetails {
         this.username = username;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
