@@ -6,7 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import org.hibernate.Hibernate;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,5 +37,18 @@ public class PrivilegeEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) return false;
+        PrivilegeEntity privilegeEntity = (PrivilegeEntity) obj;
+        return id != null && Objects.equals(id, privilegeEntity.id);
     }
 }
