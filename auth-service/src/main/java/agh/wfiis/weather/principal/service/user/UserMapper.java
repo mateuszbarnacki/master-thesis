@@ -1,4 +1,4 @@
-package agh.wfiis.weather.principal.service;
+package agh.wfiis.weather.principal.service.user;
 
 import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.principal.dto.UserDto;
