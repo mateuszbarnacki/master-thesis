@@ -1,8 +1,8 @@
-package agh.wfiis.weather.principal.service.project;
+package agh.wfiis.weather.project.service;
 
-import agh.wfiis.weather.principal.dto.ProjectDto;
-import agh.wfiis.weather.principal.model.ProjectEntity;
-import agh.wfiis.weather.principal.repository.ProjectRepository;
+import agh.wfiis.weather.project.dto.ProjectDto;
+import agh.wfiis.weather.project.model.ProjectEntity;
+import agh.wfiis.weather.project.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;

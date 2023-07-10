@@ -1,4 +1,4 @@
-package agh.wfiis.weather.principal.dto;
+package agh.wfiis.weather.project.dto;
 
 public record ProjectDto(String name) {
 }

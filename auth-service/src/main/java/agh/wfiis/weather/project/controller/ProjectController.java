@@ -1,7 +1,7 @@
-package agh.wfiis.weather.principal.controller;
+package agh.wfiis.weather.project.controller;
 
-import agh.wfiis.weather.principal.dto.ProjectDto;
-import agh.wfiis.weather.principal.service.project.ProjectService;
+import agh.wfiis.weather.project.dto.ProjectDto;
+import agh.wfiis.weather.project.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

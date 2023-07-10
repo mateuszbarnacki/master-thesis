@@ -1,6 +1,6 @@
-package agh.wfiis.weather.principal.service.project;
+package agh.wfiis.weather.project.service;
 
-import agh.wfiis.weather.principal.dto.ProjectDto;
+import agh.wfiis.weather.project.dto.ProjectDto;
 
 import java.util.List;
 

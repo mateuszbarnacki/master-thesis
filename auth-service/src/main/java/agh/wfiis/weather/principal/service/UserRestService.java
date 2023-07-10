@@ -1,4 +1,4 @@
-package agh.wfiis.weather.principal.service.user;
+package agh.wfiis.weather.principal.service;
 
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.principal.dto.UserDto;

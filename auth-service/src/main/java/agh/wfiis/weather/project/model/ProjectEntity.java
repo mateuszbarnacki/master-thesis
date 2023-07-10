@@ -1,5 +1,6 @@
-package agh.wfiis.weather.principal.model;
+package agh.wfiis.weather.project.model;
 
+import agh.wfiis.weather.principal.model.UserEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
