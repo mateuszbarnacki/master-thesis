@@ -1,4 +1,4 @@
-INSERT INTO privilege (id, name)
+INSERT INTO wfiis.privilege (id, name)
 VALUES (1, 'READ_PROJECT'),
        (2, 'CREATE_PROJECT'),
        (3, 'ADD_MEASUREMENT'),

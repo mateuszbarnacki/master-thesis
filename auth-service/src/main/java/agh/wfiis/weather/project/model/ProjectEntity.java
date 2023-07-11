@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "project")
+@Table(name = "project", schema = "wfiis")
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

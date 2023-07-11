@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "user"
+CREATE TABLE IF NOT EXISTS wfiis.user
 (
     id          SERIAL PRIMARY KEY,
     username    VARCHAR(50)  NOT NULL,
@@ -7,42 +7,41 @@ CREATE TABLE IF NOT EXISTS "user"
     password    VARCHAR(50)  NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "role"
+CREATE TABLE IF NOT EXISTS wfiis.role
 (
     id   SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "privilege"
+CREATE TABLE IF NOT EXISTS wfiis.privilege
 (
     id   SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "project"
+CREATE TABLE IF NOT EXISTS wfiis.project
 (
     id   SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-
-CREATE TABLE IF NOT EXISTS "user_role"
+CREATE TABLE IF NOT EXISTS wfiis.user_role
 (
-    user_id BIGINT REFERENCES "user" (id),
-    role_id BIGINT REFERENCES "role" (id),
+    user_id BIGINT REFERENCES wfiis.user (id),
+    role_id BIGINT REFERENCES wfiis.role (id),
     PRIMARY KEY (user_id, role_id)
 );
 
-CREATE TABLE IF NOT EXISTS "role_privilege"
+CREATE TABLE IF NOT EXISTS wfiis.role_privilege
 (
-    role_id      BIGINT REFERENCES "role" (id),
-    privilege_id BIGINT REFERENCES "privilege" (id),
+    role_id      BIGINT REFERENCES wfiis.role (id),
+    privilege_id BIGINT REFERENCES wfiis.privilege (id),
     PRIMARY KEY (role_id, privilege_id)
 );
 
-CREATE TABLE IF NOT EXISTS "user_project"
+CREATE TABLE IF NOT EXISTS wfiis.user_project
 (
-    user_id    BIGINT REFERENCES "user" (id),
-    project_id BIGINT REFERENCES "project" (id),
+    user_id    BIGINT REFERENCES wfiis.user (id),
+    project_id BIGINT REFERENCES wfiis.project (id),
     PRIMARY KEY (user_id, project_id)
 );

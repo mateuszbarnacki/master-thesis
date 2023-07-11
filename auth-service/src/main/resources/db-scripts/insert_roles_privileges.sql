@@ -1,4 +1,4 @@
-INSERT INTO role_privilege (role_id, privilege_id)
+INSERT INTO wfiis.role_privilege (role_id, privilege_id)
 VALUES (1, 1),
        (1, 2),
        (1, 3),

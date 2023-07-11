@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "privilege")
+@Table(name = "privilege", schema = "wfiis")
 public class PrivilegeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
