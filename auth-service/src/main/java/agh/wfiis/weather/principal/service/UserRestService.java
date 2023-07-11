@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,12 +17,10 @@ import java.util.Optional;
 public class UserRestService implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserRestService(UserRepository userRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
+    public UserRestService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,7 +36,6 @@ public class UserRestService implements UserService, UserDetailsService {
             throw new UserAlreadyExistsException();
         }
         UserEntity newUser = userMapper.mapDtoToEntity(userDto);
-        newUser.setPassword(passwordEncoder.encode(userDto.password()));
         userRepository.save(newUser);
     }
 }

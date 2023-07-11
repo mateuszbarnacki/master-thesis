@@ -6,6 +6,7 @@ import agh.wfiis.weather.exception.RoleNotFoundException;
 import agh.wfiis.weather.principal.model.RoleEntity;
 import agh.wfiis.weather.principal.model.UserEntity;
 import agh.wfiis.weather.principal.repository.RoleRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -14,15 +15,18 @@ import java.util.Set;
 @Component
 class UserMapper {
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserMapper(RoleRepository roleRepository) {
+    public UserMapper(RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     UserEntity mapDtoToEntity(UserDto userDto) {
         UserEntity entity = new UserEntity();
 
         entity.setUsername(userDto.username());
+        entity.setPassword(passwordEncoder.encode(userDto.password()));
         entity.setEmail(userDto.email());
         entity.setDescription(userDto.description());
         entity.addRoles(mapUserRolesToRoleEntities(userDto.roles()));
