@@ -11,6 +11,7 @@ repositories {
 ext {
     set("postgresqlVersion", '42.5.4')
     set("apacheCommonsVersion", '3.0')
+    set("testContainersVersion", '1.18.3')
 }
 
 dependencies {
@@ -23,6 +24,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
