@@ -40,7 +40,8 @@ class UserMapperTest {
                 .hasFieldOrPropertyWithValue("username", "Test")
                 .hasFieldOrPropertyWithValue("email", "testowy@test.com")
                 .hasFieldOrPropertyWithValue("description", "User for test purposes")
-                .hasFieldOrPropertyWithValue("roles", Set.of(reader, writer));
+                .hasFieldOrPropertyWithValue("roles", Set.of(reader, writer))
+                .hasFieldOrProperty("password");
     }
 
     private UserDto givenUserDto() {
