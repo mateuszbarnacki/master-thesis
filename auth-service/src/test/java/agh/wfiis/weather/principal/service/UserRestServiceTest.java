@@ -1,9 +1,12 @@
 package agh.wfiis.weather.principal.service;
 
+import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.principal.dto.UserDto;
+import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.model.UserEntity;
 import agh.wfiis.weather.principal.repository.UserRepository;
+import agh.wfiis.weather.project.dto.ProjectDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -56,7 +59,7 @@ class UserRestServiceTest {
     @Test
     void shouldRegisterUser() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
-        Mockito.when(userMapper.mapDtoToEntity(ArgumentMatchers.any(UserDto.class))).thenReturn(new UserEntity());
+        Mockito.when(userMapper.mapUserToEntity(ArgumentMatchers.any(UserDto.class))).thenReturn(new UserEntity());
 
         UserDto dto = givenUserDto();
 
@@ -81,7 +84,14 @@ class UserRestServiceTest {
                 "tester@mail.com",
                 "Test user",
                 "1234",
-                Set.of());
+                Set.of(UserRole.READER),
+                Set.of(new ProjectDto("proj_test")));
+    }
+
+    private UserInfoDto givenUserInfoDto() {
+        return new UserInfoDto(TEST_USERNAME,
+                Set.of(UserRole.EDITOR),
+                Set.of(new ProjectDto("agh")));
     }
 
     private UserDetails whenLoadUserByUsername(String username) {
@@ -97,7 +107,8 @@ class UserRestServiceTest {
     }
 
     private void thenMethodThrowsUsernameNotFoundException(String username) {
-        Assertions.assertThrowsExactly(UsernameNotFoundException.class, () -> userRestService.loadUserByUsername(username));
+        Assertions.assertThrowsExactly(UsernameNotFoundException.class,
+                () -> userRestService.loadUserByUsername(username));
     }
 
     private void thenMethodThrowsUserAlreadyExistsException(UserDto dto) {

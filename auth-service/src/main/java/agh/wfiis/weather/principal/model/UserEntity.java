@@ -54,12 +54,20 @@ public class UserEntity implements UserDetails {
         this.roles.addAll(roles);
     }
 
+    public void clearRoles() {
+        this.roles.clear();
+    }
+
     public Set<ProjectEntity> getProjects() {
         return this.projects;
     }
 
     public void addProjects(Set<ProjectEntity> projects) {
         this.projects.addAll(projects);
+    }
+
+    public void clearProjects() {
+        this.projects.clear();
     }
 
     public Long getId() {

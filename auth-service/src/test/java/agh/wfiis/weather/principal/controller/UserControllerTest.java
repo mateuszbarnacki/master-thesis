@@ -2,28 +2,29 @@ package agh.wfiis.weather.principal.controller;
 
 import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.principal.dto.UserDto;
+import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.service.UserRestService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Set;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @WebMvcTest({UserController.class})
 class UserControllerTest {
@@ -50,7 +51,7 @@ class UserControllerTest {
         String json = objectMapper.writeValueAsString(user);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users")
-                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON_VALUE);
@@ -58,6 +59,22 @@ class UserControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        verify(userService).registerUser(any(UserDto.class));
+        Mockito.verify(userService).registerUser(ArgumentMatchers.any(UserDto.class));
+    }
+
+    @Test
+    @WithMockUser
+    void shouldGetUsers() throws Exception {
+        Mockito.when(userService.getUsers())
+                .thenReturn(List.of(new UserInfoDto("test", Set.of(), Set.of())));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/all");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].username").value("test"));
+
+        Mockito.verify(userService).getUsers();
     }
 }

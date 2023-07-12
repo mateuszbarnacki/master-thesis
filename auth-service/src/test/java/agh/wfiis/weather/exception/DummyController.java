@@ -20,6 +20,11 @@ public class DummyController {
         throw new PrivilegeNotFoundException("TEST");
     }
 
+    @GetMapping("/project-not-found")
+    public ResponseEntity<UserDto> testProjectNotFoundException() {
+        throw new ProjectNotFoundException("test_proj");
+    }
+
     @GetMapping("user-already-exists")
     public ResponseEntity<UserDto> testUserAlreadyExists() {
         throw new UserAlreadyExistsException();

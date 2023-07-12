@@ -1,6 +1,7 @@
 package agh.wfiis.weather.exception.handler;
 
 import agh.wfiis.weather.exception.PrivilegeNotFoundException;
+import agh.wfiis.weather.exception.ProjectNotFoundException;
 import agh.wfiis.weather.exception.RoleNotFoundException;
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.exception.WeatherAppException;
@@ -23,6 +24,12 @@ public class WeatherAppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({PrivilegeNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<RestErrorDto> handlePrivilegeNotFoundException(PrivilegeNotFoundException exception) {
+        return new ResponseEntity<>(buildRestErrorDto(exception), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({ProjectNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<RestErrorDto> handleProjectNotFoundException(ProjectNotFoundException exception) {
         return new ResponseEntity<>(buildRestErrorDto(exception), HttpStatus.NOT_FOUND);
     }
 

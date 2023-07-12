@@ -47,6 +47,16 @@ class WeatherAppExceptionHandlerTest {
 
     @Test
     @WithMockUser
+    void shouldThrowProjectNotFoundException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/error/project-not-found"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Could not find project with name <test_proj>"))
+                .andExpect(jsonPath("$.errorCode").value("NOT_FOUND"));
+    }
+
+    @Test
+    @WithMockUser
     void shouldThrowUserAlreadyExistsException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/error/user-already-exists"))
                 .andExpect(status().isBadRequest())
