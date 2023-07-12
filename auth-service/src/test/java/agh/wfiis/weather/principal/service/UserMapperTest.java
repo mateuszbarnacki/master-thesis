@@ -23,6 +23,7 @@ import java.util.Set;
 class UserMapperTest {
     private static final String READER_ROLE = "READER";
     private static final String WRITER_ROLE = "WRITER";
+    private static final String EDITOR_ROLE = "EDITOR";
     private static final String PROJECT_NAME = "TEST_PROJ";
     @Autowired
     private UserMapper userMapper;
@@ -56,6 +57,24 @@ class UserMapperTest {
     }
 
     @Test
+    void shouldMapUserInfoToEntity() {
+        RoleEntity editor = new RoleEntity();
+        ProjectEntity testProj = new ProjectEntity();
+        editor.setName(EDITOR_ROLE);
+        testProj.setName(PROJECT_NAME);
+        Mockito.when(roleRepository.findByName(EDITOR_ROLE)).thenReturn(Optional.of(editor));
+        Mockito.when(projectRepository.findByName(PROJECT_NAME)).thenReturn(Optional.of(testProj));
+        UserInfoDto userInfoDto = givenUserInfoDto();
+
+        UserEntity entity = whenMapUserInfoToEntity(userInfoDto);
+
+        AssertionsForClassTypes.assertThat(entity)
+                .hasFieldOrPropertyWithValue("username", "Tester")
+                .hasFieldOrPropertyWithValue("roles", Set.of(editor))
+                .hasFieldOrPropertyWithValue("projects", Set.of(testProj));
+    }
+
+    @Test
     void shouldMapEntityToUserInfo() {
         UserEntity entity = givenUserEntity();
 
@@ -76,6 +95,12 @@ class UserMapperTest {
                 Set.of(new ProjectDto(PROJECT_NAME)));
     }
 
+    private UserInfoDto givenUserInfoDto() {
+        return new UserInfoDto("Tester",
+                Set.of(UserRole.EDITOR),
+                Set.of(new ProjectDto(PROJECT_NAME)));
+    }
+
     private UserEntity givenUserEntity() {
         RoleEntity role = new RoleEntity();
         role.setName(WRITER_ROLE);
@@ -92,6 +117,10 @@ class UserMapperTest {
 
     private UserEntity whenMapUserDtoToUserEntity(UserDto dto) {
         return userMapper.mapUserToEntity(dto);
+    }
+
+    private UserEntity whenMapUserInfoToEntity(UserInfoDto userInfoDto) {
+        return userMapper.mapUserInfoToEntity(userInfoDto);
     }
 
     private UserInfoDto whenMapEntityToUserInfo(UserEntity entity) {

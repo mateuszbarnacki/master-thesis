@@ -79,6 +79,25 @@ class UserRestServiceTest {
         Mockito.verify(userRepository).findByUsername(dto.username());
     }
 
+    @Test
+    void shouldUpdateRolesAndProjects() {
+        Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(new UserEntity()));
+        Mockito.when(userMapper.mapUserInfoToEntity(ArgumentMatchers.any(UserInfoDto.class)))
+                .thenReturn(new UserEntity());
+        UserInfoDto userInfoDto = givenUserInfoDto();
+
+        whenUpdateRolesAndProjects(userInfoDto);
+        Mockito.verify(userMapper).mapEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class));
+    }
+
+    @Test
+    void shouldNotUpdateRolesAndProjectBecauseUserDoesNotExist() {
+        Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
+        UserInfoDto userInfoDto = givenUserInfoDto();
+
+        thenMethodThrowsUsernameNotFoundException(userInfoDto);
+    }
+
     private UserDto givenUserDto() {
         return new UserDto(TEST_USERNAME,
                 "tester@mail.com",
@@ -102,6 +121,10 @@ class UserRestServiceTest {
         userRestService.registerUser(dto);
     }
 
+    private UserInfoDto whenUpdateRolesAndProjects(UserInfoDto userInfoDto) {
+        return userRestService.updateRolesAndProjects(userInfoDto);
+    }
+
     private void thenUserContainsExpectedUsername(UserDetails userDetails) {
         Assertions.assertEquals(TEST_USERNAME, userDetails.getUsername());
     }
@@ -113,5 +136,10 @@ class UserRestServiceTest {
 
     private void thenMethodThrowsUserAlreadyExistsException(UserDto dto) {
         Assertions.assertThrowsExactly(UserAlreadyExistsException.class, () -> userRestService.registerUser(dto));
+    }
+
+    private void thenMethodThrowsUsernameNotFoundException(UserInfoDto userInfoDto) {
+        Assertions.assertThrowsExactly(UsernameNotFoundException.class,
+                () -> userRestService.updateRolesAndProjects(userInfoDto));
     }
 }

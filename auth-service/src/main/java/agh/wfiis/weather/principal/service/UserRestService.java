@@ -49,4 +49,19 @@ public class UserRestService implements UserService, UserDetailsService {
                 .map(userMapper::mapEntityToUserInfoDto)
                 .toList();
     }
+
+    @Override
+    public UserInfoDto updateRolesAndProjects(@NotNull UserInfoDto userInfoDto) {
+        UserEntity entity = userRepository.findByUsername(userInfoDto.username())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(String.format("Could not find user with given username: %s", userInfoDto.username())));
+        UserEntity mappedUserInfo = userMapper.mapUserInfoToEntity(userInfoDto);
+
+        entity.clearRoles();
+        entity.addRoles(mappedUserInfo.getRoles());
+        entity.clearProjects();
+        entity.addProjects(mappedUserInfo.getProjects());
+
+        return userMapper.mapEntityToUserInfoDto(entity);
+    }
 }

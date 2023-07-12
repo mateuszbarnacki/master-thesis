@@ -20,4 +20,12 @@ public interface UserService {
      * which user is enrolled.
      */
     List<UserInfoDto> getUsers();
+
+    /**
+     * This method updates roles and projects for user with given username.
+     *
+     * @param userInfoDto Object which contains new data.
+     * @return UserInfoDto Object with updated data.
+     */
+    UserInfoDto updateRolesAndProjects(UserInfoDto userInfoDto);
 }

@@ -4,6 +4,7 @@ import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.service.UserRestService;
+import agh.wfiis.weather.project.dto.ProjectDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,5 +77,35 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].username").value("test"));
 
         Mockito.verify(userService).getUsers();
+    }
+
+    @Test
+    @WithMockUser
+    void shouldUpdateRolesAndProjects() throws Exception {
+        Object userInfoDto = new Object() {
+            private final String username = "Dev";
+            private final Set<UserRole> roles = Set.of(UserRole.WRITER);
+            private final Set<ProjectDto> projects = Set.of(new ProjectDto("wfiis_proj"));
+        };
+        String json = objectMapper.writeValueAsString(userInfoDto);
+
+        Mockito.when(userService.updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class)))
+                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.WRITER), Set.of(new ProjectDto("wfiis_proj"))));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .characterEncoding(StandardCharsets.UTF_8);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("Dev"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.projects").isArray());
+
+        Mockito.verify(userService).updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class));
     }
 }

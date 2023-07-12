@@ -49,6 +49,16 @@ class UserMapper {
         return entity;
     }
 
+    UserEntity mapUserInfoToEntity(UserInfoDto userInfoDto) {
+        UserEntity entity = new UserEntity();
+
+        entity.setUsername(userInfoDto.username());
+        entity.addRoles(mapUserRolesToRoleEntities(userInfoDto.roles()));
+        entity.addProjects(mapProjectDtosToProjectEntities(userInfoDto.projects()));
+
+        return entity;
+    }
+
     UserInfoDto mapEntityToUserInfoDto(UserEntity entity) {
         Set<UserRole> roles = mapRoleEntitiesToUserRoles(entity.getRoles());
         Set<ProjectDto> projects = mapProjectEntitiesToDtos(entity.getProjects());
