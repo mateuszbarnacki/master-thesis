@@ -1,9 +1,12 @@
 package agh.wfiis.weather.filter;
 
 public enum Privilege {
-    CREATE("CREATE_PROJECT"),
-    READ("READ_PROJECT"),
-    DELETE("DELETE_PROJECT");
+    CREATE_PROJECT("CREATE_PROJECT"),
+    READ_PROJECT("READ_PROJECT"),
+    ADD_MEASUREMENT("ADD_MEASUREMENT"),
+    CREATE_USER("CREATE_USER"),
+    UPDATE_PRIVILEGES("UPDATE_PRIVILEGES"),
+    DELETE_PROJECT("DELETE_PROJECT");
 
     private final String name;
 
