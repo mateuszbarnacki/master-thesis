@@ -108,4 +108,21 @@ class UserControllerTest {
 
         Mockito.verify(userService).updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class));
     }
+
+    @Test
+    @WithMockUser
+    void shouldGetUserProjects() throws Exception {
+        String username = "Tester";
+        Mockito.when(userService.getUserProjects(username))
+                .thenReturn(Set.of(new ProjectDto("proj_test")));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/projects/{username}", username);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("proj_test"));
+
+        Mockito.verify(userService).getUserProjects(ArgumentMatchers.anyString());
+    }
 }

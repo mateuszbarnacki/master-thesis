@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,7 +52,7 @@ class UserRestServiceTest {
 
         String username = TEST_USERNAME;
 
-        thenMethodThrowsUsernameNotFoundException(username);
+        thenLoadUserByUsernameThrowsUsernameNotFoundException(username);
 
         Mockito.verify(userRepository).findByUsername(ArgumentMatchers.anyString());
     }
@@ -98,6 +99,30 @@ class UserRestServiceTest {
         thenMethodThrowsUsernameNotFoundException(userInfoDto);
     }
 
+    @Test
+    void shouldGetUserProjects() {
+        UserInfoDto userWithOneProject = getUserWithOneProject();
+        Mockito.when(userRepository.findByUsername(TEST_USERNAME))
+                .thenReturn(Optional.of(new UserEntity()));
+        Mockito.when(userMapper.mapEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class)))
+                .thenReturn(userWithOneProject);
+
+        String username = TEST_USERNAME;
+
+        Collection<ProjectDto> projects = whenGetUserProjects(username);
+
+        thenProjectCollectionContainsExactlyOneProject(projects);
+    }
+
+    @Test
+    void shouldNotGetUserProjectsBecauseUserDoesNotExist() {
+        Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
+
+        String username = TEST_USERNAME;
+
+        thenGetUserProjectsThrowUsernameNotFoundException(username);
+    }
+
     private UserDto givenUserDto() {
         return new UserDto(TEST_USERNAME,
                 "tester@mail.com",
@@ -111,6 +136,10 @@ class UserRestServiceTest {
         return new UserInfoDto(TEST_USERNAME,
                 Set.of(UserRole.EDITOR),
                 Set.of(new ProjectDto("agh")));
+    }
+
+    private Collection<ProjectDto> whenGetUserProjects(String username) {
+        return userRestService.getUserProjects(username);
     }
 
     private UserDetails whenLoadUserByUsername(String username) {
@@ -129,7 +158,7 @@ class UserRestServiceTest {
         Assertions.assertEquals(TEST_USERNAME, userDetails.getUsername());
     }
 
-    private void thenMethodThrowsUsernameNotFoundException(String username) {
+    private void thenLoadUserByUsernameThrowsUsernameNotFoundException(String username) {
         Assertions.assertThrowsExactly(UsernameNotFoundException.class,
                 () -> userRestService.loadUserByUsername(username));
     }
@@ -141,5 +170,20 @@ class UserRestServiceTest {
     private void thenMethodThrowsUsernameNotFoundException(UserInfoDto userInfoDto) {
         Assertions.assertThrowsExactly(UsernameNotFoundException.class,
                 () -> userRestService.updateRolesAndProjects(userInfoDto));
+    }
+
+    private void thenProjectCollectionContainsExactlyOneProject(Collection<ProjectDto> projects) {
+        Assertions.assertEquals(1, projects.size());
+    }
+
+    private void thenGetUserProjectsThrowUsernameNotFoundException(String username) {
+        Assertions.assertThrowsExactly(UsernameNotFoundException.class,
+                () -> userRestService.getUserProjects(username));
+    }
+
+    private UserInfoDto getUserWithOneProject() {
+        return new UserInfoDto(TEST_USERNAME,
+                Set.of(UserRole.READER),
+                Set.of(new ProjectDto("agh_proj")));
     }
 }
