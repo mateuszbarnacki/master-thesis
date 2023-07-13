@@ -12,7 +12,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-                properties = {"uri.httpUri=http://localhost:${wiremock.server.port}"})
+        properties = {"uri.httpUri=http://localhost:${wiremock.server.port}"})
 @AutoConfigureWireMock(port = 0)
 class GatewayConfigurationTest {
 
@@ -20,14 +20,13 @@ class GatewayConfigurationTest {
     private WebTestClient webClient;
 
     @Test
-    void shouldRouteToProjectsService() {
+    void shouldBeUnauthorizedBecauseJWTIsMissing() {
         stubFor(get(urlEqualTo("/projects/all"))
-                .willReturn(aResponse()
-                        .withHeader("Content-Type", "application/json")));
+                .willReturn(aResponse()));
 
         webClient.get()
                 .uri("/projects/all")
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isUnauthorized();
     }
 }
