@@ -4,9 +4,6 @@ server:
 spring:
   data:
     mongodb:
-      host: mongodb
+      host: localhost
       port: 27017
-      database: weather
-      authentication-database: admin
-      username: admin
-      password: admin
+      database: zti

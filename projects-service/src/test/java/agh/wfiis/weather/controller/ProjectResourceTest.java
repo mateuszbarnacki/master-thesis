@@ -72,7 +72,7 @@ class ProjectResourceTest {
     }
 
     @Test
-    void shouldAddResult() throws Exception {
+    void shouldAddProject() throws Exception {
         Object object = new Object() {
             private final String acronym = "tmp";
             private final String name = "test";
