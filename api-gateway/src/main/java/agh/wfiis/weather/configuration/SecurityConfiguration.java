@@ -14,6 +14,11 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfiguration {
@@ -26,7 +31,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityWebFilterChain buildSecurityWebFilterChain(ServerHttpSecurity http) {
         return http.csrf().disable()
-                .cors().disable()
+                .cors().and()
                 .httpBasic().disable()
                 .authorizeExchange().anyExchange().permitAll().and().build();
     }
@@ -41,5 +46,16 @@ public class SecurityConfiguration {
     @Bean
     JwtDecoder getJwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(keyProperties.publicKey()).build();
+    }
+
+    @Bean
+    CorsConfigurationSource getCorsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
