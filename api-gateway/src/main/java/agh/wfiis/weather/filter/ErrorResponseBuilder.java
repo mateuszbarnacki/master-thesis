@@ -1,6 +1,6 @@
 package agh.wfiis.weather.filter;
 
-import agh.wfiis.weather.exception.ErrorCode;
+import agh.wfiis.weather.exception.ErrorStatus;
 import agh.wfiis.weather.exception.ExceptionDetails;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +46,6 @@ public class ErrorResponseBuilder {
     }
 
     private static ExceptionDetails buildExceptionDetails(RuntimeException e) {
-        return new ExceptionDetails(e.getMessage(), ErrorCode.UNAUTHORIZED);
+        return new ExceptionDetails(e.getMessage(), ErrorStatus.UNAUTHORIZED);
     }
 }

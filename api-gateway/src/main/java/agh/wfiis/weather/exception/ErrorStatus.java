@@ -1,11 +1,11 @@
 package agh.wfiis.weather.exception;
 
-public enum ErrorCode {
+public enum ErrorStatus {
     UNAUTHORIZED(401);
 
     private final int code;
 
-    ErrorCode(int code) {
+    ErrorStatus(int code) {
         this.code = code;
     }
 

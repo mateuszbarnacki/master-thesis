@@ -1,14 +1,14 @@
 package agh.wfiis.weather.exception;
 
 public class GatewayException extends RuntimeException {
-    private final ErrorCode errorCode;
+    private final ErrorStatus errorStatus;
 
-    public GatewayException(String message, ErrorCode errorCode) {
+    public GatewayException(String message, ErrorStatus errorStatus) {
         super(message);
-        this.errorCode = errorCode;
+        this.errorStatus = errorStatus;
     }
 
-    public ErrorCode getErrorCode() {
-        return this.errorCode;
+    public ErrorStatus getErrorCode() {
+        return this.errorStatus;
     }
 }
