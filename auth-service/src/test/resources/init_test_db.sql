@@ -6,7 +6,7 @@ CREATE TABLE wfiis.user
     username    VARCHAR(50)  NOT NULL,
     email       VARCHAR(255) NOT NULL,
     description VARCHAR,
-    password    VARCHAR(50)  NOT NULL
+    password    VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS wfiis.role
@@ -49,8 +49,24 @@ CREATE TABLE IF NOT EXISTS wfiis.user_project
     PRIMARY KEY (user_id, project_id)
 );
 
+CREATE SEQUENCE IF NOT EXISTS wfiis.user_seq
+    INCREMENT 1
+    START 1;
+
+CREATE SEQUENCE IF NOT EXISTS wfiis.role_seq
+    INCREMENT 1
+    START 1;
+
+CREATE SEQUENCE IF NOT EXISTS wfiis.privilege_seq
+    INCREMENT 1
+    START 1;
+
+CREATE SEQUENCE IF NOT EXISTS wfiis.project_seq
+    INCREMENT 1
+    START 1;
 
 INSERT INTO wfiis.user (id, username, email, description, password)
-VALUES (1, 'Tester', 'tester@test.pl', 'User created for test purposes', '1234');
+VALUES (nextval('wfiis.user_seq'), 'Tester', 'tester@test.pl', 'User created for test purposes',
+        '1234');
 
 

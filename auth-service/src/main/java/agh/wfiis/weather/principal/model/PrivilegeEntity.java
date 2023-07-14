@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import org.hibernate.Hibernate;
 
@@ -15,7 +16,14 @@ import java.util.Set;
 @Table(name = "privilege", schema = "wfiis")
 public class PrivilegeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "privilege_seq_gen",
+            schema = "wfiis",
+            sequenceName = "privilege_seq",
+            allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "privilege_seq_gen")
     private Long id;
 
     private String name;

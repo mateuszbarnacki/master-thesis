@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import org.hibernate.Hibernate;
 
@@ -19,7 +20,14 @@ import java.util.Set;
 @Table(name = "role", schema = "wfiis")
 public class RoleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "role_seq_gen",
+            schema = "wfiis",
+            sequenceName = "role_seq",
+            allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "role_seq_gen")
     private Long id;
 
     private String name;
@@ -29,8 +37,8 @@ public class RoleEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_privilege", schema = "wfiis",
-    joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Set<PrivilegeEntity> privileges = new HashSet<>();
 
     public void addPrivileges(Set<PrivilegeEntity> privileges) {

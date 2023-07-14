@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import org.hibernate.Hibernate;
 
@@ -17,7 +18,14 @@ import java.util.Set;
 @Table(name = "project", schema = "wfiis")
 public class ProjectEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "project_seq_gen",
+            schema = "wfiis",
+            sequenceName = "project_seq",
+            allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "project_seq_gen")
     private Long id;
 
     private String name;

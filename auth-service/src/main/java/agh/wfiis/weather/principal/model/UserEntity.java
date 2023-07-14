@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +27,14 @@ import java.util.stream.Collectors;
 @Table(name = "user", schema = "wfiis")
 public class UserEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "user_seq_gen",
+            schema = "wfiis",
+            sequenceName = "user_seq",
+            allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_seq_gen")
     private Long id;
 
     private String username;
