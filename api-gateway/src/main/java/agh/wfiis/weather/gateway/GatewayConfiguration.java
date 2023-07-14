@@ -7,9 +7,16 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 @Configuration
 public class GatewayConfiguration {
+    private final JwtDecoder jwtDecoder;
+
+    public GatewayConfiguration(JwtDecoder jwtDecoder) {
+        this.jwtDecoder = jwtDecoder;
+    }
+
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
@@ -17,19 +24,19 @@ public class GatewayConfiguration {
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.GET)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.READ_PROJECT)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.READ_PROJECT, this.jwtDecoder)))
                         .uri("http://localhost:13401/projects/"))
                 .route(p -> p
                         .path("/projects")
                         .and()
                         .method(HttpMethod.POST)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.CREATE_PROJECT)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.CREATE_PROJECT, this.jwtDecoder)))
                         .uri("http://localhost:13401/projects/"))
                 .route(p -> p
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.DELETE)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.DELETE_PROJECT)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.DELETE_PROJECT, this.jwtDecoder)))
                         .uri("http://localhost:13401/projects/"))
                 .route(p -> p
                         .path("/authentication/**")
@@ -38,25 +45,25 @@ public class GatewayConfiguration {
                         .path("/user")
                         .and()
                         .method(HttpMethod.POST)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.CREATE_USER)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.CREATE_USER, this.jwtDecoder)))
                         .uri("http://localhost:13402/user/"))
                 .route(p -> p
                         .path("/user")
                         .and()
                         .method(HttpMethod.PATCH)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
                         .uri("http://localhost:13402/user/"))
                 .route(p -> p
                         .path("/user/all")
                         .and()
                         .method(HttpMethod.GET)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
                         .uri("http://localhost:13402/user/all"))
                 .route(p -> p
                         .path("/measurements/upload/**")
                         .and()
                         .method(HttpMethod.POST)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT)))
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT, this.jwtDecoder)))
                         .uri("http://localhost:13403/measurements/upload"))
                 .route(p -> p
                         .path("/measurements")

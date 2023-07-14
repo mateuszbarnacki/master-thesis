@@ -2,13 +2,11 @@ package agh.wfiis.weather.filter;
 
 import agh.wfiis.weather.exception.MalformedJwtException;
 import agh.wfiis.weather.jwt.parser.JwtParser;
-import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -19,9 +17,9 @@ public class PrivilegeFilter implements GatewayFilter {
     private final Privilege privilege;
     private final JwtDecoder jwtDecoder;
 
-    public PrivilegeFilter(Privilege privilege) {
+    public PrivilegeFilter(Privilege privilege, JwtDecoder jwtDecoder) {
         this.privilege = privilege;
-        this.jwtDecoder = new NimbusJwtDecoder(new DefaultJWTProcessor<>());
+        this.jwtDecoder = jwtDecoder;
     }
 
     @Override
