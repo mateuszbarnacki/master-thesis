@@ -1,5 +1,6 @@
 package agh.wfiis.weather.auth.controller;
 
+import agh.wfiis.weather.auth.dto.AuthenticationResponseDto;
 import agh.wfiis.weather.auth.jwt.service.JwtService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -50,7 +52,8 @@ class AuthenticationControllerTest {
 
         when(authenticationManager.authenticate(any()))
                 .thenReturn(new UsernamePasswordAuthenticationToken("test", "test1234"));
-        when(jwtService.generateToken(any())).thenReturn("Test.Token.1234");
+        when(jwtService.createToken(any()))
+                .thenReturn(new AuthenticationResponseDto("Test.Token.1234", "test", Set.of()));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/authentication/auth")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
@@ -64,7 +67,7 @@ class AuthenticationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("test"));
 
         verify(authenticationManager).authenticate(any());
-        verify(jwtService).generateToken(any());
+        verify(jwtService).createToken(any());
     }
 
     @Test

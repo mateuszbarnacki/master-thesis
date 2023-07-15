@@ -1,4 +1,6 @@
 package agh.wfiis.weather.auth.dto;
 
-public record AuthenticationResponseDto(String token, String username) {
+import java.util.Set;
+
+public record AuthenticationResponseDto(String token, String username, Set<String> roles) {
 }

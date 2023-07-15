@@ -27,8 +27,8 @@ public class AuthenticationController {
     public AuthenticationResponseDto createToken(@RequestBody AuthenticationDto dto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.username(), dto.password()));
-        String token = jwtService.generateToken(authentication);
+        AuthenticationResponseDto authenticationResponse = jwtService.createToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new AuthenticationResponseDto(token, authentication.getName());
+        return authenticationResponse;
     }
 }

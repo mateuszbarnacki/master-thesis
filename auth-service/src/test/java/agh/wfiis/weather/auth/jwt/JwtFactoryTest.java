@@ -34,7 +34,7 @@ class JwtFactoryTest {
     }
 
     private String whenGenerateToken(Authentication testAuthentication) {
-        Jwt jwt = jwtFactory.generate(testAuthentication);
+        Jwt jwt = jwtFactory.generate(testAuthentication, "Test");
         return jwt.getTokenValue();
     }
 
