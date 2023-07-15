@@ -4,8 +4,11 @@ import Row from "react-bootstrap/Row";
 import {Fragment, useState} from "react";
 import Menu from "../Menu";
 import LoginForm from "./LoginForm";
+import {localStorageAuthToken} from "../../api/constants";
 
 function LoginView() {
+    window.localStorage.removeItem(localStorageAuthToken);
+    window.localStorage.removeItem('roles');
     const [loginError, setLoginError] = useState(false);
     const loginAlert = (
         <Alert variant="danger" onClose={() => setLoginError(false)} dismissible>

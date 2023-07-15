@@ -8,6 +8,8 @@ import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import CloneProjectModal from "./modals/CloneProjectModal";
 
 function ProjectCard({item}) {
+    const roles = !!window.localStorage.getItem('roles') ?
+        window.localStorage.getItem('roles') : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
     const [showCloneProjectModal, setShowCloneProjectModal] = useState(false);
     const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
@@ -32,18 +34,27 @@ function ProjectCard({item}) {
                             <Card.Text>{item.description}</Card.Text>
                         </>) : null}
                     <ButtonGroup className="mb-2">
-                        <Button variant="outline-dark" style={{border: "1px solid black"}}
-                                onClick={() => setShowUploadMeasurementsModal(true)}>
-                            Dodaj pomiar
-                        </Button>
-                        <Button variant="outline-dark" style={{border: "1px solid black"}}
-                                onClick={() => setShowCloneProjectModal(true)}>
-                            Sklonuj
-                        </Button>
-                        <Button variant="outline-dark" style={{border: "1px solid black"}}
-                                onClick={() => setShowDeleteProjectModal(true)}>
-                            Usuń
-                        </Button>
+                        {roles.includes('WRITER') || roles.includes('ADMIN') ?
+                            <Button variant="outline-dark" style={{border: "1px solid black"}}
+                                    onClick={() => setShowUploadMeasurementsModal(true)}>
+                                Dodaj pomiar
+                            </Button>
+                            : null
+                        }
+                        {roles.includes('WRITER') || roles.includes('ADMIN') ?
+                            <Button variant="outline-dark" style={{border: "1px solid black"}}
+                                    onClick={() => setShowCloneProjectModal(true)}>
+                                Sklonuj
+                            </Button>
+                            : null
+                        }
+                        {roles.includes('EDITOR') || roles.includes('ADMIN') ?
+                            <Button variant="outline-dark" style={{border: "1px solid black"}}
+                                    onClick={() => setShowDeleteProjectModal(true)}>
+                                Usuń
+                            </Button>
+                            : null
+                        }
                     </ButtonGroup>
                 </Card.Body>
             </Card>

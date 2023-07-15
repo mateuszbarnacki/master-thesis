@@ -152,7 +152,7 @@ function ProjectView() {
 
     return (
         <Fragment>
-            <Menu isLogged={true} canRead={true} canAdd={true}/>
+            <Menu/>
             <Container style={{marginTop: "2vh"}}>
                 <Row>
                     <Col>

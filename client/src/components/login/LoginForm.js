@@ -7,6 +7,7 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 import * as P from "../../api/paths";
+import {localStorageAuthToken} from "../../api/constants";
 
 function LoginForm({setLoginError}) {
     const navigate = useNavigate();
@@ -26,8 +27,10 @@ function LoginForm({setLoginError}) {
             .then(json => {
                 setLoginError(false);
                 const token = json.token;
-                window.localStorage.setItem("authToken", token);
-                navigate('/list');
+                const roles = json.roles;
+                window.localStorage.setItem(localStorageAuthToken, token);
+                window.localStorage.setItem('roles', roles);
+                navigate('/add');
             }).catch(error => setLoginError(true));
     };
 
