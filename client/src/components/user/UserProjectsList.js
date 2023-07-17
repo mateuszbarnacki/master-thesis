@@ -9,11 +9,11 @@ function UserProjectsList({projects, userProjects}) {
     const [checkedProjects, setCheckedProjects] = useState(!!userProjects ? userProjects : []);
     const handleSearchOnChange = (event) => {
         const searchValue = event.target.value;
-        if (isStringNullOrEmpty(searchValue.trim())) {
+        if (isStringNullOrEmpty(searchValue)) {
             setProjectNames(projects);
         } else {
             const newList = projects.slice()
-                .filter(value => value.match(searchValue.trim() + ".*"));
+                .filter(value => value.match(searchValue + ".*"));
             setProjectNames(newList);
         }
     };
