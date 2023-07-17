@@ -30,7 +30,7 @@ function LoginForm({setLoginError}) {
                 const roles = json.roles;
                 window.localStorage.setItem(localStorageAuthToken, token);
                 window.localStorage.setItem('roles', roles);
-                navigate('/add');
+                navigate('/list');
             }).catch(error => setLoginError(true));
     };
 
