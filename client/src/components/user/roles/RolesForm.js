@@ -35,12 +35,12 @@ function RolesForm({projects, roles, update}) {
                         <FormCheck id="reader-checkbox" defaultChecked={roles[0]} disabled/>}
                 </FormGroup>
                 <FormGroup className="mt-1 mb-1">
-                    <FormLabel htmlFor="writer-checkbox">Pisarz</FormLabel>
+                    <FormLabel htmlFor="writer-checkbox">Twórca</FormLabel>
                     {update ? <FormCheck id="writer-checkbox" defaultChecked={roles[1]}/> :
                         <FormCheck id="writer-checkbox" defaultChecked={roles[1]} disabled/>}
                 </FormGroup>
                 <FormGroup className="mt-1 mb-1">
-                    <FormLabel htmlFor="editor-checkbox">Edytor</FormLabel>
+                    <FormLabel htmlFor="editor-checkbox">Usuwacz</FormLabel>
                     {update ? <FormCheck id="editor-checkbox" defaultChecked={roles[2]}/> :
                         <FormCheck id="editor-checkbox" defaultChecked={roles[2]} disabled/>}
                 </FormGroup>
