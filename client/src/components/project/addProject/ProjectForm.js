@@ -1,11 +1,12 @@
 import CardHeader from "react-bootstrap/CardHeader";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
 import FormGroup from "react-bootstrap/FormGroup";
 import FormLabel from "react-bootstrap/FormLabel";
-import FormControl from "react-bootstrap/FormControl";
-import Row from "react-bootstrap/Row";
 import FormSelect from "react-bootstrap/FormSelect";
+import FormText from "react-bootstrap/FormText";
+import Row from "react-bootstrap/Row";
 import {useState} from "react";
 import {isStringNullOrEmpty} from "./FormValidator";
 
@@ -45,9 +46,18 @@ function ProjectForm({
                     </FormGroup>
                     <FormGroup className="mt-3">
                         <FormLabel htmlFor="acronym">Akronim:</FormLabel>
-                        <FormControl required id="acronym" type="text" placeholder="Akronim"
-                                     onChange={handleOnChangeAcronym} isInvalid={isAcronymInvalid}
-                                     defaultValue={acronym ? acronym : null}/>
+                        <FormText>
+                        <p>
+                            - możliwe jest wykorzystanie liter, cyfr oraz myślnika<br/>
+                            - maksymalnie 10 znaków<br/>
+                            - słowa mogą być rozdzielone za pomocą myślnika<br/>
+                            - nie można używać znaków regionalnych<br/>
+                            - cyfra nie może być pierwszym znakiem<br/>
+                        </p>
+                        </FormText>
+                        <FormControl required id="acronym" type="text" placeholder="Nazwa projektu w serwisie www"
+                                     isInvalid={isAcronymInvalid} defaultValue={acronym ? acronym : null}
+                                     onChange={handleOnChangeAcronym}/>
                         <FormControl.Feedback type="invalid">
                             Proszę uzupełnić akronim
                         </FormControl.Feedback>
