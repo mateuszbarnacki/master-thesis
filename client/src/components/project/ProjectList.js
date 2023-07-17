@@ -15,11 +15,17 @@ function ProjectList({projectsList, handleListOnClick}) {
             setList(newList);
         }
     };
+    const handleOnKeyDown = (event) => {
+        const searchValue = event.target.value;
+        if (event.code === 'Space' && isStringNullOrEmpty(searchValue)) event.preventDefault();
+    };
 
     return (
         <Fragment>
             <Form.Label htmlFor="search">Wyszukaj projekt po nazwie:</Form.Label>
-            <Form.Control type="text" id="search" placeholder="Nazwa projektu" onChange={(e) => handleOnChange(e)}/>
+            <Form.Control type="text" id="search" placeholder="Nazwa projektu"
+                          onChange={(e) => handleOnChange(e)}
+                          onKeyDown={(e) => handleOnKeyDown(e)}/>
             <ListGroup variant="flush" className="projects-list">
                 {list.map(item =>
                     <ListGroupItem key={item.name}
