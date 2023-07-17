@@ -8,10 +8,17 @@ import FormControl from "react-bootstrap/FormControl";
 import Row from "react-bootstrap/Row";
 import ParameterForm from "./ParameterForm";
 import Button from "react-bootstrap/Button";
-import {useState} from "react";
+import {Fragment, useState} from "react";
 import {isNumberOutOfRange, isStringNullOrEmpty} from "./FormValidator";
 
-function SensorForm({id, sensor, handleAddSensorClick, handleRemoveSensorClick, isAddSensorButtonVisible}) {
+function SensorForm({
+                        id,
+                        sensor,
+                        handleAddSensorClick,
+                        handleRemoveSensorClick,
+                        isAddSensorButtonVisible,
+                        spatialMode
+                    }) {
     const sensorMeasurements = (sensor && sensor.measurementSchema) ?
         sensor.measurementSchema.measurements.map((item, index) => ({...item, id: index})) :
         Array.of({id: 0});
@@ -47,26 +54,8 @@ function SensorForm({id, sensor, handleAddSensorClick, handleRemoveSensorClick, 
         }
         setMeasurements(newMeasurements);
     };
-
-    return (
-        <Form className="m-1 bg-light-subtle">
-            <FormLabel as="h4" className="m-1">
-                Czujnik #{id + 1}
-                <CloseButton className="float-end" onClick={handleRemoveSensorClick}/>
-            </FormLabel>
-            <FormGroup className="mt-3">
-                <FormLabel htmlFor="sensorId">ID urządzenia pomiarowego:</FormLabel>
-                <FormControl required
-                             id="sensorId"
-                             type="text"
-                             defaultValue={sensor ? sensor.deviceId : null}
-                             placeholder="Identyfikator urządzenia pomiarowego"
-                             onChange={handleOnChangeSensorId}
-                             isInvalid={isSensorIdInvalid}/>
-                <FormControl.Feedback type="invalid">
-                    Proszę uzupełnić identyfikator urządzenia pomiarowego
-                </FormControl.Feedback>
-            </FormGroup>
+    const sensorLocationRow = (
+        <Fragment>
             <FormLabel as="h5" className="mt-3">Położenie czujnika:</FormLabel>
             <Row xs={3}>
                 <FormGroup className="mt-2 mb-3">
@@ -102,6 +91,28 @@ function SensorForm({id, sensor, handleAddSensorClick, handleRemoveSensorClick, 
                                  placeholder="Wysokość"/>
                 </FormGroup>
             </Row>
+        </Fragment>);
+
+    return (
+        <Form className="m-1 bg-light-subtle">
+            <FormLabel as="h4" className="m-1">
+                Czujnik #{id + 1}
+                <CloseButton className="float-end" onClick={handleRemoveSensorClick}/>
+            </FormLabel>
+            <FormGroup className="mt-3 mb-4">
+                <FormLabel htmlFor="sensorId">ID urządzenia pomiarowego:</FormLabel>
+                <FormControl required
+                             id="sensorId"
+                             type="text"
+                             defaultValue={sensor ? sensor.deviceId : null}
+                             placeholder="Identyfikator urządzenia pomiarowego"
+                             onChange={handleOnChangeSensorId}
+                             isInvalid={isSensorIdInvalid}/>
+                <FormControl.Feedback type="invalid">
+                    Proszę uzupełnić identyfikator urządzenia pomiarowego
+                </FormControl.Feedback>
+            </FormGroup>
+            {spatialMode === "STATIONARY" ? sensorLocationRow : null}
             <Card className="border-black m-3 bg-light-subtle">
                 <CardHeader>
                     Etap 3. Uzupełnij informacje o parametrach pomiarowych tego czujnika
@@ -117,7 +128,8 @@ function SensorForm({id, sensor, handleAddSensorClick, handleRemoveSensorClick, 
                 </Card.Body>
             </Card>
             <div style={isAddSensorButtonVisible ? {} : {display: "none"}}>
-                <Button variant="outline-dark" className="ms-2 me-4 rounded-5 float-end" onClick={handleAddSensorClick}>+</Button>
+                <Button variant="outline-dark" className="ms-2 me-4 rounded-5 float-end"
+                        onClick={handleAddSensorClick}>+</Button>
                 <h5 className="float-end mt-2">Dodaj czujnik</h5>
             </div>
         </Form>

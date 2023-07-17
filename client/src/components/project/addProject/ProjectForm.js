@@ -9,7 +9,15 @@ import FormSelect from "react-bootstrap/FormSelect";
 import {useState} from "react";
 import {isStringNullOrEmpty} from "./FormValidator";
 
-function ProjectForm({name, acronym, description, timeMode, spatialMode, measurementMode}) {
+function ProjectForm({
+                         name,
+                         acronym,
+                         description,
+                         timeMode,
+                         spatialMode,
+                         measurementMode,
+                         changeSpatialMode
+                     }) {
     const [isNameInvalid, setIsNameInvalid] = useState(false);
     const [isAcronymInvalid, setIsAcronymInvalid] = useState(false);
     const handleOnChangeName = () => {
@@ -62,7 +70,8 @@ function ProjectForm({name, acronym, description, timeMode, spatialMode, measure
                         <FormGroup className="mt-3 mb-3">
                             <FormLabel htmlFor="spatialMode">Rodzaj pomiaru:</FormLabel>
                             <FormSelect id="spatialMode"
-                                        defaultValue={spatialMode ? spatialMode : null}>
+                                        defaultValue={spatialMode ? spatialMode : null}
+                                        onChange={(e) => changeSpatialMode(e.target.value)}>
                                 <option value="STATIONARY">stacjonarny</option>
                                 <option value="MOBILE_2D">mobilny 2D</option>
                                 <option value="MOBILE_3D">mobilny 3D</option>

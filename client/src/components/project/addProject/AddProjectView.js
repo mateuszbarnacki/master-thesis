@@ -9,6 +9,7 @@ import CardHeader from "react-bootstrap/CardHeader";
 function AddProjectView() {
     const [ids, setIds] = useState(Array.of(0));
     const [counter, setCounter] = useState(1);
+    const [spatialMode, setSpatialMode] = useState("STATIONARY");
     const handleAddSensorClick = () => {
         const newIds = ids.slice();
         newIds.push(counter);
@@ -27,12 +28,17 @@ function AddProjectView() {
 
     return (
         <Fragment>
-            <Menu isLogged={true} canRead={true} canAdd={true}/>
+            <Menu/>
             <Card className="border-black"
-                  style={{marginLeft: "4vw", marginRight: "4vw", marginTop: "2vh", marginBottom: "2vh"}}>
+                  style={{
+                      marginLeft: "4vw",
+                      marginRight: "4vw",
+                      marginTop: "2vh",
+                      marginBottom: "2vh"
+                  }}>
                 <Card.Body>
                     <Card.Text as="h4">Dodaj nowy projekt</Card.Text>
-                    <ProjectForm/>
+                    <ProjectForm changeSpatialMode={(value) => setSpatialMode(value)}/>
                     <Card className="border-black m-3 bg-light-subtle">
                         <CardHeader>Etap 2. Uzupełnij informacje o czujnikach</CardHeader>
                         <Card.Body>
@@ -41,10 +47,12 @@ function AddProjectView() {
                                             key={"sensor-" + sensorId}
                                             handleAddSensorClick={() => handleAddSensorClick()}
                                             handleRemoveSensorClick={() => handleRemoveSensorClick(index)}
-                                            isAddSensorButtonVisible={index === ids.length - 1}/>)}
+                                            isAddSensorButtonVisible={index === ids.length - 1}
+                                            spatialMode={spatialMode}/>)}
                         </Card.Body>
                     </Card>
-                    <Button variant="dark" className="me-3 rounded-5 float-end">Zapisz projekt</Button>
+                    <Button variant="dark" className="me-3 rounded-5 float-end">Zapisz
+                        projekt</Button>
                 </Card.Body>
             </Card>
         </Fragment>
