@@ -4,7 +4,7 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 import ModalTitle from "react-bootstrap/ModalTitle";
-import RolesForm from "./RolesForm";
+import RolesAndPrivilegesForm from "./RolesAndPrivilegesForm";
 
 function ManageRolesModal({projects, roles, show, closeModal}) {
     return (
@@ -13,7 +13,7 @@ function ManageRolesModal({projects, roles, show, closeModal}) {
                 <ModalTitle as="h3">Zmień uprawnienia</ModalTitle>
             </ModalHeader>
             <ModalBody className="text-center">
-                <RolesForm projects={projects} roles={roles} update={true}/>
+                <RolesAndPrivilegesForm projects={projects} roles={roles} update={true}/>
             </ModalBody>
             <ModalFooter className="modal-center">
                 <Button variant="danger" size="lg" onClick={closeModal}>Anuluj</Button>
