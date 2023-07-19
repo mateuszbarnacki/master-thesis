@@ -1,4 +1,4 @@
-package agh.wfiis.weather.principal.model;
+package agh.wfiis.weather.project.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,23 +14,23 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "privilege", schema = "wfiis")
-public class PrivilegeEntity {
+@Table(name = "action", schema = "wfiis")
+public class ActionEntity {
     @Id
     @SequenceGenerator(
-            name = "privilege_seq_gen",
+            name = "action_seq_gen",
             schema = "wfiis",
-            sequenceName = "privilege_seq",
+            sequenceName = "action_seq",
             allocationSize = 1)
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "privilege_seq_gen")
+            generator = "action_seq_gen")
     private Long id;
 
     private String name;
 
-    @ManyToMany(mappedBy = "privileges")
-    private Set<RoleEntity> roles = new HashSet<>();
+    @ManyToMany(mappedBy = "actions")
+    private Set<ProjectEntity> projects = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -48,6 +48,14 @@ public class PrivilegeEntity {
         this.name = name;
     }
 
+    public void addProjects(Set<ProjectEntity> projects) {
+        this.projects.addAll(projects);
+    }
+
+    public void clearProjects() {
+        this.projects.clear();
+    }
+
     @Override
     public int hashCode() {
         return getClass().hashCode();
@@ -57,7 +65,7 @@ public class PrivilegeEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) return false;
-        PrivilegeEntity privilegeEntity = (PrivilegeEntity) obj;
-        return id != null && Objects.equals(id, privilegeEntity.id);
+        ActionEntity actionEntity = (ActionEntity) obj;
+        return id != null && Objects.equals(id, actionEntity.id);
     }
 }

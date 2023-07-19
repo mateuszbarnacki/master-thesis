@@ -1,8 +1,8 @@
 CREATE SCHEMA wfiis;
 
-CREATE TABLE wfiis.user
+CREATE TABLE IF NOT EXISTS wfiis.user
 (
-    id          INT PRIMARY KEY,
+    id          SERIAL PRIMARY KEY,
     username    VARCHAR(50)  NOT NULL,
     email       VARCHAR(255) NOT NULL,
     description VARCHAR,
@@ -24,9 +24,16 @@ CREATE TABLE IF NOT EXISTS wfiis.privilege
 CREATE TABLE IF NOT EXISTS wfiis.project
 (
     id   SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    user_id BIGINT,
+    name VARCHAR(100) NOT NULL,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES wfiis.user (id)
 );
 
+CREATE TABLE IF NOT EXISTS wfiis.action
+(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS wfiis.user_role
 (
@@ -42,11 +49,11 @@ CREATE TABLE IF NOT EXISTS wfiis.role_privilege
     PRIMARY KEY (role_id, privilege_id)
 );
 
-CREATE TABLE IF NOT EXISTS wfiis.user_project
+CREATE TABLE IF NOT EXISTS wfiis.project_action
 (
-    user_id    BIGINT REFERENCES wfiis.user (id),
-    project_id BIGINT REFERENCES wfiis.project (id),
-    PRIMARY KEY (user_id, project_id)
+    project_id   BIGINT REFERENCES wfiis.project (id),
+    action_id BIGINT REFERENCES wfiis.action (id),
+    PRIMARY KEY (project_id, action_id)
 );
 
 CREATE SEQUENCE IF NOT EXISTS wfiis.user_seq
@@ -62,6 +69,10 @@ CREATE SEQUENCE IF NOT EXISTS wfiis.privilege_seq
     START 1;
 
 CREATE SEQUENCE IF NOT EXISTS wfiis.project_seq
+    INCREMENT 1
+    START 1;
+
+CREATE SEQUENCE IF NOT EXISTS wfiis.action_seq
     INCREMENT 1
     START 1;
 

@@ -84,13 +84,13 @@ class UserControllerTest {
     void shouldUpdateRolesAndProjects() throws Exception {
         Object userInfoDto = new Object() {
             private final String username = "Dev";
-            private final Set<UserRole> roles = Set.of(UserRole.WRITER);
+            private final Set<UserRole> roles = Set.of(UserRole.PROJECT_CREATOR);
             private final Set<ProjectDto> projects = Set.of(new ProjectDto("wfiis_proj"));
         };
         String json = objectMapper.writeValueAsString(userInfoDto);
 
         Mockito.when(userService.updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class)))
-                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.WRITER), Set.of(new ProjectDto("wfiis_proj"))));
+                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.PROJECT_CREATOR), Set.of(new ProjectDto("wfiis_proj"))));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())

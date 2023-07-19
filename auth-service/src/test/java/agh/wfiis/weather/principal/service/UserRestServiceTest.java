@@ -128,13 +128,13 @@ class UserRestServiceTest {
                 "tester@mail.com",
                 "Test user",
                 "1234",
-                Set.of(UserRole.READER),
+                Set.of(UserRole.RESEARCHER),
                 Set.of(new ProjectDto("proj_test")));
     }
 
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto(TEST_USERNAME,
-                Set.of(UserRole.EDITOR),
+                Set.of(UserRole.PROJECT_CREATOR),
                 Set.of(new ProjectDto("agh")));
     }
 
@@ -183,7 +183,7 @@ class UserRestServiceTest {
 
     private UserInfoDto getUserWithOneProject() {
         return new UserInfoDto(TEST_USERNAME,
-                Set.of(UserRole.READER),
+                Set.of(UserRole.RESEARCHER),
                 Set.of(new ProjectDto("agh_proj")));
     }
 }

@@ -1,11 +1,16 @@
 package agh.wfiis.weather.project.model;
 
 import agh.wfiis.weather.principal.model.UserEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import org.hibernate.Hibernate;
@@ -29,8 +34,15 @@ public class ProjectEntity {
     private Long id;
 
     private String name;
-    @ManyToMany(mappedBy = "projects")
-    private Set<UserEntity> users = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    private UserEntity user;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "project_action", schema = "wfiis",
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "action_id", referencedColumnName = "id"))
+    private Set<ActionEntity> actions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -48,8 +60,20 @@ public class ProjectEntity {
         this.name = name;
     }
 
-    public Set<UserEntity> getUsers() {
-        return users;
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public void addActions(Set<ActionEntity> actions) {
+        this.actions.addAll(actions);
+    }
+
+    public void clearActions() {
+        this.actions.clear();
     }
 
     @Override

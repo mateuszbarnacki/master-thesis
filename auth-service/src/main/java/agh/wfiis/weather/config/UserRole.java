@@ -2,9 +2,8 @@ package agh.wfiis.weather.config;
 
 public enum UserRole {
     ADMIN("ADMIN"),
-    READER("READER"),
-    WRITER("WRITER"),
-    EDITOR("EDITOR");
+    PROJECT_CREATOR("PROJECT_CREATOR"),
+    RESEARCHER("RESEARCHER");
 
     private final String role;
 

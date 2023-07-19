@@ -26,9 +26,8 @@ class UserMapper {
     private final BCryptPasswordEncoder passwordEncoder;
     private final Map<String, UserRole> entityRoleToUserRole = Map.of(
             "ADMIN", UserRole.ADMIN,
-            "READER", UserRole.READER,
-            "WRITER", UserRole.WRITER,
-            "EDITOR", UserRole.EDITOR);
+            "RESEARCHER", UserRole.RESEARCHER,
+            "PROJECT_CREATOR", UserRole.PROJECT_CREATOR);
 
     UserMapper(RoleRepository roleRepository, ProjectRepository projectRepository, BCryptPasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;

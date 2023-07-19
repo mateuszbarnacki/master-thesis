@@ -21,9 +21,8 @@ import java.util.Set;
 
 @SpringBootTest
 class UserMapperTest {
-    private static final String READER_ROLE = "READER";
-    private static final String WRITER_ROLE = "WRITER";
-    private static final String EDITOR_ROLE = "EDITOR";
+    private static final String PROJECT_CREATOR_ROLE = "PROJECT_CREATOR";
+    private static final String RESEARCHER_ROLE = "RESEARCHER";
     private static final String PROJECT_NAME = "TEST_PROJ";
     @Autowired
     private UserMapper userMapper;
@@ -34,14 +33,14 @@ class UserMapperTest {
 
     @Test
     void shouldMapDtoToEntity() {
-        RoleEntity reader = new RoleEntity();
-        RoleEntity writer = new RoleEntity();
+        RoleEntity projectCreator = new RoleEntity();
+        RoleEntity researcher = new RoleEntity();
         ProjectEntity testProj = new ProjectEntity();
-        reader.setName(READER_ROLE);
-        writer.setName(WRITER_ROLE);
+        projectCreator.setName(PROJECT_CREATOR_ROLE);
+        researcher.setName(RESEARCHER_ROLE);
         testProj.setName(PROJECT_NAME);
-        Mockito.when(roleRepository.findByName(READER_ROLE)).thenReturn(Optional.of(reader));
-        Mockito.when(roleRepository.findByName(WRITER_ROLE)).thenReturn(Optional.of(writer));
+        Mockito.when(roleRepository.findByName(PROJECT_CREATOR_ROLE)).thenReturn(Optional.of(projectCreator));
+        Mockito.when(roleRepository.findByName(RESEARCHER_ROLE)).thenReturn(Optional.of(researcher));
         Mockito.when(projectRepository.findByName(PROJECT_NAME)).thenReturn(Optional.of(testProj));
         UserDto dto = givenUserDto();
 
@@ -51,18 +50,18 @@ class UserMapperTest {
                 .hasFieldOrPropertyWithValue("username", "Test")
                 .hasFieldOrPropertyWithValue("email", "testowy@test.com")
                 .hasFieldOrPropertyWithValue("description", "User for test purposes")
-                .hasFieldOrPropertyWithValue("roles", Set.of(reader, writer))
+                .hasFieldOrPropertyWithValue("roles", Set.of(projectCreator, researcher))
                 .hasFieldOrPropertyWithValue("projects", Set.of(testProj))
                 .hasFieldOrProperty("password");
     }
 
     @Test
     void shouldMapUserInfoToEntity() {
-        RoleEntity editor = new RoleEntity();
+        RoleEntity researcher = new RoleEntity();
         ProjectEntity testProj = new ProjectEntity();
-        editor.setName(EDITOR_ROLE);
+        researcher.setName(RESEARCHER_ROLE);
         testProj.setName(PROJECT_NAME);
-        Mockito.when(roleRepository.findByName(EDITOR_ROLE)).thenReturn(Optional.of(editor));
+        Mockito.when(roleRepository.findByName(RESEARCHER_ROLE)).thenReturn(Optional.of(researcher));
         Mockito.when(projectRepository.findByName(PROJECT_NAME)).thenReturn(Optional.of(testProj));
         UserInfoDto userInfoDto = givenUserInfoDto();
 
@@ -70,7 +69,7 @@ class UserMapperTest {
 
         AssertionsForClassTypes.assertThat(entity)
                 .hasFieldOrPropertyWithValue("username", "Tester")
-                .hasFieldOrPropertyWithValue("roles", Set.of(editor))
+                .hasFieldOrPropertyWithValue("roles", Set.of(researcher))
                 .hasFieldOrPropertyWithValue("projects", Set.of(testProj));
     }
 
@@ -82,7 +81,7 @@ class UserMapperTest {
 
         AssertionsForClassTypes.assertThat(userInfoDto)
                 .hasFieldOrPropertyWithValue("username", "Dev")
-                .hasFieldOrPropertyWithValue("roles", Set.of(UserRole.WRITER))
+                .hasFieldOrPropertyWithValue("roles", Set.of(UserRole.RESEARCHER))
                 .hasFieldOrPropertyWithValue("projects", Set.of(new ProjectDto("abc")));
     }
 
@@ -91,19 +90,19 @@ class UserMapperTest {
                 "testowy@test.com",
                 "User for test purposes",
                 "1243",
-                Set.of(UserRole.READER, UserRole.WRITER),
+                Set.of(UserRole.PROJECT_CREATOR, UserRole.RESEARCHER),
                 Set.of(new ProjectDto(PROJECT_NAME)));
     }
 
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto("Tester",
-                Set.of(UserRole.EDITOR),
+                Set.of(UserRole.RESEARCHER),
                 Set.of(new ProjectDto(PROJECT_NAME)));
     }
 
     private UserEntity givenUserEntity() {
         RoleEntity role = new RoleEntity();
-        role.setName(WRITER_ROLE);
+        role.setName(RESEARCHER_ROLE);
         ProjectEntity project = new ProjectEntity();
         project.setName("abc");
         UserEntity entity = new UserEntity();

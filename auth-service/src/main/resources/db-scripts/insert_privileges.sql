@@ -1,7 +1,7 @@
 INSERT INTO wfiis.privilege (id, name)
-VALUES (1, 'READ_PROJECT'),
-       (2, 'CREATE_PROJECT'),
-       (3, 'ADD_MEASUREMENT'),
-       (4, 'CREATE_USER'),
-       (5, 'UPDATE_PRIVILEGES'),
-       (6, 'DELETE_PROJECT');
+VALUES (nextval('wfiis.privilege_seq'), 'READ_PROJECT'),
+       (nextval('wfiis.privilege_seq'), 'CREATE_PROJECT'),
+       (nextval('wfiis.privilege_seq'), 'ADD_MEASUREMENT'),
+       (nextval('wfiis.privilege_seq'), 'CREATE_USER'),
+       (nextval('wfiis.privilege_seq'), 'UPDATE_PRIVILEGES'),
+       (nextval('wfiis.privilege_seq'), 'DELETE_PROJECT');
