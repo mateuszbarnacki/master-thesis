@@ -5,14 +5,16 @@ import ProjectView from "./components/project/ProjectView";
 import UserView from "./components/user/UserView";
 import AddProjectView from "./components/project/addProject/AddProjectView";
 import LoginView from "./components/login/LoginView";
+import {localStorageAuthToken} from "./api/constants";
 
 function App() {
+    const isLogged = !!window.localStorage.getItem(localStorageAuthToken);
     return (
         <Routes>
             <Route path="/" element={<LoginView/>}/>
-            <Route path="/list" element={<ProjectView/>}/>
-            <Route path="/add" element={<AddProjectView/>}/>
-            <Route path="/users" element={<UserView/>}/>
+            {isLogged ? <Route path="/list" element={<ProjectView/>}/> : null}
+            {isLogged ? <Route path="/add" element={<AddProjectView/>}/> : null}
+            {isLogged ? <Route path="/users" element={<UserView/>}/> : null}
         </Routes>
     );
 }
