@@ -3,36 +3,36 @@ import Row from "react-bootstrap/Row";
 import FormGroup from "react-bootstrap/FormGroup";
 import FormCheck from "react-bootstrap/FormCheck";
 import Form from "react-bootstrap/Form";
-import PrivilegeTable from "./PrivilegeTable";
+import ActionsTable from "./ActionsTable";
 
 const mock = [
     {
         name: "Zanieczyszczenia Kraków",
-        privileges: [true, false, false]
+        actions: [true, false]
     },
     {
         name: "Projekt terenowy",
-        privileges: [false, true, false]
+        actions: [false, true]
     },
     {
         name: "Zanieczyszczenia Radom",
-        privileges: [true, false, true]
+        actions: [true, false]
     },
     {
         name: "Zanieczyszczenia Police",
-        privileges: [true, true, true]
+        actions: [true, true]
     },
     {
         name: "Klimat Szczecina",
-        privileges: [false, false, true]
+        actions: [false, false]
     },
     {
         name: "Test",
-        privileges: [true, false, false]
+        actions: [true, false]
     }
 ];
 
-function RolesAndPrivilegesForm({projects, roles, update}) {
+function RolesAndActionsForm({projects, roles, update}) {
     return (
         <Form>
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
@@ -48,10 +48,10 @@ function RolesAndPrivilegesForm({projects, roles, update}) {
                         <FormCheck id="writer-checkbox" defaultChecked={roles[1]} disabled/>}
                 </FormGroup>
             </Row>
-            <FormLabel as="h5" className="text-start mt-4">Uprawnienia:</FormLabel>
-            <PrivilegeTable projects={mock} userProjects={projects} update={update}/>
+            <FormLabel as="h5" className="text-start mt-4">Dostępne akcje:</FormLabel>
+            <ActionsTable projects={mock} userProjects={projects} update={update}/>
         </Form>
     );
 }
 
-export default RolesAndPrivilegesForm;
+export default RolesAndActionsForm;

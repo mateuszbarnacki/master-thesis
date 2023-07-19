@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
 
-function PrivilegeTable({projects, userProjects, update}) {
+function ActionsTable({projects, userProjects, update}) {
     return (
         <Table className="m-1">
             <thead className="border-black">
@@ -8,8 +8,7 @@ function PrivilegeTable({projects, userProjects, update}) {
                 <th>#</th>
                 <th>Nazwa projektu</th>
                 <th>Dodanie pomiaru</th>
-                <th>Klonowanie</th>
-                <th>Usuwanie</th>
+                <th>Klonowanie projektu</th>
             </tr>
             </thead>
             <tbody>
@@ -18,15 +17,15 @@ function PrivilegeTable({projects, userProjects, update}) {
                     <tr key={project.name}>
                         <td key={project.name + ' ' + projects.length}>{projectIndex + 1}</td>
                         <td key={project.name + '-' + projects.length}>{project.name}</td>
-                        {project.privileges.map((privilege, privilegeIndex) => {
+                        {project.actions.map((action, actionIndex) => {
                             if (update) {
-                                return (<td key={project.name + '-' + privilegeIndex}><input
+                                return (<td key={project.name + '-' + actionIndex}><input
                                     type="checkbox" className="custom-checkbox-input"
-                                    defaultChecked={privilege}/></td>);
+                                    defaultChecked={action}/></td>);
                             }
-                            return (privilege ?
-                                <td key={project.name + '-' + privilegeIndex}>x</td> :
-                                <td key={project.name + '-' + privilegeIndex}></td>);
+                            return (action ?
+                                <td key={project.name + '-' + actionIndex}>x</td> :
+                                <td key={project.name + '-' + actionIndex}></td>);
                         })}
                     </tr>))}
             </tbody>
@@ -34,4 +33,4 @@ function PrivilegeTable({projects, userProjects, update}) {
     );
 }
 
-export default PrivilegeTable;
+export default ActionsTable;

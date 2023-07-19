@@ -11,27 +11,27 @@ import FormLabel from "react-bootstrap/FormLabel";
 const mock = [
     {
         name: "Zanieczyszczenia Kraków",
-        privileges: [true, false, false]
+        actions: [true, false]
     },
     {
         name: "Projekt terenowy",
-        privileges: [false, true, false]
+        actions: [false, true]
     },
     {
         name: "Zanieczyszczenia Radom",
-        privileges: [true, false, true]
+        actions: [true, false]
     },
     {
         name: "Zanieczyszczenia Police",
-        privileges: [true, true, true]
+        actions: [true, true]
     },
     {
         name: "Klimat Szczecina",
-        privileges: [false, false, true]
+        actions: [false, false]
     },
     {
         name: "Test",
-        privileges: [true, false, false]
+        actions: [true, false]
     }
 ];
 

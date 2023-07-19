@@ -4,7 +4,7 @@ import AccordionItem from "react-bootstrap/AccordionItem";
 import Button from "react-bootstrap/Button";
 import ManageRolesModal from "./roles/ManageRolesModal";
 import {Fragment, useState} from "react";
-import RolesAndPrivilegesForm from "./roles/RolesAndPrivilegesForm";
+import RolesAndActionsForm from "./roles/RolesAndActionsForm";
 import ManageProjectsModal from "./roles/ManageProjectsModal";
 
 function UserTab({user, index}) {
@@ -16,7 +16,7 @@ function UserTab({user, index}) {
             <AccordionItem eventKey={index}>
                 <AccordionHeader>{user.username}</AccordionHeader>
                 <AccordionBody className="text-center">
-                    <RolesAndPrivilegesForm projects={user.projects} roles={user.roles} update={false}/>
+                    <RolesAndActionsForm projects={user.projects} roles={user.roles} update={false}/>
                     <Button variant="dark" className="mt-3 me-3"
                             onClick={() => setShowManageProjectsModal(true)}>
                         Zarządzaj projektami
