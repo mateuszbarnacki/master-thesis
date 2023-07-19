@@ -57,6 +57,16 @@ class WeatherAppExceptionHandlerTest {
 
     @Test
     @WithMockUser
+    void shouldThrowActionNotFoundException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/error/action-not-found"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Could not find action with name <TRUTUTU>"))
+                .andExpect(jsonPath("$.errorCode").value("NOT_FOUND"));
+    }
+
+    @Test
+    @WithMockUser
     void shouldThrowUserAlreadyExistsException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/error/user-already-exists"))
                 .andExpect(status().isBadRequest())
