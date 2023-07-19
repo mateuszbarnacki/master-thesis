@@ -1,14 +1,12 @@
 package agh.wfiis.weather.principal.service;
 
 import agh.wfiis.weather.config.UserRole;
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.model.RoleEntity;
 import agh.wfiis.weather.principal.model.UserEntity;
-import agh.wfiis.weather.principal.repository.RoleRepository;
-import agh.wfiis.weather.project.dto.ProjectDto;
-import agh.wfiis.weather.project.model.ProjectEntity;
-import agh.wfiis.weather.project.repository.ProjectRepository;
+import agh.wfiis.weather.principal.model.ProjectEntity;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Optional;
 import java.util.Set;
 
 @SpringBootTest
@@ -27,21 +24,23 @@ class UserMapperTest {
     @Autowired
     private UserMapper userMapper;
     @MockBean
-    private RoleRepository roleRepository;
+    private RoleMapper roleMapper;
     @MockBean
-    private ProjectRepository projectRepository;
+    private ProjectMapper projectMapper;
 
     @Test
-    void shouldMapDtoToEntity() {
+    void shouldMapUserDtoToUserEntity() {
+        ProjectDto projectDto = new ProjectDto(PROJECT_NAME, Set.of());
         RoleEntity projectCreator = new RoleEntity();
         RoleEntity researcher = new RoleEntity();
         ProjectEntity testProj = new ProjectEntity();
         projectCreator.setName(PROJECT_CREATOR_ROLE);
         researcher.setName(RESEARCHER_ROLE);
         testProj.setName(PROJECT_NAME);
-        Mockito.when(roleRepository.findByName(PROJECT_CREATOR_ROLE)).thenReturn(Optional.of(projectCreator));
-        Mockito.when(roleRepository.findByName(RESEARCHER_ROLE)).thenReturn(Optional.of(researcher));
-        Mockito.when(projectRepository.findByName(PROJECT_NAME)).thenReturn(Optional.of(testProj));
+        Mockito.when(roleMapper.mapUserRolesToRoleEntities(Set.of(UserRole.PROJECT_CREATOR, UserRole.RESEARCHER)))
+                .thenReturn(Set.of(projectCreator, researcher));
+        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(projectDto), "Test"))
+                .thenReturn(Set.of(testProj));
         UserDto dto = givenUserDto();
 
         UserEntity entity = whenMapUserDtoToUserEntity(dto);
@@ -56,13 +55,15 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldMapUserInfoToEntity() {
+    void shouldMapUserInfoToUserEntity() {
         RoleEntity researcher = new RoleEntity();
         ProjectEntity testProj = new ProjectEntity();
         researcher.setName(RESEARCHER_ROLE);
         testProj.setName(PROJECT_NAME);
-        Mockito.when(roleRepository.findByName(RESEARCHER_ROLE)).thenReturn(Optional.of(researcher));
-        Mockito.when(projectRepository.findByName(PROJECT_NAME)).thenReturn(Optional.of(testProj));
+        Mockito.when(roleMapper.mapUserRolesToRoleEntities(Set.of(UserRole.RESEARCHER)))
+                .thenReturn(Set.of(researcher));
+        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(new ProjectDto(PROJECT_NAME, Set.of())), "Tester"))
+                .thenReturn(Set.of(testProj));
         UserInfoDto userInfoDto = givenUserInfoDto();
 
         UserEntity entity = whenMapUserInfoToEntity(userInfoDto);
@@ -74,15 +75,27 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldMapEntityToUserInfo() {
-        UserEntity entity = givenUserEntity();
+    void shouldMapUserEntityToUserInfoDto() {
+        RoleEntity role = new RoleEntity();
+        role.setName(RESEARCHER_ROLE);
+        ProjectEntity project = new ProjectEntity();
+        project.setName("abc");
+        UserEntity entity = new UserEntity();
+        entity.setUsername("Dev");
+        entity.addRoles(Set.of(role));
+        entity.addProjects(Set.of(project));
+        ProjectDto abc = new ProjectDto("abc", Set.of());
+        Mockito.when(roleMapper.mapRoleEntitiesToUserRoles(Set.of(role)))
+                .thenReturn(Set.of(UserRole.RESEARCHER));
+        Mockito.when(projectMapper.mapProjectEntitiesToProjectDtos(Set.of(project)))
+                .thenReturn(Set.of(abc));
 
         UserInfoDto userInfoDto = whenMapEntityToUserInfo(entity);
 
         AssertionsForClassTypes.assertThat(userInfoDto)
                 .hasFieldOrPropertyWithValue("username", "Dev")
                 .hasFieldOrPropertyWithValue("roles", Set.of(UserRole.RESEARCHER))
-                .hasFieldOrPropertyWithValue("projects", Set.of(new ProjectDto("abc")));
+                .hasFieldOrPropertyWithValue("projects", Set.of(abc));
     }
 
     private UserDto givenUserDto() {
@@ -91,38 +104,24 @@ class UserMapperTest {
                 "User for test purposes",
                 "1243",
                 Set.of(UserRole.PROJECT_CREATOR, UserRole.RESEARCHER),
-                Set.of(new ProjectDto(PROJECT_NAME)));
+                Set.of(new ProjectDto(PROJECT_NAME, Set.of())));
     }
 
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto("Tester",
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto(PROJECT_NAME)));
-    }
-
-    private UserEntity givenUserEntity() {
-        RoleEntity role = new RoleEntity();
-        role.setName(RESEARCHER_ROLE);
-        ProjectEntity project = new ProjectEntity();
-        project.setName("abc");
-        UserEntity entity = new UserEntity();
-        entity.setUsername("Dev");
-        entity.setEmail("dev@devstyle.net");
-        entity.setDescription("Test dev account");
-        entity.addRoles(Set.of(role));
-        entity.addProjects(Set.of(project));
-        return entity;
+                Set.of(new ProjectDto(PROJECT_NAME, Set.of())));
     }
 
     private UserEntity whenMapUserDtoToUserEntity(UserDto dto) {
-        return userMapper.mapUserToEntity(dto);
+        return userMapper.mapUserDtoToUserEntity(dto);
     }
 
     private UserEntity whenMapUserInfoToEntity(UserInfoDto userInfoDto) {
-        return userMapper.mapUserInfoToEntity(userInfoDto);
+        return userMapper.mapUserInfoToUserEntity(userInfoDto);
     }
 
     private UserInfoDto whenMapEntityToUserInfo(UserEntity entity) {
-        return userMapper.mapEntityToUserInfoDto(entity);
+        return userMapper.mapUserEntityToUserInfoDto(entity);
     }
 }
