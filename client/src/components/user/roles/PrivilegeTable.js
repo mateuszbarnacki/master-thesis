@@ -7,8 +7,8 @@ function PrivilegeTable({projects, userProjects, update}) {
             <tr>
                 <th>#</th>
                 <th>Nazwa projektu</th>
-                <th>Czytanie</th>
-                <th>Tworzenie</th>
+                <th>Dodanie pomiaru</th>
+                <th>Klonowanie</th>
                 <th>Usuwanie</th>
             </tr>
             </thead>

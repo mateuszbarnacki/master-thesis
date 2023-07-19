@@ -38,7 +38,7 @@ function RolesAndPrivilegesForm({projects, roles, update}) {
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
             <Row xs={2}>
                 <FormGroup className="mt-1 mb-1">
-                    <FormLabel htmlFor="reader-checkbox">Czytelnik projektów</FormLabel>
+                    <FormLabel htmlFor="reader-checkbox">Badacz</FormLabel>
                     {update ? <FormCheck id="reader-checkbox" defaultChecked={roles[0]}/> :
                         <FormCheck id="reader-checkbox" defaultChecked={roles[0]} disabled/>}
                 </FormGroup>
