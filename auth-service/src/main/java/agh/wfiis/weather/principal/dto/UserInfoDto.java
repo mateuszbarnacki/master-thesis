@@ -1,7 +1,6 @@
 package agh.wfiis.weather.principal.dto;
 
 import agh.wfiis.weather.config.UserRole;
-import agh.wfiis.weather.project.dto.ProjectDto;
 
 import java.util.Set;
 

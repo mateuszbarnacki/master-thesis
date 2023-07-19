@@ -1,7 +1,6 @@
 package agh.wfiis.weather.exception;
 
 import agh.wfiis.weather.principal.dto.UserDto;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

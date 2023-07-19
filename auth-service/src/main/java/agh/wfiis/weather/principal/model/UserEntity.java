@@ -1,6 +1,5 @@
 package agh.wfiis.weather.principal.model;
 
-import agh.wfiis.weather.project.model.ProjectEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
