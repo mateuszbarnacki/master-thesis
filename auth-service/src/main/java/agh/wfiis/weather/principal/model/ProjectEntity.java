@@ -1,6 +1,5 @@
-package agh.wfiis.weather.project.model;
+package agh.wfiis.weather.principal.model;
 
-import agh.wfiis.weather.principal.model.UserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -74,6 +73,10 @@ public class ProjectEntity {
 
     public void clearActions() {
         this.actions.clear();
+    }
+
+    public Set<ActionEntity> getActions() {
+        return this.actions;
     }
 
     @Override
