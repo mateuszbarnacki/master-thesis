@@ -8,7 +8,7 @@ public interface ProjectService {
 
     ProjectDto getProject(String name);
 
-    List<ProjectDto> getProjects();
+    List<String> getProjectNames();
 
     ProjectDto addProject(ProjectDto projectDto);
 

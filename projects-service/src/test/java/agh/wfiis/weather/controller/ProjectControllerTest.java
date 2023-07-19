@@ -6,7 +6,6 @@ import agh.wfiis.weather.service.impl.ProjectServiceImpl;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,16 +58,11 @@ class ProjectControllerTest {
     }
 
     @Test
-    void shouldReturnAllProjects() throws Exception {
-        when(service.getProjects())
-                .thenReturn(List.of(ProjectDto.builder().name("test").acronym("tmp").build()));
+    void shouldReturnProjectNames() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/projects/names"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mvc.perform(MockMvcRequestBuilders.get("/projects/all"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].acronym").value("tmp"));
+        verify(service).getProjectNames();
     }
 
     @Test

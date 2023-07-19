@@ -29,9 +29,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectDto> getProjects() {
+    public List<String> getProjectNames() {
         return repository.findAll().stream()
                 .map(mapper::mapEntityToDto)
+                .map(ProjectDto::getName)
                 .toList();
     }
 

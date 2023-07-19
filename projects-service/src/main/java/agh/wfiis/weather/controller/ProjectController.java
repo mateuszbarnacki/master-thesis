@@ -29,9 +29,9 @@ public class ProjectController {
         return service.getProject(name);
     }
 
-    @GetMapping("/all")
-    public List<ProjectDto> getAllProjects() {
-        return service.getProjects();
+    @GetMapping("/names")
+    public List<String> getProjectNames() {
+        return service.getProjectNames();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
