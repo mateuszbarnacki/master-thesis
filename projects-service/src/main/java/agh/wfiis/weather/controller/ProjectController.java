@@ -17,10 +17,10 @@ import java.util.List;
 
 @RequestMapping("/projects")
 @RestController
-public class ProjectResource {
+public class ProjectController {
     private final ProjectService service;
 
-    public ProjectResource(ProjectService service) {
+    public ProjectController(ProjectService service) {
         this.service = service;
     }
 

@@ -34,14 +34,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ProjectResourceTest {
+class ProjectControllerTest {
     private MockMvc mvc;
     @MockBean
     private ProjectServiceImpl service;
 
     @BeforeEach
     public void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(new ProjectResource(service)).build();
+        mvc = MockMvcBuilders.standaloneSetup(new ProjectController(service)).build();
     }
 
     @Test
