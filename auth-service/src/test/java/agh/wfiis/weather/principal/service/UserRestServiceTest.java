@@ -2,11 +2,11 @@ package agh.wfiis.weather.principal.service;
 
 import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.model.UserEntity;
 import agh.wfiis.weather.principal.repository.UserRepository;
-import agh.wfiis.weather.project.dto.ProjectDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -60,7 +60,7 @@ class UserRestServiceTest {
     @Test
     void shouldRegisterUser() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
-        Mockito.when(userMapper.mapUserToEntity(ArgumentMatchers.any(UserDto.class))).thenReturn(new UserEntity());
+        Mockito.when(userMapper.mapUserDtoToUserEntity(ArgumentMatchers.any(UserDto.class))).thenReturn(new UserEntity());
 
         UserDto dto = givenUserDto();
 
@@ -83,12 +83,12 @@ class UserRestServiceTest {
     @Test
     void shouldUpdateRolesAndProjects() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(new UserEntity()));
-        Mockito.when(userMapper.mapUserInfoToEntity(ArgumentMatchers.any(UserInfoDto.class)))
+        Mockito.when(userMapper.mapUserInfoToUserEntity(ArgumentMatchers.any(UserInfoDto.class)))
                 .thenReturn(new UserEntity());
         UserInfoDto userInfoDto = givenUserInfoDto();
 
         whenUpdateRolesAndProjects(userInfoDto);
-        Mockito.verify(userMapper).mapEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class));
+        Mockito.verify(userMapper).mapUserEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class));
     }
 
     @Test
@@ -104,7 +104,7 @@ class UserRestServiceTest {
         UserInfoDto userWithOneProject = getUserWithOneProject();
         Mockito.when(userRepository.findByUsername(TEST_USERNAME))
                 .thenReturn(Optional.of(new UserEntity()));
-        Mockito.when(userMapper.mapEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class)))
+        Mockito.when(userMapper.mapUserEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class)))
                 .thenReturn(userWithOneProject);
 
         String username = TEST_USERNAME;
@@ -129,13 +129,13 @@ class UserRestServiceTest {
                 "Test user",
                 "1234",
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto("proj_test")));
+                Set.of(new ProjectDto("proj_test", Set.of())));
     }
 
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto(TEST_USERNAME,
                 Set.of(UserRole.PROJECT_CREATOR),
-                Set.of(new ProjectDto("agh")));
+                Set.of(new ProjectDto("agh", Set.of())));
     }
 
     private Collection<ProjectDto> whenGetUserProjects(String username) {
@@ -151,7 +151,7 @@ class UserRestServiceTest {
     }
 
     private UserInfoDto whenUpdateRolesAndProjects(UserInfoDto userInfoDto) {
-        return userRestService.updateRolesAndProjects(userInfoDto);
+        return userRestService.updateRolesAndActions(userInfoDto);
     }
 
     private void thenUserContainsExpectedUsername(UserDetails userDetails) {
@@ -169,7 +169,7 @@ class UserRestServiceTest {
 
     private void thenMethodThrowsUsernameNotFoundException(UserInfoDto userInfoDto) {
         Assertions.assertThrowsExactly(UsernameNotFoundException.class,
-                () -> userRestService.updateRolesAndProjects(userInfoDto));
+                () -> userRestService.updateRolesAndActions(userInfoDto));
     }
 
     private void thenProjectCollectionContainsExactlyOneProject(Collection<ProjectDto> projects) {
@@ -184,6 +184,6 @@ class UserRestServiceTest {
     private UserInfoDto getUserWithOneProject() {
         return new UserInfoDto(TEST_USERNAME,
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto("agh_proj")));
+                Set.of(new ProjectDto("agh_proj", Set.of())));
     }
 }

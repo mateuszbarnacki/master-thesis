@@ -1,8 +1,8 @@
 package agh.wfiis.weather.principal.service;
 
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
-import agh.wfiis.weather.project.dto.ProjectDto;
 
 import java.util.Collection;
 
@@ -30,10 +30,18 @@ public interface UserService {
     void registerUser(UserDto userDto);
 
     /**
-     * This method updates roles and projects for user with given username.
+     * This method updates roles and actions for user with given username.
      *
      * @param userInfoDto Object which contains new data.
      * @return UserInfoDto Object with updated data.
      */
-    UserInfoDto updateRolesAndProjects(UserInfoDto userInfoDto);
+    UserInfoDto updateRolesAndActions(UserInfoDto userInfoDto);
+
+    /**
+     * This method add projects in which user is enrolled.
+     *
+     * @param userInfoDto Object which contains new data.
+     * @return UserInfoDto Object with updated data.
+     */
+    UserInfoDto updateProjects(UserInfoDto userInfoDto);
 }

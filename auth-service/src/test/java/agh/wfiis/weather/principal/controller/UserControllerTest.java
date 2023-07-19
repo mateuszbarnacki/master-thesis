@@ -1,10 +1,11 @@
 package agh.wfiis.weather.principal.controller;
 
+import agh.wfiis.weather.config.ProjectAction;
 import agh.wfiis.weather.config.UserRole;
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.service.UserRestService;
-import agh.wfiis.weather.project.dto.ProjectDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,16 +82,16 @@ class UserControllerTest {
 
     @Test
     @WithMockUser
-    void shouldUpdateRolesAndProjects() throws Exception {
+    void shouldUpdateRolesAndActions() throws Exception {
         Object userInfoDto = new Object() {
             private final String username = "Dev";
             private final Set<UserRole> roles = Set.of(UserRole.PROJECT_CREATOR);
-            private final Set<ProjectDto> projects = Set.of(new ProjectDto("wfiis_proj"));
+            private final Set<ProjectDto> projects = Set.of(new ProjectDto("wfiis_proj", Set.of()));
         };
         String json = objectMapper.writeValueAsString(userInfoDto);
 
-        Mockito.when(userService.updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class)))
-                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.PROJECT_CREATOR), Set.of(new ProjectDto("wfiis_proj"))));
+        Mockito.when(userService.updateRolesAndActions(ArgumentMatchers.any(UserInfoDto.class)))
+                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.PROJECT_CREATOR), Set.of(new ProjectDto("wfiis_proj", Set.of()))));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -106,7 +107,7 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roles").isArray())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.projects").isArray());
 
-        Mockito.verify(userService).updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class));
+        Mockito.verify(userService).updateRolesAndActions(ArgumentMatchers.any(UserInfoDto.class));
     }
 
     @Test
@@ -114,8 +115,8 @@ class UserControllerTest {
     void shouldGetUserProjects() throws Exception {
         String username = "Tester";
         Mockito.when(userService.getUserProjects(username))
-                .thenReturn(Set.of(new ProjectDto("proj_test")));
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/projects/{username}", username);
+                .thenReturn(Set.of(new ProjectDto("proj_test", Set.of(ProjectAction.ADD_MEASUREMENT))));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/{username}/projects", username);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -124,5 +125,11 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("proj_test"));
 
         Mockito.verify(userService).getUserProjects(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    @WithMockUser
+    void shouldUpdateProjects() throws Exception {
+        throw new UnsupportedOperationException();
     }
 }

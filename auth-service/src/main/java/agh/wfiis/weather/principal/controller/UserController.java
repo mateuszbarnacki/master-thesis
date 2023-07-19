@@ -1,9 +1,9 @@
 package agh.wfiis.weather.principal.controller;
 
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.service.UserService;
-import agh.wfiis.weather.project.dto.ProjectDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping(value = "/projects/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{username}/projects", produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<ProjectDto> getUserProjects(@PathVariable("username") String username) {
         return userService.getUserProjects(username);
     }
@@ -44,7 +44,12 @@ public class UserController {
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserInfoDto updateRolesAndProjects(@Valid @RequestBody UserInfoDto userInfoDto) {
-        return userService.updateRolesAndProjects(userInfoDto);
+    public UserInfoDto updateRolesAndActions(@Valid @RequestBody UserInfoDto userInfoDto) {
+        return userService.updateRolesAndActions(userInfoDto);
+    }
+
+    @PatchMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public UserInfoDto updateProjects(@RequestBody UserInfoDto userInfoDto) {
+        return userService.updateProjects(userInfoDto);
     }
 }

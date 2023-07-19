@@ -1,11 +1,11 @@
 package agh.wfiis.weather.principal.service;
 
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
+import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
 import agh.wfiis.weather.principal.model.UserEntity;
 import agh.wfiis.weather.principal.repository.UserRepository;
-import agh.wfiis.weather.project.dto.ProjectDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,14 +38,14 @@ public class UserRestService implements UserService, UserDetailsService {
     @Override
     public Collection<UserInfoDto> getUsers() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
-                .map(userMapper::mapEntityToUserInfoDto)
+                .map(userMapper::mapUserEntityToUserInfoDto)
                 .toList();
     }
 
     @Override
     public Collection<ProjectDto> getUserProjects(String username) {
         return userRepository.findByUsername(username)
-                .map(userMapper::mapEntityToUserInfoDto)
+                .map(userMapper::mapUserEntityToUserInfoDto)
                 .map(UserInfoDto::projects)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, username)));
     }
@@ -56,22 +56,34 @@ public class UserRestService implements UserService, UserDetailsService {
         if (userEntity.isPresent()) {
             throw new UserAlreadyExistsException();
         }
-        UserEntity newUser = userMapper.mapUserToEntity(userDto);
+        UserEntity newUser = userMapper.mapUserDtoToUserEntity(userDto);
         userRepository.save(newUser);
     }
 
     @Override
-    public UserInfoDto updateRolesAndProjects(@NotNull UserInfoDto userInfoDto) {
+    public UserInfoDto updateRolesAndActions(@NotNull UserInfoDto userInfoDto) {
         UserEntity entity = userRepository.findByUsername(userInfoDto.username())
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, userInfoDto.username())));
-        UserEntity mappedUserInfo = userMapper.mapUserInfoToEntity(userInfoDto);
+        throw new UnsupportedOperationException();
+        /*UserEntity mappedUserInfo = userMapper.mapUserInfoToUserEntity(userInfoDto);
 
         entity.clearRoles();
         entity.addRoles(mappedUserInfo.getRoles());
         entity.clearProjects();
         entity.addProjects(mappedUserInfo.getProjects());
 
-        return userMapper.mapEntityToUserInfoDto(entity);
+        return userMapper.mapUserEntityToUserInfoDto(entity);*/
+    }
+
+    @Override
+    public UserInfoDto updateProjects(@NotNull UserInfoDto userInfoDto) {
+        UserEntity entity = userRepository.findByUsername(userInfoDto.username())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, userInfoDto.username())));
+        throw new UnsupportedOperationException();
+
+
+//        return userMapper.mapUserEntityToUserInfoDto(entity);
     }
 }
