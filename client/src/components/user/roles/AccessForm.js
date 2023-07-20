@@ -4,6 +4,7 @@ import FormGroup from "react-bootstrap/FormGroup";
 import FormCheck from "react-bootstrap/FormCheck";
 import Form from "react-bootstrap/Form";
 import ActionsTable from "./ActionsTable";
+import UserProjectsList from "../UserProjectsList";
 
 const mock = [
     {
@@ -32,7 +33,7 @@ const mock = [
     }
 ];
 
-function RolesAndActionsForm({projects, roles, update}) {
+function AccessForm({projects, roles, update}) {
     return (
         <Form>
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
@@ -48,10 +49,13 @@ function RolesAndActionsForm({projects, roles, update}) {
                         <FormCheck id="writer-checkbox" defaultChecked={roles[1]} disabled/>}
                 </FormGroup>
             </Row>
-            <FormLabel as="h5" className="text-start mt-4">Dostępne akcje:</FormLabel>
-            <ActionsTable projects={mock} userProjects={projects} update={update}/>
+            <FormLabel as="h5" className="text-start mt-4">Projekty:</FormLabel>
+            {update ?  <UserProjectsList projects={mock.map(item => item.name)}
+                                         userProjects={projects.map(item => item.name)}
+                                         update={true}/> :
+                <ActionsTable projects={mock} userProjects={projects} update={update}/>}
         </Form>
     );
 }
 
-export default RolesAndActionsForm;
+export default AccessForm;

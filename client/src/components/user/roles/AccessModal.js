@@ -3,10 +3,9 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
-import UserProjectsList from "../UserProjectsList";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import FormLabel from "react-bootstrap/FormLabel";
+import ActionsTable from "./ActionsTable";
 
 const mock = [
     {
@@ -36,18 +35,15 @@ const mock = [
 ];
 
 
-function ManageProjectsModal({userProjects, show, closeModal}) {
+function AccessModal({userProjects, show, closeModal}) {
     return (
         <Modal centered show={show} size="xl">
             <ModalHeader className="modal-center">
-                <ModalTitle>Zmień dostęp do projektów</ModalTitle>
+                <ModalTitle>Zmień widoczność akcji</ModalTitle>
             </ModalHeader>
             <ModalBody>
-                <Form>
-                    <FormLabel as="h5">Projekty:</FormLabel>
-                    <UserProjectsList projects={mock.map(item => item.name)}
-                                      userProjects={userProjects.map(item => item.name)}
-                                      update={true}/>
+                <Form className="text-center">
+                    <ActionsTable projects={mock} userProjects={userProjects} update={true}/>
                 </Form>
             </ModalBody>
             <ModalFooter className="modal-center">
@@ -58,4 +54,4 @@ function ManageProjectsModal({userProjects, show, closeModal}) {
     );
 }
 
-export default ManageProjectsModal;
+export default AccessModal;
