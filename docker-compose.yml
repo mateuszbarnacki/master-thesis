@@ -8,8 +8,7 @@ services:
     depends_on:
       - projects-service
       - auth-service
-      - measurement-get-service
-      - measurement-post-service
+      - measurement-service
     ports:
       - "8080:8080"
     image: api-gateway:latest
@@ -26,26 +25,16 @@ services:
       - "13402:13402"
     image: auth-service:latest
 
-  measurement-get-service:
-    build: ./measurement-get-service
-    container_name: measurement-get-service
-    restart: on-failure
-    depends_on:
-      - mongodb
-    ports:
-      - "13404:13404"
-    image: measurement-get-service:latest
-
-  measurement-post-service:
-    build: ./measurement-post-service
-    container_name: measurement-post-service
+  measurement-service:
+    build: measurement-service
+    container_name: measurement-service
     restart: on-failure
     depends_on:
       - mongodb
       - projects-service
     ports:
       - "13403:13403"
-    image: measurement-post-service:latest
+    image: measurement-service:latest
 
   projects-service:
     build:
@@ -78,6 +67,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: auth
     volumes:
       - ./docker-volumes/postgres/data:/var/lib/postgresql/data
+      - ./auth-service/main/resources/db-scripts/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql

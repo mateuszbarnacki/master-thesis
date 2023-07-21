@@ -1,13 +1,34 @@
 const axios = require('axios');
-const { Readable } = require('stream');
-const { parse } = require('csv-parse');
+const {Readable} = require('stream');
+const {parse} = require('csv-parse');
 const connection = require('../db/connection');
 
-/*
-*
-* Should APIKey be encrypted and decrypted?
-*
-*/
+const getMeasurements = async (req, res) => {
+    try {
+        const db = await connection.getConnection();
+        const result = await db.collection(req.params.project)
+            .find()
+            .toArray();
+        res.status(200).send(result);
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+};
+
+const getLatestMeasurement = async (req, res) => {
+    try {
+        const db = await connection.getConnection();
+        const result = await db.collection(req.params.project)
+            .find()
+            .sort({'_id': -1})
+            .limit(1)
+            .toArray();
+        res.status(200).send(result);
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
 const addMeasurement = async (req, res) => {
     try {
         const apiKey = req.header(process.env.API_KEY_HEADER);
@@ -40,9 +61,9 @@ const addMeasurementsFromFile = async (req, res) => {
         const documents = [];
         const stream = Readable.from(req.files.file.data);
         const {data: project} = await axios.get(process.env.PROJECTS_URL + '/' + req.params.project);
-        const { measurements } = getMeasurementSchema(project, req.params.deviceId);
+        const {measurements} = getMeasurementSchema(project, req.params.deviceId);
 
-        stream.pipe(parse({ delimiter: '\n' }))
+        stream.pipe(parse({delimiter: '\n'}))
             .on('data', (data) => {
                 const row = data[0];
                 const measurementValues = row.split(";");
@@ -71,7 +92,7 @@ const addMeasurementsFromFile = async (req, res) => {
 
         if (errors.length === 0) {
             const db = await connection.getConnection();
-            const result = await db.collection(req.params.project).insertMany(documents, { ordered: true });
+            const result = await db.collection(req.params.project).insertMany(documents, {ordered: true});
             res.status(201).json({result});
         } else {
             res.status(400).json({message: errors.join()});
@@ -85,7 +106,7 @@ const generateAPIKeyForProject = (project) => {
     const {acronym, name} = project;
     const date = new Date();
     return acronym + '.' +
-        date.toISOString().split('T')[0] + ' ' + date.getHours() + ':' + date.getMinutes() + '.' +
+        date.toISOString().split('T')[0] + ' ' + date.getUTCHours() + ':' + date.getMinutes() + '.' +
         name.length;
 };
 
@@ -96,7 +117,7 @@ const getMeasurementSchema = (project, deviceId) => {
 };
 
 const getParametersToValidate = (project, deviceId) => {
-    const { measurements } = getMeasurementSchema(project, deviceId);
+    const {measurements} = getMeasurementSchema(project, deviceId);
     return measurements.filter(measurement => measurement.validate === true);
 };
 
@@ -106,9 +127,9 @@ const validate = (measurements, newMeasurement) => {
         const parameter = newMeasurement[measurement.name];
         if (parameter !== undefined) {
             if (parameter === measurement.errorValue) {
-                errors.push('Error value occurred ' + parameter + ' for parameter ' + measurement.name);
+                errors.push('Error value ' + parameter + ' occurred for ' + measurement.name + ' parameter');
             } else if (parameter < measurement.range.min || parameter > measurement.range.max) {
-                errors.push('Value out of range ' + parameter + ' for parameter ' + measurement.name + ' ')
+                errors.push('Value ' + parameter + ' out of range for ' + measurement.name + ' parameter')
             }
         } else {
             errors.push('Could not find parameter with given name: ' + measurement.name);
@@ -128,6 +149,8 @@ const parseValue = (value) => {
 };
 
 module.exports = {
+    getMeasurements,
+    getLatestMeasurement,
     addMeasurement,
     addMeasurementsFromFile
 };

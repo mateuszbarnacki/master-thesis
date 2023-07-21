@@ -1,8 +1,7 @@
 @startuml
 component "Client App" as app
 component "Projects Service" as projects
-component " Measurement\n  GET Service" as measurementGet
-component " Measurement\n  POST Service" as measurementPost
+component " Measurements Service" as measurements
 component "Auth Service" as auth
 component "\tAPI Gateway\t" as gateway
 database " Projects\nMongoDB" as projectsDB
@@ -13,11 +12,9 @@ app-d->HTTP
 gateway-l-HTTP
 projects-d->projectsDB
 auth-d->authDB
-measurementGet-d->measurementDB
-measurementPost-d->measurementDB
+measurements-d->measurementDB
 gateway-->projects
-gateway-d->measurementGet
-gateway-d->measurementPost
+gateway-d->measurements
 gateway-r->auth
 
 @enduml

@@ -65,11 +65,8 @@ public class GatewayConfiguration {
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT, this.jwtDecoder)))
                         .uri("http://localhost:13403/measurements/upload"))
                 .route(p -> p
-                        .path("/measurements")
+                        .path("/measurements/**")
                         .uri("http://localhost:13403/measurements/"))
-                .route(p -> p
-                        .path("/results/**")
-                        .uri("http://localhost:13404/results/"))
                 .build();
     }
 }
