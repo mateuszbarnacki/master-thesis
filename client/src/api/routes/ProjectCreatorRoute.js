@@ -1,11 +1,11 @@
-import {localStorageAuthToken} from "../constants";
+import * as C from "../constants";
 import {Navigate} from "react-router-dom";
 
 function ProjectCreatorRoute({children}) {
-    const isLogged = !!window.localStorage.getItem(localStorageAuthToken);
-    const roles = !!window.localStorage.getItem('roles') ?
-        window.localStorage.getItem('roles') : [];
-    return isLogged && (roles.includes('PROJECT_CREATOR') || roles.includes('ADMIN')) ?
+    const isLogged = !!window.localStorage.getItem(C.localStorageAuthToken);
+    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
+        window.localStorage.getItem(C.localStorageRoles) : [];
+    return isLogged && (roles.includes(C.ProjectCreatorRole) || roles.includes(C.AdminRole)) ?
         children : <Navigate to={'/'}/>;
 }
 

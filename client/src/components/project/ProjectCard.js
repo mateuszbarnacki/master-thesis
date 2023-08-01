@@ -6,10 +6,11 @@ import {Fragment, useState} from "react";
 import DeleteProjectModal from "./modals/DeleteProjectModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import CloneProjectModal from "./modals/CloneProjectModal";
+import * as C from '../../api/constants';
 
 function ProjectCard({item}) {
-    const roles = !!window.localStorage.getItem('roles') ?
-        window.localStorage.getItem('roles') : [];
+    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
+        window.localStorage.getItem(C.localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
     const [showCloneProjectModal, setShowCloneProjectModal] = useState(false);
     const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
@@ -34,21 +35,21 @@ function ProjectCard({item}) {
                             <Card.Text>{item.description}</Card.Text>
                         </>) : null}
                     <ButtonGroup className="mb-2">
-                        {roles.includes('WRITER') || roles.includes('ADMIN') ?
+                        {roles.includes(C.ResearcherRole) || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowUploadMeasurementsModal(true)}>
                                 Dodaj pomiar
                             </Button>
                             : null
                         }
-                        {roles.includes('WRITER') || roles.includes('ADMIN') ?
+                        {roles.includes(C.ProjectCreatorRole) || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowCloneProjectModal(true)}>
                                 Sklonuj
                             </Button>
                             : null
                         }
-                        {roles.includes('EDITOR') || roles.includes('ADMIN') ?
+                        {roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowDeleteProjectModal(true)}>
                                 Usuń

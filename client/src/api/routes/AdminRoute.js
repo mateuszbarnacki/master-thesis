@@ -1,11 +1,11 @@
-import {localStorageAuthToken} from "../constants";
+import * as C from "../constants";
 import {Navigate} from "react-router-dom";
 
 function AdminRoute({ children }) {
-    const isLogged = !!window.localStorage.getItem(localStorageAuthToken);
-    const roles = !!window.localStorage.getItem('roles') ?
-        window.localStorage.getItem('roles') : [];
-    return isLogged && roles.includes('ADMIN') ? children : <Navigate to={'/'}/>;
+    const isLogged = !!window.localStorage.getItem(C.localStorageAuthToken);
+    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
+        window.localStorage.getItem(C.localStorageRoles) : [];
+    return isLogged && roles.includes(C.AdminRole) ? children : <Navigate to={'/'}/>;
 }
 
 export default AdminRoute;
