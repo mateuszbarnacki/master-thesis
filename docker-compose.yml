@@ -6,9 +6,8 @@ services:
     container_name: api-gateway
     restart: on-failure
     depends_on:
-      - projects-service
+      - sensor-service
       - auth-service
-      - measurement-service
     ports:
       - "8080:8080"
     image: api-gateway:latest
@@ -25,28 +24,15 @@ services:
       - "13402:13402"
     image: auth-service:latest
 
-  measurement-service:
-    build: measurement-service
-    container_name: measurement-service
-    restart: on-failure
-    depends_on:
-      - mongodb
-      - projects-service
-    ports:
-      - "13403:13403"
-    image: measurement-service:latest
-
-  projects-service:
-    build:
-      context: ./
-      dockerfile: ./projects-service/Dockerfile
-    container_name: projects-service
+  sensor-service:
+    build: sensor-service
+    container_name: sensor-service
     restart: on-failure
     depends_on:
       - mongodb
     ports:
       - "13401:13401"
-    image: projects-service:latest
+    image: sensor-service:latest
 
   mongodb:
     image: mongo:6.0.5
