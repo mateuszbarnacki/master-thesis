@@ -1,20 +1,18 @@
 @startuml
 component "Client App" as app
-component "Projects Service" as projects
-component " Measurements Service" as measurements
+component "Sensor Service" as sensors
 component "Auth Service" as auth
+component "Message Service" as message
 component "\tAPI Gateway\t" as gateway
-database " Projects\nMongoDB" as projectsDB
+database " Project, Measurement\n          MongoDB" as sensorsDB
 database "      Auth\nPostgreSQL" as authDB
-database "Measurement\n   MongoDB" as measurementDB
 
 app-d->HTTP
 gateway-l-HTTP
-projects-d->projectsDB
+sensors-d->sensorsDB
 auth-d->authDB
-measurements-d->measurementDB
-gateway-->projects
-gateway-d->measurements
 gateway-r->auth
+gateway-->message
+gateway-d->sensors
 
 @enduml
