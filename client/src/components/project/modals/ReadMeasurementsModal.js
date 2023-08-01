@@ -5,7 +5,6 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import Button from "react-bootstrap/Button";
 import ModalFooter from "react-bootstrap/ModalFooter";
-import JsonHighlighter from "../json/JsonHighlighter";
 
 const mock = [
     {
