@@ -7,15 +7,20 @@ import DeleteProjectModal from "./modals/DeleteProjectModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import CloneProjectModal from "./modals/CloneProjectModal";
 import * as C from '../../api/constants';
+import ReadMeasurementsModal from "./modals/ReadMeasurementsModal";
 
 function ProjectCard({item}) {
     const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
         window.localStorage.getItem(C.localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
+    const [showReadMeasurementsModal, setShowReadMeasurementsModal] = useState(false);
     const [showCloneProjectModal, setShowCloneProjectModal] = useState(false);
     const [showDeleteProjectModal, setShowDeleteProjectModal] = useState(false);
     const handleUploadMeasurementsModalClose = () => {
         setShowUploadMeasurementsModal(false);
+    };
+    const handleReadMeasurementsModalClose = () => {
+        setShowReadMeasurementsModal(false);
     };
     const handleCloneProjectModalClose = () => {
         setShowCloneProjectModal(false);
@@ -42,6 +47,13 @@ function ProjectCard({item}) {
                             </Button>
                             : null
                         }
+                        {roles.includes(C.ResearcherRole) || roles.includes(C.AdminRole) ?
+                            <Button variant="outline-dark" style={{border: "1px solid black"}}
+                                    onClick={() => setShowReadMeasurementsModal(true)}>
+                                Czytaj pomiary
+                            </Button>
+                            : null
+                        }
                         {roles.includes(C.ProjectCreatorRole) || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowCloneProjectModal(true)}>
@@ -61,6 +73,8 @@ function ProjectCard({item}) {
             </Card>
             <UploadMeasurementsModal sensors={item.sensors} show={showUploadMeasurementsModal}
                                      closeModal={handleUploadMeasurementsModalClose}/>
+            <ReadMeasurementsModal show={showReadMeasurementsModal}
+                                   closeModal={handleReadMeasurementsModalClose}/>
             <CloneProjectModal project={item} show={showCloneProjectModal}
                                closeModal={handleCloneProjectModalClose}/>
             <DeleteProjectModal show={showDeleteProjectModal}
