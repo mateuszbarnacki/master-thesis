@@ -5,16 +5,17 @@ import ProjectView from "./components/project/ProjectView";
 import UserView from "./components/user/UserView";
 import AddProjectView from "./components/project/addProject/AddProjectView";
 import LoginView from "./components/login/LoginView";
-import {localStorageAuthToken} from "./api/constants";
+import PrivateRoute from "./api/routes/PrivateRoute";
+import ProjectCreatorRoute from "./api/routes/ProjectCreatorRoute";
+import AdminRoute from "./api/routes/AdminRoute";
 
 function App() {
-    const isLogged = !!window.localStorage.getItem(localStorageAuthToken);
     return (
         <Routes>
             <Route path="/" element={<LoginView/>}/>
-            {isLogged ? <Route path="/list" element={<ProjectView/>}/> : null}
-            {isLogged ? <Route path="/add" element={<AddProjectView/>}/> : null}
-            {isLogged ? <Route path="/users" element={<UserView/>}/> : null}
+            <Route path="/list" element={<PrivateRoute><ProjectView/></PrivateRoute>}/>
+            <Route path="/add" element={<ProjectCreatorRoute><AddProjectView/></ProjectCreatorRoute>}/>
+            <Route path="/users" element={<AdminRoute><UserView/></AdminRoute>}/>
         </Routes>
     );
 }
