@@ -3,13 +3,13 @@ import Card from "react-bootstrap/Card";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import {Fragment, useState} from "react";
-import DeleteProjectModal from "./modals/DeleteProjectModal";
-import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import CloneProjectModal from "./modals/CloneProjectModal";
-import * as C from '../../api/constants';
+import DeleteProjectModal from "./modals/DeleteProjectModal";
 import ReadMeasurementsModal from "./modals/ReadMeasurementsModal";
+import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
+import * as C from '../../api/constants';
 
-function ProjectCard({item}) {
+function ProjectInfoCard({item}) {
     const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
         window.localStorage.getItem(C.localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
@@ -38,7 +38,7 @@ function ProjectCard({item}) {
                         (<>
                             <Card.Title>Informacje o projekcie</Card.Title>
                             <Card.Text>{item.description}</Card.Text>
-                        </>) : null}
+                        </>) : <Card.Title>Akcje</Card.Title>}
                     <ButtonGroup className="mb-2">
                         {roles.includes(C.ResearcherRole) || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
@@ -83,4 +83,4 @@ function ProjectCard({item}) {
     );
 }
 
-export default ProjectCard;
+export default ProjectInfoCard;
