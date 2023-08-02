@@ -5,8 +5,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import {Fragment, useState} from "react";
 import Menu from "../Menu";
-import ProjectCard from "./ProjectCard";
+import ProjectInfoCard from "./ProjectInfoCard";
 import ProjectList from "./ProjectList";
+import ProjectStructureCard from "./ProjectStructureCard";
 
 const mock = [
     {
@@ -14,7 +15,8 @@ const mock = [
         description: 'Mój pierwszy projekt',
         sensors: [
             {
-                deviceId: "sensor1"
+                deviceId: "sensor1",
+                number: 13
             },
             {
                 deviceId: "sensor2"
@@ -146,8 +148,10 @@ function ProjectView() {
         </Card>
     );
     const [projectInfoCard, setProjectInfoCard] = useState(defaultCard);
+    const [projectStructureCard, setProjectStructureCard] = useState(null);
     const handleListOnClick = (item) => {
-        setProjectInfoCard(<ProjectCard item={item}/>);
+        setProjectInfoCard(<ProjectInfoCard item={item}/>);
+        setProjectStructureCard(<ProjectStructureCard item={item}/>);
     };
 
     return (
@@ -160,6 +164,7 @@ function ProjectView() {
                     </Col>
                     <Col xs={8}>
                         {projectInfoCard}
+                        {projectStructureCard}
                     </Col>
                 </Row>
             </Container>
