@@ -5,6 +5,8 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import Button from "react-bootstrap/Button";
 import ModalFooter from "react-bootstrap/ModalFooter";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import docco from "react-syntax-highlighter/src/styles/hljs/docco";
 
 const mock = [
     {
@@ -32,7 +34,12 @@ function ReadMeasurementsModal({show, closeModal}) {
             <ModalBody className="modal-center">
                 <Card body>
                     {mock.map(item =>
-                        <pre>{JSON.stringify(item, null, 2)}</pre>
+                        <SyntaxHighlighter
+                            language="json"
+                            style={docco}
+                            wrapLines={true}>
+                            {JSON.stringify(item, null, 2)}
+                        </SyntaxHighlighter>
                     )}
                 </Card>
             </ModalBody>
