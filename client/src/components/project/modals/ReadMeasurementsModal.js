@@ -6,20 +6,29 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import Button from "react-bootstrap/Button";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import docco from "react-syntax-highlighter/src/styles/hljs/docco";
+import vs from "react-syntax-highlighter/src/styles/hljs/vs";
 
 const mock = [
     {
         date: '2023-07-30',
-        temperature: 13
+        temperature: 13,
+        humidity: 40,
+        humidity2: 40,
+        description: 'First test measurement'
     },
     {
         date: '2023-07-31',
-        temperature: 32
+        temperature: 32,
+        humidity: 13,
+        humidity2: 13,
+        description: 'Second test measurement'
     },
     {
         date: '2023-08-01',
-        temperature: -7
+        temperature: -7,
+        humidity: 0,
+        humidity2: 0,
+        description: 'Third test measurement'
     }
 ];
 
@@ -32,11 +41,11 @@ function ReadMeasurementsModal({show, closeModal}) {
                 </ModalTitle>
             </ModalHeader>
             <ModalBody className="modal-center">
-                <Card body>
+                <Card body className="modal-json">
                     {mock.map(item =>
                         <SyntaxHighlighter
                             language="json"
-                            style={docco}
+                            style={vs}
                             wrapLines={true}>
                             {JSON.stringify(item, null, 2)}
                         </SyntaxHighlighter>
