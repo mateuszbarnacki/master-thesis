@@ -49,11 +49,14 @@ function AccessForm({projects, roles, update}) {
                         <FormCheck id="writer-checkbox" defaultChecked={roles[1]} disabled/>}
                 </FormGroup>
             </Row>
-            <FormLabel as="h5" className="text-start mt-4">Projekty:</FormLabel>
-            {update ?  <UserProjectsList projects={mock.map(item => item.name)}
-                                         userProjects={projects.map(item => item.name)}
-                                         update={true}/> :
-                <ActionsTable projects={mock} userProjects={projects} update={update}/>}
+            {roles[0] ?
+                <>
+                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli Badacz:</FormLabel>
+                    {update ? <UserProjectsList projects={mock.map(item => item.name)}
+                                                userProjects={projects.map(item => item.name)}
+                                                update={true}/> :
+                        <ActionsTable projects={mock} userProjects={projects} update={update}/>
+                    }</> : null}
         </Form>
     );
 }

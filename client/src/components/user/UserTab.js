@@ -21,10 +21,11 @@ function UserTab({user, index}) {
                             onClick={() => setShowManageRolesModal(true)}>
                         Edytuj uprawnienia
                     </Button>
+                    {user.roles[0] ?
                     <Button variant="dark" className="mt-3 ms-3"
                             onClick={() => setShowManageProjectsModal(true)}>
                         Edytuj akcje
-                    </Button>
+                    </Button> : null}
                 </AccordionBody>
             </AccordionItem>
             <ActionsModal projects={user.projects} roles={user.roles}

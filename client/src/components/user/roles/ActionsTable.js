@@ -8,7 +8,7 @@ function ActionsTable({projects, userProjects, update}) {
                 <th>#</th>
                 <th>Nazwa projektu</th>
                 <th>Dodanie pomiaru</th>
-                <th>Klonowanie projektu</th>
+                <th>Czytanie pomiaru</th>
             </tr>
             </thead>
             <tbody>
