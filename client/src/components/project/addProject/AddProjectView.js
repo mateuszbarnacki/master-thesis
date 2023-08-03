@@ -5,6 +5,7 @@ import SensorForm from "./SensorForm";
 import Menu from "../../Menu";
 import ProjectForm from "./ProjectForm";
 import CardHeader from "react-bootstrap/CardHeader";
+import Footer from "../../Footer";
 
 function AddProjectView() {
     const [ids, setIds] = useState(Array.of(0));
@@ -55,6 +56,7 @@ function AddProjectView() {
                         projekt</Button>
                 </Card.Body>
             </Card>
+            <Footer/>
         </Fragment>
     );
 }

@@ -9,6 +9,7 @@ import ProjectInfoCard from "./ProjectInfoCard";
 import ProjectListColumn from "./ProjectListColumn";
 import ProjectStructureCard from "./ProjectStructureCard";
 import ProjectInfoColumn from "./ProjectInfoColumn";
+import Footer from "../Footer";
 
 const mock = [
     {
@@ -165,6 +166,7 @@ function ProjectView() {
                                        projectStructureCard={projectStructureCard}/>
                 </Row>
             </Container>
+            <Footer/>
         </Fragment>
     );
 }

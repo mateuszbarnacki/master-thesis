@@ -5,6 +5,7 @@ import {Fragment, useState} from "react";
 import Menu from "../Menu";
 import LoginForm from "./LoginForm";
 import {localStorageAuthToken} from "../../api/constants";
+import Footer from "../Footer";
 
 function LoginView() {
     window.localStorage.removeItem(localStorageAuthToken);
@@ -26,6 +27,7 @@ function LoginView() {
                     <LoginForm setLoginError={(value) => setLoginError(value)}/>
                 </Row>
             </Container>
+            <Footer/>
         </Fragment>
     );
 }

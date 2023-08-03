@@ -5,6 +5,7 @@ import Menu from "../Menu";
 import {Fragment} from "react";
 import UserList from "./UserList";
 import UserForm from "./UserForm";
+import Footer from "../Footer";
 
 function UserView(props) {
     return (
@@ -20,6 +21,7 @@ function UserView(props) {
                     </Col>
                 </Row>
             </Container>
+            <Footer/>
         </Fragment>
     );
 }
