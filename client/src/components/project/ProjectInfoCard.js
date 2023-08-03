@@ -31,7 +31,7 @@ function ProjectInfoCard({item}) {
 
     return (
         <Fragment>
-            <Card className="border-black m-3">
+            <Card className="border-black m-3 project-card">
                 <CardHeader as="h5">{item.name}</CardHeader>
                 <Card.Body className="text-center">
                     {item.description ?

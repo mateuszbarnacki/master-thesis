@@ -6,8 +6,9 @@ import Row from "react-bootstrap/Row";
 import {Fragment, useState} from "react";
 import Menu from "../Menu";
 import ProjectInfoCard from "./ProjectInfoCard";
-import ProjectList from "./ProjectList";
+import ProjectListColumn from "./ProjectListColumn";
 import ProjectStructureCard from "./ProjectStructureCard";
+import ProjectInfoColumn from "./ProjectInfoColumn";
 
 const mock = [
     {
@@ -159,13 +160,9 @@ function ProjectView() {
             <Menu/>
             <Container style={{marginTop: "2vh"}}>
                 <Row>
-                    <Col>
-                        <ProjectList projectsList={mock} handleListOnClick={handleListOnClick}/>
-                    </Col>
-                    <Col xs={8}>
-                        {projectInfoCard}
-                        {projectStructureCard}
-                    </Col>
+                    <ProjectListColumn projectsList={mock} handleListOnClick={handleListOnClick}/>
+                    <ProjectInfoColumn projectInfoCard={projectInfoCard}
+                                       projectStructureCard={projectStructureCard}/>
                 </Row>
             </Container>
         </Fragment>

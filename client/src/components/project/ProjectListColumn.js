@@ -3,8 +3,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import {Fragment, useState} from "react";
 import {isStringNullOrEmpty} from "./addProject/FormValidator";
+import Col from "react-bootstrap/Col";
 
-function ProjectList({projectsList, handleListOnClick}) {
+function ProjectListColumn({projectsList, handleListOnClick}) {
     const [list, setList] = useState(projectsList);
     const handleOnChange = (event) => {
         const searchValue = event.target.value;
@@ -21,12 +22,12 @@ function ProjectList({projectsList, handleListOnClick}) {
     };
 
     return (
-        <Fragment>
+        <Col className="project-column">
             <Form.Label htmlFor="search">Wyszukaj projekt po nazwie:</Form.Label>
             <Form.Control type="text" id="search" placeholder="Nazwa projektu"
                           onChange={(e) => handleOnChange(e)}
                           onKeyDown={(e) => handleOnKeyDown(e)}/>
-            <ListGroup variant="flush" className="projects-list">
+            <ListGroup variant="flush" className="projects-list mt-3 mb-3">
                 {list.map(item =>
                     <ListGroupItem key={item.name}
                                    action
@@ -35,8 +36,8 @@ function ProjectList({projectsList, handleListOnClick}) {
                         {item.name}
                     </ListGroupItem>)}
             </ListGroup>
-        </Fragment>
+        </Col>
     );
 }
 
-export default ProjectList;
+export default ProjectListColumn;

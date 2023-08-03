@@ -54,17 +54,15 @@
 .project-structure {
     border: 1px solid black;
     background-color: #fefefe;
-    height: 40vh;
+    height: 47.5vh;
     overflow-y: auto;
-    margin-top: 2vh;
 }
 
 .projects-list {
     border: 1px solid black;
     background-color: #fefefe;
-    height: 60vh;
+    height: 65vh;
     overflow-y: auto;
-    margin-top: 2vh;
 }
 
 .projects-roles-list {
