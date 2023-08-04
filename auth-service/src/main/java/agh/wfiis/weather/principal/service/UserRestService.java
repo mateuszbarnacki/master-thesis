@@ -61,29 +61,16 @@ public class UserRestService implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserInfoDto updateRolesAndActions(@NotNull UserInfoDto userInfoDto) {
+    public UserInfoDto updateRolesAndProjects(@NotNull UserInfoDto userInfoDto) {
         UserEntity entity = userRepository.findByUsername(userInfoDto.username())
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, userInfoDto.username())));
-        throw new UnsupportedOperationException();
-        /*UserEntity mappedUserInfo = userMapper.mapUserInfoToUserEntity(userInfoDto);
+        UserEntity userInfoEntity = userMapper.mapUserInfoToUserEntity(userInfoDto);
 
         entity.clearRoles();
-        entity.addRoles(mappedUserInfo.getRoles());
-        entity.clearProjects();
-        entity.addProjects(mappedUserInfo.getProjects());
+        entity.addRoles(userInfoEntity.getRoles());
+        entity.setProjects(userInfoEntity.getProjects());
 
-        return userMapper.mapUserEntityToUserInfoDto(entity);*/
-    }
-
-    @Override
-    public UserInfoDto updateProjects(@NotNull UserInfoDto userInfoDto) {
-        UserEntity entity = userRepository.findByUsername(userInfoDto.username())
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, userInfoDto.username())));
-        throw new UnsupportedOperationException();
-
-
-//        return userMapper.mapUserEntityToUserInfoDto(entity);
+        return userMapper.mapUserEntityToUserInfoDto(entity);
     }
 }

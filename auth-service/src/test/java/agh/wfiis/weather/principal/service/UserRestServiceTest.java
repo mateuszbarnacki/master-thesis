@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -82,9 +83,11 @@ class UserRestServiceTest {
 
     @Test
     void shouldUpdateRolesAndProjects() {
+        UserEntity mappedUser = new UserEntity();
+        mappedUser.setProjects(new HashSet<>());
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(new UserEntity()));
         Mockito.when(userMapper.mapUserInfoToUserEntity(ArgumentMatchers.any(UserInfoDto.class)))
-                .thenReturn(new UserEntity());
+                .thenReturn(mappedUser);
         UserInfoDto userInfoDto = givenUserInfoDto();
 
         whenUpdateRolesAndProjects(userInfoDto);
@@ -129,7 +132,7 @@ class UserRestServiceTest {
                 "Test user",
                 "1234",
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto("proj_test", Set.of())));
+                Set.of("proj_test"));
     }
 
     private UserInfoDto givenUserInfoDto() {
@@ -151,7 +154,7 @@ class UserRestServiceTest {
     }
 
     private UserInfoDto whenUpdateRolesAndProjects(UserInfoDto userInfoDto) {
-        return userRestService.updateRolesAndActions(userInfoDto);
+        return userRestService.updateRolesAndProjects(userInfoDto);
     }
 
     private void thenUserContainsExpectedUsername(UserDetails userDetails) {
@@ -169,7 +172,7 @@ class UserRestServiceTest {
 
     private void thenMethodThrowsUsernameNotFoundException(UserInfoDto userInfoDto) {
         Assertions.assertThrowsExactly(UsernameNotFoundException.class,
-                () -> userRestService.updateRolesAndActions(userInfoDto));
+                () -> userRestService.updateRolesAndProjects(userInfoDto));
     }
 
     private void thenProjectCollectionContainsExactlyOneProject(Collection<ProjectDto> projects) {

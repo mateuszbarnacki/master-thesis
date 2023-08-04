@@ -39,6 +39,15 @@ public class GatewayConfiguration {
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.DELETE_PROJECT, this.jwtDecoder)))
                         .uri("http://localhost:13401/projects/"))
                 .route(p -> p
+                        .path("/measurements/upload/**")
+                        .and()
+                        .method(HttpMethod.POST)
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT, this.jwtDecoder)))
+                        .uri("http://localhost:13401/measurements/upload"))
+                .route(p -> p
+                        .path("/measurements/**")
+                        .uri("http://localhost:13401/measurements/"))
+                .route(p -> p
                         .path("/authentication/**")
                         .uri("http://localhost:13402/authentication/"))
                 .route(p -> p
@@ -58,15 +67,6 @@ public class GatewayConfiguration {
                         .method(HttpMethod.GET)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
                         .uri("http://localhost:13402/users/all"))
-                .route(p -> p
-                        .path("/measurements/upload/**")
-                        .and()
-                        .method(HttpMethod.POST)
-                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT, this.jwtDecoder)))
-                        .uri("http://localhost:13403/measurements/upload"))
-                .route(p -> p
-                        .path("/measurements/**")
-                        .uri("http://localhost:13403/measurements/"))
                 .build();
     }
 }

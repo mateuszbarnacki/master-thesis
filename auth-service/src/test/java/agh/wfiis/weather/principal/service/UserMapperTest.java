@@ -30,7 +30,6 @@ class UserMapperTest {
 
     @Test
     void shouldMapUserDtoToUserEntity() {
-        ProjectDto projectDto = new ProjectDto(PROJECT_NAME, Set.of());
         RoleEntity projectCreator = new RoleEntity();
         RoleEntity researcher = new RoleEntity();
         ProjectEntity testProj = new ProjectEntity();
@@ -39,7 +38,7 @@ class UserMapperTest {
         testProj.setName(PROJECT_NAME);
         Mockito.when(roleMapper.mapUserRolesToRoleEntities(Set.of(UserRole.PROJECT_CREATOR, UserRole.RESEARCHER)))
                 .thenReturn(Set.of(projectCreator, researcher));
-        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(projectDto), "Test"))
+        Mockito.when(projectMapper.mapProjectNamesToEntities(Set.of(PROJECT_NAME)))
                 .thenReturn(Set.of(testProj));
         UserDto dto = givenUserDto();
 
@@ -62,7 +61,7 @@ class UserMapperTest {
         testProj.setName(PROJECT_NAME);
         Mockito.when(roleMapper.mapUserRolesToRoleEntities(Set.of(UserRole.RESEARCHER)))
                 .thenReturn(Set.of(researcher));
-        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(new ProjectDto(PROJECT_NAME, Set.of())), "Tester"))
+        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(new ProjectDto(PROJECT_NAME, Set.of()))))
                 .thenReturn(Set.of(testProj));
         UserInfoDto userInfoDto = givenUserInfoDto();
 
@@ -83,7 +82,7 @@ class UserMapperTest {
         UserEntity entity = new UserEntity();
         entity.setUsername("Dev");
         entity.addRoles(Set.of(role));
-        entity.addProjects(Set.of(project));
+        entity.setProjects(Set.of(project));
         ProjectDto abc = new ProjectDto("abc", Set.of());
         Mockito.when(roleMapper.mapRoleEntitiesToUserRoles(Set.of(role)))
                 .thenReturn(Set.of(UserRole.RESEARCHER));
@@ -104,7 +103,7 @@ class UserMapperTest {
                 "User for test purposes",
                 "1243",
                 Set.of(UserRole.PROJECT_CREATOR, UserRole.RESEARCHER),
-                Set.of(new ProjectDto(PROJECT_NAME, Set.of())));
+                Set.of(PROJECT_NAME));
     }
 
     private UserInfoDto givenUserInfoDto() {

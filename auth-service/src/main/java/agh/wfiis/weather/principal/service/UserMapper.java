@@ -4,6 +4,8 @@ import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
+import agh.wfiis.weather.principal.model.ProjectEntity;
+import agh.wfiis.weather.principal.model.RoleEntity;
 import agh.wfiis.weather.principal.model.UserEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,14 +25,16 @@ class UserMapper {
     }
 
     UserEntity mapUserDtoToUserEntity(UserDto userDto) {
+        Set<RoleEntity> roles = roleMapper.mapUserRolesToRoleEntities(userDto.roles());
+        Set<ProjectEntity> projects = projectMapper.mapProjectNamesToEntities(userDto.projects());
         UserEntity entity = new UserEntity();
 
         entity.setUsername(userDto.username());
         entity.setPassword(passwordEncoder.encode(userDto.password()));
         entity.setEmail(userDto.email());
         entity.setDescription(userDto.description());
-        entity.addRoles(roleMapper.mapUserRolesToRoleEntities(userDto.roles()));
-        entity.addProjects(projectMapper.mapProjectDtosToEntities(userDto.projects(), userDto.username()));
+        entity.addRoles(roles);
+        entity.setProjects(projects);
 
         return entity;
     }
@@ -40,7 +44,7 @@ class UserMapper {
 
         entity.setUsername(userInfoDto.username());
         entity.addRoles(roleMapper.mapUserRolesToRoleEntities(userInfoDto.roles()));
-        entity.addProjects(projectMapper.mapProjectDtosToEntities(userInfoDto.projects(), userInfoDto.username()));
+        entity.setProjects(projectMapper.mapProjectDtosToEntities(userInfoDto.projects()));
 
         return entity;
     }

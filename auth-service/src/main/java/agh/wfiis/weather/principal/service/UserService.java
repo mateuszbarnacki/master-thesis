@@ -30,18 +30,10 @@ public interface UserService {
     void registerUser(UserDto userDto);
 
     /**
-     * This method updates roles and actions for user with given username.
+     * This method updates roles and projects for user with given username.
      *
      * @param userInfoDto Object which contains new data.
      * @return UserInfoDto Object with updated data.
      */
-    UserInfoDto updateRolesAndActions(UserInfoDto userInfoDto);
-
-    /**
-     * This method add projects in which user is enrolled.
-     *
-     * @param userInfoDto Object which contains new data.
-     * @return UserInfoDto Object with updated data.
-     */
-    UserInfoDto updateProjects(UserInfoDto userInfoDto);
+    UserInfoDto updateRolesAndProjects(UserInfoDto userInfoDto);
 }

@@ -44,12 +44,7 @@ public class UserController {
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserInfoDto updateRolesAndActions(@Valid @RequestBody UserInfoDto userInfoDto) {
-        return userService.updateRolesAndActions(userInfoDto);
-    }
-
-    @PatchMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserInfoDto updateProjects(@RequestBody UserInfoDto userInfoDto) {
-        return userService.updateProjects(userInfoDto);
+    public UserInfoDto updateRolesAndProjects(@Valid @RequestBody UserInfoDto userInfoDto) {
+        return userService.updateRolesAndProjects(userInfoDto);
     }
 }

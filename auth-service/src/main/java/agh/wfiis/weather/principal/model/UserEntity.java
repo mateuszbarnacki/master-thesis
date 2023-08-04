@@ -48,7 +48,7 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProjectEntity> projects = new HashSet<>();
 
     public Set<RoleEntity> getRoles() {
@@ -67,12 +67,12 @@ public class UserEntity implements UserDetails {
         return this.projects;
     }
 
-    public void addProjects(Set<ProjectEntity> projects) {
-        this.projects.addAll(projects);
-    }
-
-    public void clearProjects() {
+    public void setProjects(Set<ProjectEntity> projects) {
+        for (ProjectEntity project : projects) {
+            project.setUser(this);
+        }
         this.projects.clear();
+        this.projects.addAll(projects);
     }
 
     public Long getId() {

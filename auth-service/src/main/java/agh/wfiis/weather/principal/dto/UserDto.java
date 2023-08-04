@@ -9,5 +9,5 @@ public record UserDto(String username,
                       String description,
                       String password,
                       Set<UserRole> roles,
-                      Set<ProjectDto> projects) {
+                      Set<String> projects) {
 }
