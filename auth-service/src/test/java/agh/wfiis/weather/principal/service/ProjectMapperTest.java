@@ -29,8 +29,8 @@ class ProjectMapperTest {
     @Test
     void shouldMapSetOfDtosToSetOfEntities() {
         ActionEntity cloneProject = new ActionEntity();
-        cloneProject.setName(ProjectAction.CLONE_PROJECT.getAction());
-        Mockito.when(actionRepository.findActionEntityByName(ProjectAction.CLONE_PROJECT.getAction()))
+        cloneProject.setName(ProjectAction.READ_MEASUREMENT.getAction());
+        Mockito.when(actionRepository.findActionEntityByName(ProjectAction.READ_MEASUREMENT.getAction()))
                 .thenReturn(Optional.of(cloneProject));
         Set<ProjectDto> dtos = givenSetOfProjectDtos();
 
@@ -59,7 +59,7 @@ class ProjectMapperTest {
     }
 
     private Set<ProjectDto> givenSetOfProjectDtos() {
-        return Set.of(new ProjectDto(-7L, FIRST_PROJECT_NAME, Set.of(ProjectAction.CLONE_PROJECT)),
+        return Set.of(new ProjectDto(-7L, FIRST_PROJECT_NAME, Set.of(ProjectAction.READ_MEASUREMENT)),
                 new ProjectDto(-13L, THIRD_PROJECT_NAME, Set.of()));
     }
 

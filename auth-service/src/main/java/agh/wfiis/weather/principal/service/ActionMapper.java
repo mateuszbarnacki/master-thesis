@@ -16,7 +16,7 @@ class ActionMapper {
     private final ActionRepository actionRepository;
     private final Map<String, ProjectAction> stringToProjectAction = Map.of(
             ProjectAction.ADD_MEASUREMENT.getAction(), ProjectAction.ADD_MEASUREMENT,
-            ProjectAction.CLONE_PROJECT.getAction(), ProjectAction.CLONE_PROJECT);
+            ProjectAction.READ_MEASUREMENT.getAction(), ProjectAction.READ_MEASUREMENT);
 
     ActionMapper(ActionRepository actionRepository) {
         this.actionRepository = actionRepository;

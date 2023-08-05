@@ -46,7 +46,7 @@ class ActionMapperTest {
 
     private Set<ActionEntity> givenSetOfActionEntities() {
         ActionEntity actionEntity = new ActionEntity();
-        actionEntity.setName("CLONE_PROJECT");
+        actionEntity.setName("READ_MEASUREMENT");
         return Set.of(actionEntity);
     }
 

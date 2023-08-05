@@ -2,7 +2,7 @@ package agh.wfiis.weather.config;
 
 public enum ProjectAction {
     ADD_MEASUREMENT("ADD_MEASUREMENT"),
-    CLONE_PROJECT("CLONE_PROJECT");
+    READ_MEASUREMENT("READ_MEASUREMENT");
 
     private final String action;
 
