@@ -53,7 +53,6 @@ class ProjectMapper {
     private ProjectEntity mapProjectDtoToProjectEntity(ProjectDto dto) {
         ProjectEntity entity = new ProjectEntity();
 
-        entity.setId(dto.id());
         entity.setName(dto.name());
         entity.addActions(mapEnumsToEntities(dto.actions()));
 

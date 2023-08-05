@@ -75,6 +75,17 @@ public class UserEntity implements UserDetails {
         this.projects.addAll(projects);
     }
 
+    public void addProjects(Set<ProjectEntity> projects) {
+        for (ProjectEntity entity : projects) {
+            entity.setUser(this);
+        }
+        this.projects.addAll(projects);
+    }
+
+    public void removeProjects(Set<ProjectEntity> projects) {
+        this.projects.removeAll(projects);
+    }
+
     public Long getId() {
         return id;
     }

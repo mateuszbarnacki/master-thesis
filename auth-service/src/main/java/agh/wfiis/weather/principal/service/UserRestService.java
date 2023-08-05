@@ -4,6 +4,7 @@ import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
 import agh.wfiis.weather.principal.dto.UserInfoDto;
+import agh.wfiis.weather.principal.model.ProjectEntity;
 import agh.wfiis.weather.principal.model.UserEntity;
 import agh.wfiis.weather.principal.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -67,10 +70,32 @@ public class UserRestService implements UserService, UserDetailsService {
                         new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, userInfoDto.username())));
         UserEntity userInfoEntity = userMapper.mapUserInfoToUserEntity(userInfoDto);
 
+        Set<ProjectEntity> userProjects = entity.getProjects();
+        Set<ProjectEntity> newProjects = userInfoEntity.getProjects();
+
+        Set<String> userProjectsNames = getProjectsNames(userProjects);
+        Set<String> newProjectsNames = getProjectsNames(newProjects);
+
+        Set<ProjectEntity> projectsToRemove = userProjects.stream()
+                .filter(userProject -> !newProjectsNames.contains(userProject.getName()))
+                .collect(Collectors.toSet());
+        Set<ProjectEntity> projectsToAdd = newProjects.stream()
+                .filter(project -> !userProjectsNames.contains(project.getName()))
+                .collect(Collectors.toSet());
+
         entity.clearRoles();
         entity.addRoles(userInfoEntity.getRoles());
-        entity.setProjects(userInfoEntity.getProjects());
+        entity.removeProjects(projectsToRemove);
+        entity.addProjects(projectsToAdd);
 
-        return userMapper.mapUserEntityToUserInfoDto(entity);
+        UserEntity newEntity = userRepository.save(entity);
+
+        return userMapper.mapUserEntityToUserInfoDto(newEntity);
+    }
+
+    private Set<String> getProjectsNames(Set<ProjectEntity> projectEntities) {
+        return projectEntities.stream()
+                .map(ProjectEntity::getName)
+                .collect(Collectors.toSet());
     }
 }

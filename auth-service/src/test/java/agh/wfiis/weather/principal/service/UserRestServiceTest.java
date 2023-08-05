@@ -88,6 +88,7 @@ class UserRestServiceTest {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(new UserEntity()));
         Mockito.when(userMapper.mapUserInfoToUserEntity(ArgumentMatchers.any(UserInfoDto.class)))
                 .thenReturn(mappedUser);
+        Mockito.when(userRepository.save(ArgumentMatchers.any(UserEntity.class))).thenReturn(new UserEntity());
         UserInfoDto userInfoDto = givenUserInfoDto();
 
         whenUpdateRolesAndProjects(userInfoDto);
