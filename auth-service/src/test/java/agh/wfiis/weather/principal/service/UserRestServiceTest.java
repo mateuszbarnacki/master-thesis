@@ -38,9 +38,7 @@ class UserRestServiceTest {
         entity.setUsername(TEST_USERNAME);
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(entity));
 
-        String username = TEST_USERNAME;
-
-        UserDetails user = whenLoadUserByUsername(username);
+        UserDetails user = whenLoadUserByUsername(TEST_USERNAME);
 
         thenUserContainsExpectedUsername(user);
 
@@ -51,9 +49,7 @@ class UserRestServiceTest {
     void shouldThrowUsernameNotFoundExceptionBecauseUserDoesNotExist() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
 
-        String username = TEST_USERNAME;
-
-        thenLoadUserByUsernameThrowsUsernameNotFoundException(username);
+        thenLoadUserByUsernameThrowsUsernameNotFoundException(TEST_USERNAME);
 
         Mockito.verify(userRepository).findByUsername(ArgumentMatchers.anyString());
     }
@@ -111,9 +107,7 @@ class UserRestServiceTest {
         Mockito.when(userMapper.mapUserEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class)))
                 .thenReturn(userWithOneProject);
 
-        String username = TEST_USERNAME;
-
-        Collection<ProjectDto> projects = whenGetUserProjects(username);
+        Collection<ProjectDto> projects = whenGetUserProjects(TEST_USERNAME);
 
         thenProjectCollectionContainsExactlyOneProject(projects);
     }
@@ -122,9 +116,7 @@ class UserRestServiceTest {
     void shouldNotGetUserProjectsBecauseUserDoesNotExist() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
 
-        String username = TEST_USERNAME;
-
-        thenGetUserProjectsThrowUsernameNotFoundException(username);
+        thenGetUserProjectsThrowUsernameNotFoundException(TEST_USERNAME);
     }
 
     private UserDto givenUserDto() {
