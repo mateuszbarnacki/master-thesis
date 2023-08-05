@@ -44,12 +44,16 @@ class ProjectMapper {
     }
 
     private ProjectDto mapProjectEntityToProjectDto(ProjectEntity entity) {
-        return new ProjectDto(entity.getName(), mapEntitiesToEnums(entity.getActions()));
+        return new ProjectDto(
+                entity.getId(),
+                entity.getName(),
+                mapEntitiesToEnums(entity.getActions()));
     }
 
     private ProjectEntity mapProjectDtoToProjectEntity(ProjectDto dto) {
         ProjectEntity entity = new ProjectEntity();
 
+        entity.setId(dto.id());
         entity.setName(dto.name());
         entity.addActions(mapEnumsToEntities(dto.actions()));
 

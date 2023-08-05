@@ -59,8 +59,8 @@ class ProjectMapperTest {
     }
 
     private Set<ProjectDto> givenSetOfProjectDtos() {
-        return Set.of(new ProjectDto(FIRST_PROJECT_NAME, Set.of(ProjectAction.CLONE_PROJECT)),
-                new ProjectDto(THIRD_PROJECT_NAME, Set.of()));
+        return Set.of(new ProjectDto(-7L, FIRST_PROJECT_NAME, Set.of(ProjectAction.CLONE_PROJECT)),
+                new ProjectDto(-13L, THIRD_PROJECT_NAME, Set.of()));
     }
 
     private Set<ProjectEntity> givenSetOfProjectEntities() {

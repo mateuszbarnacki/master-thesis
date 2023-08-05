@@ -138,7 +138,7 @@ class UserRestServiceTest {
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto(TEST_USERNAME,
                 Set.of(UserRole.PROJECT_CREATOR),
-                Set.of(new ProjectDto("agh", Set.of())));
+                Set.of(new ProjectDto(-2L, "agh", Set.of())));
     }
 
     private Collection<ProjectDto> whenGetUserProjects(String username) {
@@ -187,6 +187,6 @@ class UserRestServiceTest {
     private UserInfoDto getUserWithOneProject() {
         return new UserInfoDto(TEST_USERNAME,
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto("agh_proj", Set.of())));
+                Set.of(new ProjectDto(-1L, "agh_proj", Set.of())));
     }
 }

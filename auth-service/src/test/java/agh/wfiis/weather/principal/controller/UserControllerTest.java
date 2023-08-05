@@ -86,12 +86,12 @@ class UserControllerTest {
         Object userInfoDto = new Object() {
             private final String username = "Dev";
             private final Set<UserRole> roles = Set.of(UserRole.PROJECT_CREATOR);
-            private final Set<ProjectDto> projects = Set.of(new ProjectDto("wfiis_proj", Set.of()));
+            private final Set<ProjectDto> projects = Set.of(new ProjectDto(-1L, "wfiis_proj", Set.of()));
         };
         String json = objectMapper.writeValueAsString(userInfoDto);
 
         Mockito.when(userService.updateRolesAndProjects(ArgumentMatchers.any(UserInfoDto.class)))
-                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.PROJECT_CREATOR), Set.of(new ProjectDto("wfiis_proj", Set.of()))));
+                .thenReturn(new UserInfoDto("Dev", Set.of(UserRole.PROJECT_CREATOR), Set.of(new ProjectDto(-2L ,"wfiis_proj", Set.of()))));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -115,7 +115,7 @@ class UserControllerTest {
     void shouldGetUserProjects() throws Exception {
         String username = "Tester";
         Mockito.when(userService.getUserProjects(username))
-                .thenReturn(Set.of(new ProjectDto("proj_test", Set.of(ProjectAction.ADD_MEASUREMENT))));
+                .thenReturn(Set.of(new ProjectDto(-123L, "proj_test", Set.of(ProjectAction.ADD_MEASUREMENT))));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/{username}/projects", username);
 
         mockMvc.perform(requestBuilder)

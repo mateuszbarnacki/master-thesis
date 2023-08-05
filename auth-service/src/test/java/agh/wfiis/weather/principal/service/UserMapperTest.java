@@ -61,7 +61,7 @@ class UserMapperTest {
         testProj.setName(PROJECT_NAME);
         Mockito.when(roleMapper.mapUserRolesToRoleEntities(Set.of(UserRole.RESEARCHER)))
                 .thenReturn(Set.of(researcher));
-        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(new ProjectDto(PROJECT_NAME, Set.of()))))
+        Mockito.when(projectMapper.mapProjectDtosToEntities(Set.of(new ProjectDto(-1L, PROJECT_NAME, Set.of()))))
                 .thenReturn(Set.of(testProj));
         UserInfoDto userInfoDto = givenUserInfoDto();
 
@@ -83,7 +83,7 @@ class UserMapperTest {
         entity.setUsername("Dev");
         entity.addRoles(Set.of(role));
         entity.setProjects(Set.of(project));
-        ProjectDto abc = new ProjectDto("abc", Set.of());
+        ProjectDto abc = new ProjectDto(-4L, "abc", Set.of());
         Mockito.when(roleMapper.mapRoleEntitiesToUserRoles(Set.of(role)))
                 .thenReturn(Set.of(UserRole.RESEARCHER));
         Mockito.when(projectMapper.mapProjectEntitiesToProjectDtos(Set.of(project)))
@@ -109,7 +109,7 @@ class UserMapperTest {
     private UserInfoDto givenUserInfoDto() {
         return new UserInfoDto("Tester",
                 Set.of(UserRole.RESEARCHER),
-                Set.of(new ProjectDto(PROJECT_NAME, Set.of())));
+                Set.of(new ProjectDto(-1L, PROJECT_NAME, Set.of())));
     }
 
     private UserEntity whenMapUserDtoToUserEntity(UserDto dto) {
