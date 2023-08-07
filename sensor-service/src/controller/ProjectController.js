@@ -12,15 +12,23 @@ class ProjectController {
 
     #initializeRoutes() {
         this.router.get('/names', this.getProjectsNames);
-        this.router.get('/single/:acronym', this.getProject);
+        this.router.get('/', this.getProject);
         this.router.post('/', this.addProject);
         this.router.delete('/:acronym', this.deleteProject);
     }
 
     async getProject(req, res) {
         try {
-            const acronym = req.params.acronym;
-            const result = await projectService.getProject(acronym);
+            const acronym = req.query.acronym;
+            const name = req.query.name;
+            let result = [];
+            if (acronym) {
+                result = await projectService.getProjectByAcronym(acronym);
+            } else if (name) {
+                result = await projectService.getProjectByName(name);
+            } else {
+                throw new Error('Could not detect acronym or name request parameter!');
+            }
             return res.status(200).send(result);
         } catch (error) {
             return res.status(500).send({message: error.message});

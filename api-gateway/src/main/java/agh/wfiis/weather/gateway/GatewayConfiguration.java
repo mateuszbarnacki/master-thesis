@@ -68,6 +68,12 @@ public class GatewayConfiguration {
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
                         .uri("http://localhost:13402/users/all"))
                 .route(p -> p
+                        .path("/users/{username}/projects")
+                        .and()
+                        .method(HttpMethod.GET)
+                        .filters(f -> f.filter(new PrivilegeFilter(Privilege.READ_PROJECT, this.jwtDecoder)))
+                        .uri("http://localhost:13402/users"))
+                .route(p -> p
                         .path("/user-projects")
                         .and()
                         .method(HttpMethod.PATCH)

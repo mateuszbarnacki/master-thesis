@@ -41,6 +41,7 @@ class DbManager {
         if (!doesProjectCollectionExist) {
             this.projectCollection = await this.dbConnection.createCollection(process.env.PROJECT_COLLECTION);
             await this.projectCollection.createIndex({acronym: 1}, {unique: true});
+            await this.projectCollection.createIndex({name: 1}, {unique: true});
             this.dbConnection.command({
                 collMod: process.env.PROJECT_COLLECTION,
                 validator: projectSchema.schema

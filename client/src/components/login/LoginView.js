@@ -4,12 +4,13 @@ import Row from "react-bootstrap/Row";
 import {Fragment, useState} from "react";
 import Menu from "../Menu";
 import LoginForm from "./LoginForm";
-import {localStorageAuthToken} from "../../api/constants";
+import {localStorageAuthToken, localStorageRoles, localStorageUser} from "../../api/constants";
 import Footer from "../Footer";
 
 function LoginView() {
     window.localStorage.removeItem(localStorageAuthToken);
-    window.localStorage.removeItem('roles');
+    window.localStorage.removeItem(localStorageRoles);
+    window.localStorage.removeItem(localStorageUser);
     const [loginError, setLoginError] = useState(false);
     const loginAlert = (
         <Alert variant="danger" onClose={() => setLoginError(false)} dismissible>
@@ -20,7 +21,7 @@ function LoginView() {
 
     return (
         <Fragment>
-            <Menu isLogged={true} canRead={true} canAdd={true}/>
+            <Menu/>
             {loginError ? loginAlert : null}
             <Container>
                 <Row className="justify-content-center">

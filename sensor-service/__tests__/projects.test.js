@@ -11,7 +11,7 @@ describe('Projects tests', () => {
         beforeAll(() => {
             jest.spyOn(ProjectService.prototype, 'getProjectsNames')
                 .mockImplementation(() => ['test1', 'test2']);
-            jest.spyOn(ProjectService.prototype, 'getProject')
+            jest.spyOn(ProjectService.prototype, 'getProjectByAcronym')
                 .mockImplementation((acronym) => {
                     return {
                         _id: 1,
@@ -40,7 +40,7 @@ describe('Projects tests', () => {
             const acronym = 'test';
 
             chai.request(app)
-                .get(`/projects/single/${acronym}`)
+                .get(`/projects?acronym=${acronym}`)
                 .end((err, res) => {
                     expect(res).to.have.status(200);
                     expect(res.body.name).to.deep.equal('Test Project');

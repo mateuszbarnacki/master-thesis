@@ -6,9 +6,15 @@ class ProjectService {
         this.projectCollection = null;
     }
 
-    async getProject(acronym) {
+    async getProjectByAcronym(acronym) {
         await this.#checkDbConnection();
         const query = {'acronym': acronym};
+        return await this.projectCollection.find(query).toArray();
+    }
+
+    async getProjectByName(name) {
+        await this.#checkDbConnection();
+        const query = {'name': name};
         return await this.projectCollection.find(query).toArray();
     }
 
