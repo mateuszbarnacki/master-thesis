@@ -81,10 +81,9 @@ function ProjectInfoCard({item, handleAlert, deleteElement}) {
                                    handleAlert={(value) => handleAlert(value)}/>
             <CloneProjectModal project={item} show={showCloneProjectModal}
                                closeModal={handleCloneProjectModalClose}/>
-            <DeleteProjectModal acronym={item.acronym}
-                                show={showDeleteProjectModal}
+            <DeleteProjectModal show={showDeleteProjectModal}
                                 closeModal={handleDeleteProjectModalClose}
-                                deleteElement={(value) => deleteElement(value)}/>
+                                deleteElement={() => deleteElement(item)}/>
         </Fragment>
     );
 }

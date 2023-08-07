@@ -5,7 +5,12 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 
-function DeleteProjectModal({show, closeModal}) {
+function DeleteProjectModal({show, closeModal, deleteElement}) {
+    const handleYesButtonClick = (item) => {
+        deleteElement(item.acronym);
+        closeModal(true);
+    };
+
     return (
         <Modal show={show} centered dialogClassName="delete-modal-size">
             <ModalHeader className="modal-center">
@@ -20,7 +25,7 @@ function DeleteProjectModal({show, closeModal}) {
                 <Button variant="danger" onClick={closeModal} size="lg">
                     Nie
                 </Button>
-                <Button variant="success" onClick={closeModal} size="lg">
+                <Button variant="success" onClick={handleYesButtonClick} size="lg">
                     Tak
                 </Button>
             </ModalFooter>

@@ -7,23 +7,20 @@ import Col from "react-bootstrap/Col";
 import * as C from "../../api/constants";
 import * as P from "../../api/paths";
 
-function ProjectListColumn({handleListOnClick, handleAlert}) {
+function ProjectListColumn({handleListOnClick, handleAlert, projects, changeProjects}) {
     const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
         window.localStorage.getItem(C.localStorageRoles) : [];
-    const [projects, setProjects] = useState([]);
     const [list, setList] = useState([]);
-    const handleOnChange = (event) => {
-        const searchValue = event.target.value;
-        if (isStringNullOrEmpty(searchValue)) {
-            setList(projects);
-        } else {
-            const newList = projects.slice().filter(value => value.match(searchValue + ".*"));
-            setList(newList);
-        }
-    };
     const handleOnKeyDown = (event) => {
         const searchValue = event.target.value;
-        if (event.code === 'Space' && isStringNullOrEmpty(searchValue)) event.preventDefault();
+        if (event.code === 'Space' && isStringNullOrEmpty(searchValue)) {
+            event.preventDefault();
+        } else if (isStringNullOrEmpty(searchValue)) {
+            setList(projects);
+        } else {
+            const newList = projects.slice();
+            setList(newList.filter(value => value.match(searchValue + ".*")));
+        }
     };
     const requestOptions = {
         method: 'GET',
@@ -37,7 +34,7 @@ function ProjectListColumn({handleListOnClick, handleAlert}) {
             fetch(P.base + P.projects + '/names', requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    setProjects(data);
+                    changeProjects(data);
                     setList(data);
                 })
                 .catch(error => handleAlert(true));
@@ -45,18 +42,17 @@ function ProjectListColumn({handleListOnClick, handleAlert}) {
             fetch(P.base + P.users + '/' + window.localStorage.getItem(C.localStorageUser) + P.projects, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    setProjects(data);
+                    changeProjects(data);
                     setList(data);
                 })
                 .catch(error => handleAlert(true));
         }
-    }, []);
+    }, [projects]);
 
     return (
         <Col className="project-column">
             <Form.Label htmlFor="search">Wyszukaj projekt po nazwie:</Form.Label>
             <Form.Control type="text" id="search" placeholder="Nazwa projektu"
-                          onChange={(e) => handleOnChange(e)}
                           onKeyDown={(e) => handleOnKeyDown(e)}/>
             <ListGroup variant="flush" className="projects-list mt-3 mb-3">
                 {list.map(item =>

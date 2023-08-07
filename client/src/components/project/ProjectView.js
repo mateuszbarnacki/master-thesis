@@ -24,6 +24,7 @@ function ProjectView() {
             </Card.Body>
         </Card>
     );
+    const [projects, setProjects] = useState([]);
     const [projectInfoCard, setProjectInfoCard] = useState(defaultCard);
     const [isAlert, setIsAlert] = useState(false);
     const [projectStructureCard, setProjectStructureCard] = useState(null);
@@ -33,18 +34,35 @@ function ProjectView() {
             Podczas pobrania danych z serwera wystąpił nieoczekiwany błąd.
         </Alert>
     );
-    const requestOptions = {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
-        }
+    const headers = {
+        'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
     };
     const handleListOnClick = (item) => {
-        fetch(P.base + P.projects + '?name=' + item, requestOptions)
+        fetch(P.base + P.projects + '?name=' + item, {
+            method: 'GET',
+            headers: headers
+        })
             .then(res => res.json())
             .then(data => {
-                setProjectInfoCard(<ProjectInfoCard item={data[0]}/>);
+                setProjectInfoCard(<ProjectInfoCard item={data[0]}
+                                                    handleAlert={setIsAlert}
+                                                    deleteElement={() => deleteListElement(data[0])}/>);
                 setProjectStructureCard(<ProjectStructureCard item={data[0]}/>);
+            })
+            .catch(error => setIsAlert(true));
+    };
+    const deleteListElement = (project) => {
+        fetch(P.base + P.projects + '/' + project.acronym, {
+            method: 'DELETE',
+            headers: headers
+        })
+            .then(data => {
+                const newProjects = projects.slice();
+                const index = newProjects.indexOf(project.name);
+                newProjects.splice(index, 1);
+                setProjects(newProjects);
+                setProjectInfoCard(defaultCard);
+                setProjectStructureCard(null);
             })
             .catch(error => setIsAlert(true));
     };
@@ -56,7 +74,9 @@ function ProjectView() {
             <Container style={{marginTop: "2vh"}}>
                 <Row>
                     <ProjectListColumn handleListOnClick={handleListOnClick}
-                                       handleAlert={setIsAlert}/>
+                                       handleAlert={setIsAlert}
+                                       projects={projects}
+                                       changeProjects={setProjects}/>
                     <ProjectInfoColumn projectInfoCard={projectInfoCard}
                                        projectStructureCard={projectStructureCard}/>
                 </Row>
