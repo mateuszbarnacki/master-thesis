@@ -9,7 +9,7 @@ import ReadMeasurementsModal from "./modals/ReadMeasurementsModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import * as C from '../../api/constants';
 
-function ProjectInfoCard({item}) {
+function ProjectInfoCard({item, handleAlert, deleteElement}) {
     const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
         window.localStorage.getItem(C.localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
@@ -73,12 +73,16 @@ function ProjectInfoCard({item}) {
             </Card>
             <UploadMeasurementsModal sensors={item.sensors} show={showUploadMeasurementsModal}
                                      closeModal={handleUploadMeasurementsModalClose}/>
-            <ReadMeasurementsModal show={showReadMeasurementsModal}
-                                   closeModal={handleReadMeasurementsModalClose}/>
+            <ReadMeasurementsModal acronym={item.acronym}
+                                   show={showReadMeasurementsModal}
+                                   closeModal={handleReadMeasurementsModalClose}
+                                   handleAlert={(value) => handleAlert(value)}/>
             <CloneProjectModal project={item} show={showCloneProjectModal}
                                closeModal={handleCloneProjectModalClose}/>
-            <DeleteProjectModal show={showDeleteProjectModal}
-                                closeModal={handleDeleteProjectModalClose}/>
+            <DeleteProjectModal acronym={item.acronym}
+                                show={showDeleteProjectModal}
+                                closeModal={handleDeleteProjectModalClose}
+                                deleteElement={(value) => deleteElement(value)}/>
         </Fragment>
     );
 }

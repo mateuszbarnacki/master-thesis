@@ -7,32 +7,25 @@ import Button from "react-bootstrap/Button";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import vs from "react-syntax-highlighter/src/styles/hljs/vs";
+import {useEffect, useState} from "react";
+import * as P from "../../../api/paths";
+import * as C from "../../../api/constants";
 
-const mock = [
-    {
-        date: '2023-07-30',
-        temperature: 13,
-        humidity: 40,
-        humidity2: 40,
-        description: 'First test measurement'
-    },
-    {
-        date: '2023-07-31',
-        temperature: 32,
-        humidity: 13,
-        humidity2: 13,
-        description: 'Second test measurement'
-    },
-    {
-        date: '2023-08-01',
-        temperature: -7,
-        humidity: 0,
-        humidity2: 0,
-        description: 'Third test measurement'
-    }
-];
+function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
+    const [measurements, setMeasurements] = useState([]);
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+        }
+    };
+    useEffect(() => {
+        fetch(P.base + P.measurements + '/' + acronym + '/latest', requestOptions)
+            .then(res => res.json())
+            .then(data => setMeasurements(data))
+            .catch(error => handleAlert(true));
+    }, [acronym]);
 
-function ReadMeasurementsModal({show, closeModal}) {
     return (
         <Modal size="lg" show={show} centered>
             <ModalHeader className="modal-center">
@@ -42,7 +35,7 @@ function ReadMeasurementsModal({show, closeModal}) {
             </ModalHeader>
             <ModalBody className="modal-center">
                 <Card body className="modal-json">
-                    {mock.map(item =>
+                    {measurements.map(item =>
                         <SyntaxHighlighter
                             language="json"
                             style={vs}
