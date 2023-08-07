@@ -72,7 +72,9 @@ function ProjectInfoCard({item, handleAlert, deleteElement}) {
                 </Card.Body>
             </Card>
             <UploadMeasurementsModal sensors={item.sensors} show={showUploadMeasurementsModal}
-                                     closeModal={handleUploadMeasurementsModalClose}/>
+                                     closeModal={handleUploadMeasurementsModalClose}
+                                     acronym={item.acronym}
+                                     handleAlert={(value) => handleAlert(value)}/>
             <ReadMeasurementsModal acronym={item.acronym}
                                    show={showReadMeasurementsModal}
                                    closeModal={handleReadMeasurementsModalClose}

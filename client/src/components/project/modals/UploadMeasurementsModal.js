@@ -10,13 +10,34 @@ import DragAndDropFile from "../../DragAndDropFile";
 import {useState} from "react";
 import FileInfo from "../../FileInfo";
 import FormLabel from "react-bootstrap/FormLabel";
+import * as P from "../../../api/paths";
+import * as C from "../../../api/constants";
 
-function UploadMeasurementsModal({sensors, show, closeModal}) {
+function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAlert}) {
     const [file, setFile] = useState(null);
-
     const handleCancelAction = () => {
         setFile(null);
         closeModal();
+    };
+    const handleSaveAction = () => {
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            const deviceId = document.getElementById('sensorId').value;
+            fetch(P.base + P.measurements + '/upload/' + acronym + '/' + deviceId, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    closeModal();
+                    setFile(null);
+                })
+                .catch(error => handleAlert(true))
+        }
     };
 
     return (
@@ -40,7 +61,7 @@ function UploadMeasurementsModal({sensors, show, closeModal}) {
                 <Button variant="danger" onClick={handleCancelAction} size="lg">
                     Anuluj
                 </Button>
-                <Button variant="success" onClick={closeModal} size="lg">
+                <Button variant="success" onClick={handleSaveAction} size="lg">
                     Zapisz pomiar
                 </Button>
             </ModalFooter>
