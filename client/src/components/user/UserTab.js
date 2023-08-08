@@ -2,12 +2,13 @@ import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import Button from "react-bootstrap/Button";
-import ActionsModal from "./roles/ActionsModal";
+import AccessModal from "./roles/AccessModal";
 import {Fragment, useState} from "react";
 import AccessForm from "./roles/AccessForm";
-import AccessModal from "./roles/AccessModal";
+import ActionsModal from "./roles/ActionsModal";
+import * as C from "../../api/constants";
 
-function UserTab({user, index}) {
+function UserTab({user, index, handleAlert}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
     const [showManageProjectsModal, setShowManageProjectsModal] = useState(false);
 
@@ -16,23 +17,26 @@ function UserTab({user, index}) {
             <AccordionItem eventKey={index}>
                 <AccordionHeader>{user.username}</AccordionHeader>
                 <AccordionBody className="text-center">
-                    <AccessForm projects={user.projects} roles={user.roles} update={false}/>
+                    <AccessForm user={user}
+                                update={false}
+                                handleAlert={(value) => handleAlert(value)}/>
                     <Button variant="dark" className="mt-3 me-3"
                             onClick={() => setShowManageRolesModal(true)}>
                         Edytuj uprawnienia
                     </Button>
-                    {user.roles[0] ?
-                    <Button variant="dark" className="mt-3 ms-3"
-                            onClick={() => setShowManageProjectsModal(true)}>
-                        Edytuj akcje
-                    </Button> : null}
+                    {user.roles.includes(C.ResearcherRole) ?
+                        <Button variant="dark" className="mt-3 ms-3"
+                                onClick={() => setShowManageProjectsModal(true)}>
+                            Edytuj akcje
+                        </Button> : null}
                 </AccordionBody>
             </AccordionItem>
-            <ActionsModal projects={user.projects} roles={user.roles}
-                          show={showManageRolesModal}
-                          closeModal={() => setShowManageRolesModal(false)}/>
-            <AccessModal userProjects={user.projects} show={showManageProjectsModal}
-                         closeModal={() => setShowManageProjectsModal(false)}/>
+            <AccessModal user={user}
+                         show={showManageRolesModal}
+                         closeModal={() => setShowManageRolesModal(false)}
+                         handleAlert={(value) => handleAlert(value)}/>
+            <ActionsModal userProjects={user.projects} show={showManageProjectsModal}
+                          closeModal={() => setShowManageProjectsModal(false)}/>
         </Fragment>
     );
 }

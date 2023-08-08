@@ -7,15 +7,6 @@ import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import UserProjectsList from "./UserProjectsList";
 
-const mock = [
-    "Zanieczyszczenia Kraków",
-    "Projekt terenowy",
-    "Zanieczyszczenia Radom",
-    "Zanieczyszczenia Police",
-    "Klimat Szczecina",
-    "Test"
-];
-
 function UserForm() {
     const [isPasswordInvalidRepeated, setIsPasswordInvalidRepeated] = useState(false);
 
@@ -49,7 +40,7 @@ function UserForm() {
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel className="mb-3" as="h5">Uczestnictwo w projektach:</FormLabel>
-                        <UserProjectsList projects={mock}/>
+                        <UserProjectsList handleAlert={() => {}}/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel htmlFor="password" className="mb-3" as="h5">Hasło:</FormLabel>

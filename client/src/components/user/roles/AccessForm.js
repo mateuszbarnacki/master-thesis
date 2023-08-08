@@ -5,57 +5,40 @@ import FormCheck from "react-bootstrap/FormCheck";
 import Form from "react-bootstrap/Form";
 import ActionsTable from "./ActionsTable";
 import UserProjectsList from "../UserProjectsList";
+import * as C from "../../../api/constants";
 
-const mock = [
-    {
-        name: "Zanieczyszczenia Kraków",
-        actions: [true, false]
-    },
-    {
-        name: "Projekt terenowy",
-        actions: [false, true]
-    },
-    {
-        name: "Zanieczyszczenia Radom",
-        actions: [true, false]
-    },
-    {
-        name: "Zanieczyszczenia Police",
-        actions: [true, true]
-    },
-    {
-        name: "Klimat Szczecina",
-        actions: [false, false]
-    },
-    {
-        name: "Test",
-        actions: [true, false]
-    }
-];
-
-function AccessForm({projects, roles, update}) {
+function AccessForm({user, update, handleAlert}) {
     return (
         <Form>
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
             <Row xs={2}>
                 <FormGroup className="mt-1 mb-1">
-                    <FormLabel htmlFor="reader-checkbox">Badacz</FormLabel>
-                    {update ? <FormCheck id="reader-checkbox" defaultChecked={roles[0]}/> :
-                        <FormCheck id="reader-checkbox" defaultChecked={roles[0]} disabled/>}
+                    <FormLabel htmlFor="researcher-checkbox">Badacz</FormLabel>
+                    {update ? <FormCheck id={user.username + "-researcher-checkbox"}
+                                         defaultChecked={user.roles.includes(C.ResearcherRole)}/> :
+                        <FormCheck id={user.username + "-researcher-checkbox"}
+                                   defaultChecked={user.roles.includes(C.ResearcherRole)}
+                                   disabled/>}
                 </FormGroup>
                 <FormGroup className="mt-1 mb-1">
-                    <FormLabel htmlFor="writer-checkbox">Twórca projektów</FormLabel>
-                    {update ? <FormCheck id="writer-checkbox" defaultChecked={roles[1]}/> :
-                        <FormCheck id="writer-checkbox" defaultChecked={roles[1]} disabled/>}
+                    <FormLabel htmlFor="project-creator-checkbox">Twórca projektów</FormLabel>
+                    {update ? <FormCheck id={user.username + "-project-creator-checkbox"}
+                                         defaultChecked={user.roles.includes(C.ProjectCreatorRole)}/> :
+                        <FormCheck id={user.username + "-project-creator-checkbox"}
+                                   defaultChecked={user.roles.includes(C.ProjectCreatorRole)}
+                                   disabled/>}
                 </FormGroup>
             </Row>
-            {roles[0] ?
+            {user.roles.includes(C.ResearcherRole) ?
                 <>
-                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli Badacz:</FormLabel>
-                    {update ? <UserProjectsList projects={mock.map(item => item.name)}
-                                                userProjects={projects.map(item => item.name)}
-                                                update={true}/> :
-                        <ActionsTable projects={mock} userProjects={projects} update={update}/>
+                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli
+                        Badacz:</FormLabel>
+                    {update ?
+                        <FormGroup id={"test"}>
+                            <UserProjectsList userProjects={user.projects.map(item => item.name)}
+                                              handleAlert={(value) => handleAlert(value)}/>
+                        </FormGroup> :
+                        <ActionsTable userProjects={user.projects} update={update}/>
                     }</> : null}
         </Form>
     );

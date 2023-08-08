@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
+import * as C from "../../../api/constants";
 
-function ActionsTable({projects, userProjects, update}) {
+function ActionsTable({userProjects, update}) {
     return (
         <Table className="m-1">
             <thead className="border-black">
@@ -15,18 +16,32 @@ function ActionsTable({projects, userProjects, update}) {
             {
                 userProjects.map((project, projectIndex) => (
                     <tr key={project.name}>
-                        <td key={project.name + ' ' + projects.length}>{projectIndex + 1}</td>
-                        <td key={project.name + '-' + projects.length}>{project.name}</td>
-                        {project.actions.map((action, actionIndex) => {
-                            if (update) {
-                                return (<td key={project.name + '-' + actionIndex}><input
-                                    type="checkbox" className="custom-checkbox-input"
-                                    defaultChecked={action}/></td>);
-                            }
-                            return (action ?
-                                <td key={project.name + '-' + actionIndex}>x</td> :
-                                <td key={project.name + '-' + actionIndex}></td>);
-                        })}
+                        <td key={project.name + ' ' + userProjects.length}>{projectIndex + 1}</td>
+                        <td key={project.name + '-' + userProjects.length}>{project.name}</td>
+                        {
+                            update ?
+                                (<>
+                                    <td key={project.name+'-Add_Measurement'+projectIndex}>
+                                        <input type="checkbox"
+                                               className="custom-checkbox-input"
+                                               defaultChecked={project.actions.includes(C.AddMeasurementAction)}/>
+                                    </td>
+                                    <td key={project.name+'-Read_Measurement'+projectIndex}>
+                                        <input type="checkbox"
+                                               className="custom-checkbox-input"
+                                               defaultChecked={project.actions.includes(C.ReadMeasurementsAction)}/>
+                                    </td>
+                                </>)
+                                :
+                                (<>
+                                    <td key={project.name+'-Add_Measurement'+projectIndex}>
+                                        {project.actions.includes(C.AddMeasurementAction) ? 'x' : null}
+                                    </td>
+                                    <td key={project.name+'-Read_Measurement'+projectIndex}>
+                                        {project.actions.includes(C.ReadMeasurementsAction) ? 'x' : null}
+                                    </td>
+                                </>)
+                        }
                     </tr>))}
             </tbody>
         </Table>

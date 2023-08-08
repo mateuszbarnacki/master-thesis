@@ -1,20 +1,30 @@
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {isStringNullOrEmpty} from "../project/addProject/FormValidator";
+import * as P from "../../api/paths";
+import {useNavigate} from "react-router-dom";
+import * as C from "../../api/constants";
 
-function UserProjectsList({projects, userProjects}) {
-    const [projectNames, setProjectNames] = useState(projects);
+function UserProjectsList({userProjects, handleAlert}) {
+    const navigate = useNavigate();
+    const [projects, setProjects] = useState([]);
+    const [projectsCopy, setProjectsCopy] = useState([]);
     const [checkedProjects, setCheckedProjects] = useState(!!userProjects ? userProjects : []);
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+        }
+    };
     const handleSearchOnChange = (event) => {
         const searchValue = event.target.value;
         if (isStringNullOrEmpty(searchValue)) {
-            setProjectNames(projects);
+            setProjects(projectsCopy);
         } else {
-            const newList = projects.slice()
-                .filter(value => value.match(searchValue + ".*"));
-            setProjectNames(newList);
+            const newList = projectsCopy.slice().filter(value => value.match(searchValue + ".*"));
+            setProjects(newList);
         }
     };
     const handleSearchOnKeyDown = (event) => {
@@ -32,13 +42,28 @@ function UserProjectsList({projects, userProjects}) {
         setCheckedProjects(newCheckedProjects);
     };
 
+    useEffect(() => {
+        fetch(P.base + P.projects + '/names', requestOptions)
+            .then(res => {
+                if (res.status === 401) {
+                       navigate('/');
+                }
+                return res.json();
+            })
+            .then(data => {
+                setProjects(data);
+                setProjectsCopy(data);
+            })
+            .catch(error => handleAlert(true));
+    }, []);
+
     return (
         <Fragment>
             <Form.Control type="text" id="search" placeholder="Nazwa projektu" className="mt-4 mb-4"
                           onChange={(e) => handleSearchOnChange(e)}
                           onKeyDown={(e) => handleSearchOnKeyDown(e)}/>
             <ListGroup variant="flush" className="projects-roles-list">
-                {projectNames.map((item) =>
+                {projects.map((item) =>
                     <ListGroupItem key={item} className="py-2 px-4">
                         {item}
                         <input type="checkbox" id={item + "-checkbox"}

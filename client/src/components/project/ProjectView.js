@@ -38,13 +38,15 @@ function ProjectView() {
         'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
     };
     const handleListOnClick = (item) => {
-        fetch(P.base + P.projects + '?name=' + item, {
+        const name = item.name ? item.name : item;
+        fetch(P.base + P.projects + '?name=' + name, {
             method: 'GET',
             headers: headers
         })
             .then(res => res.json())
             .then(data => {
                 setProjectInfoCard(<ProjectInfoCard item={data[0]}
+                                                    actions={item.actions ? item.actions : null}
                                                     handleAlert={setIsAlert}
                                                     deleteElement={() => deleteListElement(data[0])}/>);
                 setProjectStructureCard(<ProjectStructureCard item={data[0]}/>);

@@ -42,8 +42,12 @@ function ProjectListColumn({handleListOnClick, handleAlert, projects, changeProj
             fetch(P.base + P.users + '/' + window.localStorage.getItem(C.localStorageUser) + P.projects, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    changeProjects(data);
-                    setList(data);
+                    const projects = data.map(item => ({
+                        name: item.name,
+                        actions: item.actions
+                    }));
+                    changeProjects(projects);
+                    setList(projects);
                 })
                 .catch(error => handleAlert(true));
         }
@@ -56,11 +60,11 @@ function ProjectListColumn({handleListOnClick, handleAlert, projects, changeProj
                           onKeyDown={(e) => handleOnKeyDown(e)}/>
             <ListGroup variant="flush" className="projects-list mt-3 mb-3">
                 {list.map(item =>
-                    <ListGroupItem key={item}
+                    <ListGroupItem key={item.name ? item.name : item}
                                    action
                                    variant="light"
                                    onClick={() => handleListOnClick(item)}>
-                        {item}
+                        {item.name ? item.name : item}
                     </ListGroupItem>)}
             </ListGroup>
         </Col>

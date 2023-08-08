@@ -35,8 +35,9 @@ function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
             </ModalHeader>
             <ModalBody className="modal-center">
                 <Card body className="modal-json">
-                    {measurements.map(item =>
+                    {measurements.map((item, index) =>
                         <SyntaxHighlighter
+                            key={index}
                             language="json"
                             style={vs}
                             wrapLines={true}>

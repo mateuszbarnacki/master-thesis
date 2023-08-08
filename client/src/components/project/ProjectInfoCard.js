@@ -9,7 +9,7 @@ import ReadMeasurementsModal from "./modals/ReadMeasurementsModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
 import * as C from '../../api/constants';
 
-function ProjectInfoCard({item, handleAlert, deleteElement}) {
+function ProjectInfoCard({item, actions, handleAlert, deleteElement}) {
     const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
         window.localStorage.getItem(C.localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
@@ -40,14 +40,16 @@ function ProjectInfoCard({item, handleAlert, deleteElement}) {
                             <Card.Text>{item.description}</Card.Text>
                         </>) : <Card.Title>Akcje</Card.Title>}
                     <ButtonGroup className="mb-2">
-                        {roles.includes(C.ResearcherRole) || roles.includes(C.AdminRole) ?
+                        {(roles.includes(C.ResearcherRole) && actions && actions.includes(C.AddMeasurementAction))
+                        || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowUploadMeasurementsModal(true)}>
                                 Dodaj pomiar
                             </Button>
                             : null
                         }
-                        {roles.includes(C.ResearcherRole) || roles.includes(C.AdminRole) ?
+                        {(roles.includes(C.ResearcherRole) && actions && actions.includes(C.ReadMeasurementsAction))
+                        || roles.includes(C.AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowReadMeasurementsModal(true)}>
                                 Czytaj pomiary

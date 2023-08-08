@@ -1,5 +1,6 @@
 package agh.wfiis.weather.principal.service;
 
+import agh.wfiis.weather.config.UserRole;
 import agh.wfiis.weather.exception.UserAlreadyExistsException;
 import agh.wfiis.weather.principal.dto.ProjectDto;
 import agh.wfiis.weather.principal.dto.UserDto;
@@ -42,6 +43,7 @@ public class UserRestService implements UserService, UserDetailsService {
     public Collection<UserInfoDto> getUsers() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .map(userMapper::mapUserEntityToUserInfoDto)
+                .filter(userInfoDto -> !userInfoDto.roles().contains(UserRole.ADMIN))
                 .toList();
     }
 
