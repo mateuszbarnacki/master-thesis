@@ -1,54 +1,56 @@
 import Modal from "react-bootstrap/Modal";
+import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalTitle from "react-bootstrap/ModalTitle";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import ActionsTable from "./ActionsTable";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import AccessForm from "./AccessForm";
+import * as C from "../../../api/constants";
+import * as P from "../../../api/paths";
 
-const mock = [
-    {
-        name: "Zanieczyszczenia Kraków",
-        actions: [true, false]
-    },
-    {
-        name: "Projekt terenowy",
-        actions: [false, true]
-    },
-    {
-        name: "Zanieczyszczenia Radom",
-        actions: [true, false]
-    },
-    {
-        name: "Zanieczyszczenia Police",
-        actions: [true, true]
-    },
-    {
-        name: "Klimat Szczecina",
-        actions: [false, false]
-    },
-    {
-        name: "Test",
-        actions: [true, false]
-    }
-];
+function AccessModal({
+                         user,
+                         show,
+                         closeModal,
+                         checkedProjects,
+                         updateCheckedProjects,
+                         handleAlert
+                     }) {
+    const handleSuccessClick = () => {
+        const roles = [];
+        if (document.getElementById(user.username + '-researcher-modal-checkbox').checked) roles.push(C.ResearcherRole);
+        if (document.getElementById(user.username + '-project-creator-modal-checkbox').checked) roles.push(C.ProjectCreatorRole);
+        const projectDto = {
+            username: user.username,
+            roles: roles,
+            projects: checkedProjects
+        };
+        fetch(P.base + P.users, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(projectDto)
+        }).then(res => res.json())
+            .then(data => updateCheckedProjects([]))
+            .catch(error => handleAlert(true));
+    };
 
-
-function AccessModal({userProjects, show, closeModal}) {
     return (
         <Modal centered show={show} size="xl">
             <ModalHeader className="modal-center">
-                <ModalTitle>Zmień widoczność akcji</ModalTitle>
+                <ModalTitle as="h3">Zmień uprawnienia</ModalTitle>
             </ModalHeader>
-            <ModalBody>
-                <Form className="text-center">
-                    <ActionsTable projects={mock} userProjects={userProjects} update={true}/>
-                </Form>
+            <ModalBody className="text-center">
+                <AccessForm user={user}
+                            update={true}
+                            handleAlert={(value) => handleAlert(value)}
+                            updateCheckedProjects={(values) => updateCheckedProjects(values)}/>
             </ModalBody>
             <ModalFooter className="modal-center">
                 <Button variant="danger" size="lg" onClick={closeModal}>Anuluj</Button>
-                <Button variant="success" size="lg" onClick={closeModal}>Zapisz</Button>
+                <Button variant="success" size="lg" onClick={handleSuccessClick}>Zapisz</Button>
             </ModalFooter>
         </Modal>
     );

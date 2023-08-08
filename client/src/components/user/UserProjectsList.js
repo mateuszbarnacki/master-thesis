@@ -7,7 +7,7 @@ import * as P from "../../api/paths";
 import {useNavigate} from "react-router-dom";
 import * as C from "../../api/constants";
 
-function UserProjectsList({userProjects, handleAlert}) {
+function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}) {
     const navigate = useNavigate();
     const [projects, setProjects] = useState([]);
     const [projectsCopy, setProjectsCopy] = useState([]);
@@ -40,9 +40,11 @@ function UserProjectsList({userProjects, handleAlert}) {
             newCheckedProjects.splice(index, 1);
         }
         setCheckedProjects(newCheckedProjects);
+        updateCheckedProjects(newCheckedProjects);
     };
 
     useEffect(() => {
+        updateCheckedProjects(checkedProjects.slice());
         fetch(P.base + P.projects + '/names', requestOptions)
             .then(res => {
                 if (res.status === 401) {
@@ -62,7 +64,7 @@ function UserProjectsList({userProjects, handleAlert}) {
             <Form.Control type="text" id="search" placeholder="Nazwa projektu" className="mt-4 mb-4"
                           onChange={(e) => handleSearchOnChange(e)}
                           onKeyDown={(e) => handleSearchOnKeyDown(e)}/>
-            <ListGroup variant="flush" className="projects-roles-list">
+            <ListGroup id={id} variant="flush" className="projects-roles-list">
                 {projects.map((item) =>
                     <ListGroupItem key={item} className="py-2 px-4">
                         {item}

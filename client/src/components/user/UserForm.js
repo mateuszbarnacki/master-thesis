@@ -9,6 +9,7 @@ import UserProjectsList from "./UserProjectsList";
 
 function UserForm() {
     const [isPasswordInvalidRepeated, setIsPasswordInvalidRepeated] = useState(false);
+    const [checkedProjects, updateCheckedProjects] = useState([]);
 
     function handleRepeatedPasswordChange(event) {
         const password = document.getElementById("password").value;
@@ -34,13 +35,16 @@ function UserForm() {
                         <FormControl type="text" id="email" placeholder="Podaj email" required/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
-                        <FormLabel htmlFor="information" className="mb-3" as="h5">Informacje o użytkowniku:</FormLabel>
+                        <FormLabel htmlFor="information" className="mb-3" as="h5">Informacje o
+                            użytkowniku:</FormLabel>
                         <FormControl as="textarea" rows={3} id="information"
                                      placeholder="Podaj dodatkowe informacje na temat tego użytkownika"/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel className="mb-3" as="h5">Uczestnictwo w projektach:</FormLabel>
-                        <UserProjectsList handleAlert={() => {}}/>
+                        <UserProjectsList id="user-form-list"
+                                          handleAlert={() => {}}
+                                          updateCheckedProjects={(values) => updateCheckedProjects(values)}/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
                         <FormLabel htmlFor="password" className="mb-3" as="h5">Hasło:</FormLabel>
@@ -48,7 +52,8 @@ function UserForm() {
                                      onChange={handleRepeatedPasswordChange} required/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
-                        <FormLabel htmlFor="repeatedPassword" className="mb-3" as="h5">Powtórz hasło:</FormLabel>
+                        <FormLabel htmlFor="repeatedPassword" className="mb-3" as="h5">Powtórz
+                            hasło:</FormLabel>
                         <FormControl type="password" id="repeatedPassword"
                                      placeholder="Powtórz hasło"
                                      isInvalid={isPasswordInvalidRepeated}

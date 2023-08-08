@@ -1,19 +1,23 @@
 import Modal from "react-bootstrap/Modal";
-import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
-import Button from "react-bootstrap/Button";
+import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
-import AccessForm from "./AccessForm";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import ActionsTable from "./ActionsTable";
+import * as C from "../../../api/constants";
 
-function ActionsModal({projects, roles, show, closeModal}) {
+function ActionsModal({userProjects, show, closeModal}) {
     return (
         <Modal centered show={show} size="xl">
             <ModalHeader className="modal-center">
-                <ModalTitle as="h3">Zmień uprawnienia</ModalTitle>
+                <ModalTitle>Zmień widoczność akcji</ModalTitle>
             </ModalHeader>
-            <ModalBody className="text-center">
-                <AccessForm projects={projects} roles={roles} update={true}/>
+            <ModalBody>
+                <Form className="text-center">
+                    <ActionsTable userProjects={userProjects} update={true}/>
+                </Form>
             </ModalBody>
             <ModalFooter className="modal-center">
                 <Button variant="danger" size="lg" onClick={closeModal}>Anuluj</Button>

@@ -11,6 +11,7 @@ import * as C from "../../api/constants";
 function UserTab({user, index, handleAlert}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
     const [showManageProjectsModal, setShowManageProjectsModal] = useState(false);
+    const [checkedProjects, setCheckedProjects] = useState([]);
 
     return (
         <Fragment>
@@ -19,6 +20,7 @@ function UserTab({user, index, handleAlert}) {
                 <AccordionBody className="text-center">
                     <AccessForm user={user}
                                 update={false}
+                                updateCheckedProjects={(values) => setCheckedProjects(values)}
                                 handleAlert={(value) => handleAlert(value)}/>
                     <Button variant="dark" className="mt-3 me-3"
                             onClick={() => setShowManageRolesModal(true)}>
@@ -34,6 +36,8 @@ function UserTab({user, index, handleAlert}) {
             <AccessModal user={user}
                          show={showManageRolesModal}
                          closeModal={() => setShowManageRolesModal(false)}
+                         checkedProjects={checkedProjects}
+                         updateCheckedProjects={(values) => setCheckedProjects(values)}
                          handleAlert={(value) => handleAlert(value)}/>
             <ActionsModal userProjects={user.projects} show={showManageProjectsModal}
                           closeModal={() => setShowManageProjectsModal(false)}/>

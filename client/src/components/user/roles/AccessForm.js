@@ -7,14 +7,14 @@ import ActionsTable from "./ActionsTable";
 import UserProjectsList from "../UserProjectsList";
 import * as C from "../../../api/constants";
 
-function AccessForm({user, update, handleAlert}) {
+function AccessForm({user, update, updateCheckedProjects, handleAlert}) {
     return (
         <Form>
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
             <Row xs={2}>
                 <FormGroup className="mt-1 mb-1">
                     <FormLabel htmlFor="researcher-checkbox">Badacz</FormLabel>
-                    {update ? <FormCheck id={user.username + "-researcher-checkbox"}
+                    {update ? <FormCheck id={user.username + "-researcher-modal-checkbox"}
                                          defaultChecked={user.roles.includes(C.ResearcherRole)}/> :
                         <FormCheck id={user.username + "-researcher-checkbox"}
                                    defaultChecked={user.roles.includes(C.ResearcherRole)}
@@ -22,7 +22,7 @@ function AccessForm({user, update, handleAlert}) {
                 </FormGroup>
                 <FormGroup className="mt-1 mb-1">
                     <FormLabel htmlFor="project-creator-checkbox">Twórca projektów</FormLabel>
-                    {update ? <FormCheck id={user.username + "-project-creator-checkbox"}
+                    {update ? <FormCheck id={user.username + "-project-creator-modal-checkbox"}
                                          defaultChecked={user.roles.includes(C.ProjectCreatorRole)}/> :
                         <FormCheck id={user.username + "-project-creator-checkbox"}
                                    defaultChecked={user.roles.includes(C.ProjectCreatorRole)}
@@ -30,16 +30,15 @@ function AccessForm({user, update, handleAlert}) {
                 </FormGroup>
             </Row>
             {user.roles.includes(C.ResearcherRole) ?
-                <>
-                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli
-                        Badacz:</FormLabel>
-                    {update ?
-                        <FormGroup id={"test"}>
-                            <UserProjectsList userProjects={user.projects.map(item => item.name)}
-                                              handleAlert={(value) => handleAlert(value)}/>
-                        </FormGroup> :
-                        <ActionsTable userProjects={user.projects} update={update}/>
-                    }</> : null}
+                (<>
+                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli Badacz:</FormLabel>
+                    {update ? <UserProjectsList id="access-form-list"
+                                                userProjects={user.projects.map(item => item.name)}
+                                                updateCheckedProjects={(values) => updateCheckedProjects(values)}
+                                                handleAlert={(value) => handleAlert(value)}/>
+                        : <ActionsTable userProjects={user.projects} update={update}/>}
+                </>)
+                : null}
         </Form>
     );
 }
