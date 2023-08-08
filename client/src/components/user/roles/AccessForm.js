@@ -36,7 +36,7 @@ function AccessForm({user, update, updateCheckedProjects, handleAlert}) {
                                                 userProjects={user.projects.map(item => item.name)}
                                                 updateCheckedProjects={(values) => updateCheckedProjects(values)}
                                                 handleAlert={(value) => handleAlert(value)}/>
-                        : <ActionsTable userProjects={user.projects} update={update}/>}
+                        : <ActionsTable id="form-table" userProjects={user.projects} update={update}/>}
                 </>)
                 : null}
         </Form>

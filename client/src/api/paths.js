@@ -7,3 +7,5 @@ export const projects = "/projects";
 export const authentication = "/authentication/auth";
 
 export const users = "/users";
+
+export const userProjects = "/user-projects";

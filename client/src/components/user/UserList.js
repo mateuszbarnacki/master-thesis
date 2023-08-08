@@ -18,7 +18,7 @@ function UserList({handleAlert}) {
             .then(res => res.json())
             .then(data => setUsersList(data))
             .catch(error => {handleAlert(true)});
-    }, []);
+    }, [usersList]);
 
     return (
         <Card>

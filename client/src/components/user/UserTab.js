@@ -40,7 +40,8 @@ function UserTab({user, index, handleAlert}) {
                          updateCheckedProjects={(values) => setCheckedProjects(values)}
                          handleAlert={(value) => handleAlert(value)}/>
             <ActionsModal userProjects={user.projects} show={showManageProjectsModal}
-                          closeModal={() => setShowManageProjectsModal(false)}/>
+                          closeModal={() => setShowManageProjectsModal(false)}
+                          handleAlert={(value) => handleAlert(value)}/>
         </Fragment>
     );
 }
