@@ -20,10 +20,14 @@ function AccessModal({
         const roles = [];
         if (document.getElementById(user.username + '-researcher-modal-checkbox').checked) roles.push(C.ResearcherRole);
         if (document.getElementById(user.username + '-project-creator-modal-checkbox').checked) roles.push(C.ProjectCreatorRole);
+        const projects = checkedProjects.map(item => ({
+            name: item,
+            actions: []
+        }));
         const projectDto = {
             username: user.username,
             roles: roles,
-            projects: checkedProjects
+            projects: projects
         };
         fetch(P.base + P.users, {
             method: 'PATCH',
@@ -32,8 +36,12 @@ function AccessModal({
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(projectDto)
-        }).then(res => res.json())
-            .then(data => updateCheckedProjects([]))
+        })
+            .then(res => res.json())
+            .then(data => {
+                updateCheckedProjects([]);
+                closeModal();
+            })
             .catch(error => handleAlert(true));
     };
 
