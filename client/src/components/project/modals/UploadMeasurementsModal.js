@@ -25,9 +25,9 @@ function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAler
             formData.append('file', file);
             const deviceId = document.getElementById('sensorId').value;
             fetch(P.base + P.measurements + '/upload/' + acronym + '/' + deviceId, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+                    "Authorization": "Bearer " + window.localStorage.getItem(C.localStorageAuthToken)
                 },
                 body: formData
             })
