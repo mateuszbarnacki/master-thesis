@@ -10,6 +10,7 @@ import {isStringNullOrEmpty} from "./FormValidator";
 
 function ParameterForm({
                            id,
+                           sensorId,
                            measurement,
                            handleAddMeasurementClick,
                            handleRemoveMeasurementClick,
@@ -20,60 +21,60 @@ function ParameterForm({
     const [isErrorValueInvalid, setIsErrorValueInvalid] = useState(false);
     const [isValueRangeInvalid, setIsValuesRangeInvalid] = useState(false);
     const handleOnChangeMeasurementName = () => {
-        const measurementName = document.getElementById("measurementName").value;
+        const measurementName = document.getElementById("measurementName-"+sensorId+"-"+id).value;
         setIsMeasurementNameInvalid(isStringNullOrEmpty(measurementName));
     };
     const handleOnChangeAggregate = () => {
-        const aggregate = document.getElementById("aggregate").value;
+        const aggregate = document.getElementById("aggregate-"+sensorId+"-"+id).value;
         if (aggregate === "tak") {
-            document.getElementById("aggregationInterval").disabled = false;
-            document.getElementById("maxBreak").disabled = false;
+            document.getElementById("aggregationInterval-"+sensorId+"-"+id).disabled = false;
+            document.getElementById("maxBreak-"+sensorId+"-"+id).disabled = false;
         } else {
             setIsMaxBreakInvalid(false);
-            document.getElementById("aggregationInterval").disabled = true;
-            document.getElementById("maxBreak").disabled = true;
+            document.getElementById("aggregationInterval-"+sensorId+"-"+id).disabled = true;
+            document.getElementById("maxBreak-"+sensorId+"-"+id).disabled = true;
         }
     };
     const handleOnChangeMaxBreak = () => {
-        const maxBreak = document.getElementById("maxBreak").value;
+        const maxBreak = document.getElementById("maxBreak-"+sensorId+"-"+id).value;
         setIsMaxBreakInvalid((!maxBreak || maxBreak <= 0));
     };
     const handleOnChangeValidate = () => {
-        const validate = document.getElementById("validate").value;
+        const validate = document.getElementById("validate-"+sensorId+"-"+id).value;
         if (validate === "tak") {
             setIsValuesRangeInvalid(checkValuesRange());
-            document.getElementById("minValue").disabled = false;
-            document.getElementById("maxValue").disabled = false;
+            document.getElementById("minValue-"+sensorId+"-"+id).disabled = false;
+            document.getElementById("maxValue-"+sensorId+"-"+id).disabled = false;
         } else {
             setIsValuesRangeInvalid(false);
-            document.getElementById("minValue").disabled = true;
-            document.getElementById("maxValue").disabled = true;
+            document.getElementById("minValue-"+sensorId+"-"+id).disabled = true;
+            document.getElementById("maxValue-"+sensorId+"-"+id).disabled = true;
         }
     };
     const handleOnChangeValuesRange = () => {
         setIsValuesRangeInvalid(checkValuesRange());
     };
     const handleOnInputErrorValue = () => {
-        const errorValue = document.getElementById("errorValue").value;
+        const errorValue = document.getElementById("errorValue-"+sensorId+"-"+id).value;
         setIsErrorValueInvalid(!errorValue);
     };
     const checkValuesRange = () => {
-        const minValue = document.getElementById("minValue").value;
-        const maxValue = document.getElementById("maxValue").value;
+        const minValue = document.getElementById("minValue-"+sensorId+"-"+id).value;
+        const maxValue = document.getElementById("maxValue-"+sensorId+"-"+id).value;
         return !minValue || !maxValue || maxValue - minValue < 0;
     };
 
     return (
-        <div className="bg-light-subtle">
+        <div id={"measurement-" + sensorId + "-" + id} className="bg-light-subtle">
             <FormLabel as="h4" className="m-1">
                 Parametr #{id + 1}
                 <CloseButton className="float-end" onClick={handleRemoveMeasurementClick}/>
             </FormLabel>
             <FormGroup className="mt-3">
-                <FormLabel htmlFor="measurementName">
+                <FormLabel htmlFor={"measurementName-"+sensorId+"-"+id}>
                     Nazwa pomiaru:
                 </FormLabel>
-                <FormControl id="measurementName"
+                <FormControl id={"measurementName-"+sensorId+"-"+id}
                              type="text"
                              onChange={handleOnChangeMeasurementName}
                              isInvalid={isMeasurementNameInvalid}
@@ -85,19 +86,19 @@ function ParameterForm({
                 </FormControl.Feedback>
             </FormGroup>
             <FormGroup className="mt-3">
-                <FormLabel htmlFor="measurementUnit">
+                <FormLabel htmlFor={"measurementUnit-"+sensorId+"-"+id}>
                     Jednostka pomiaru:
                 </FormLabel>
-                <FormControl id="measurementUnit"
+                <FormControl id={"measurementUnit-"+sensorId+"-"+id}
                              type="text"
                              placeholder="Jednostka pomiaru"
                              defaultValue={measurement ? measurement.unit : null}/>
             </FormGroup>
             <FormGroup className="mt-3">
-                <FormLabel htmlFor="measurementDescription">
+                <FormLabel htmlFor={"measurementDescription-"+sensorId+"-"+id}>
                     Opis pomiaru:
                 </FormLabel>
-                <FormControl id="measurementDescription"
+                <FormControl id={"measurementDescription-"+sensorId+"-"+id}
                              type="text"
                              as="textarea"
                              rows={3}
@@ -106,20 +107,21 @@ function ParameterForm({
             </FormGroup>
             <Row xs={3}>
                 <FormGroup className="mt-3">
-                    <FormLabel htmlFor="aggregate">
+                    <FormLabel htmlFor={"aggregate-"+sensorId+"-"+id}>
                         Agregacja:
                     </FormLabel>
-                    <FormSelect id="aggregate" onChange={handleOnChangeAggregate}
+                    <FormSelect id={"aggregate-"+sensorId+"-"+id}
+                                onChange={handleOnChangeAggregate}
                                 defaultValue={measurement ? measurement.aggregate : null}>
                         <option value="true">tak</option>
                         <option value="false">nie</option>
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3">
-                    <FormLabel htmlFor="aggregationInterval">
+                    <FormLabel htmlFor={"aggregationInterval-"+sensorId+"-"+id}>
                         Jednostka częstości pomiaru:
                     </FormLabel>
-                    <FormSelect id="aggregationInterval"
+                    <FormSelect id={"aggregationInterval-"+sensorId+"-"+id}
                                 defaultValue={measurement ? measurement.aggregationInterval : null}>
                         <option value="MIN">minuta</option>
                         <option value="TEN_MIN">10 minut</option>
@@ -130,10 +132,10 @@ function ParameterForm({
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3">
-                    <FormLabel htmlFor="maxBreak">
+                    <FormLabel htmlFor={"maxBreak-"+sensorId+"-"+id}>
                         Maksymalna przerwa w pomiarach:
                     </FormLabel>
-                    <FormControl id="maxBreak"
+                    <FormControl id={"maxBreak-"+sensorId+"-"+id}
                                  type="number"
                                  isInvalid={isMaxBreakInvalid}
                                  onChange={handleOnChangeMaxBreak}
@@ -146,20 +148,20 @@ function ParameterForm({
             </Row>
             <Row xs={4}>
                 <FormGroup className="mt-3 mb-3">
-                    <FormLabel htmlFor="validate">
+                    <FormLabel htmlFor={"validate-"+sensorId+"-"+id}>
                         Walidacja:
                     </FormLabel>
-                    <FormSelect id="validate" onChange={handleOnChangeValidate}
+                    <FormSelect id={"validate-"+sensorId+"-"+id} onChange={handleOnChangeValidate}
                                 defaultValue={measurement ? measurement.validate : null}>
                         <option value="true">tak</option>
                         <option value="false">nie</option>
                     </FormSelect>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
-                    <FormLabel htmlFor="minValue">
+                    <FormLabel htmlFor={"minValue-"+sensorId+"-"+id}>
                         Minimalna wartość:
                     </FormLabel>
-                    <FormControl id="minValue"
+                    <FormControl id={"minValue-"+sensorId+"-"+id}
                                  type="number"
                                  onChange={handleOnChangeValuesRange}
                                  isInvalid={isValueRangeInvalid}
@@ -167,10 +169,10 @@ function ParameterForm({
                                  defaultValue={measurement.range ? measurement.range.min : null}/>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
-                    <FormLabel htmlFor="maxValue">
+                    <FormLabel htmlFor={"maxValue-"+sensorId+"-"+id}>
                         Maksymalna wartość:
                     </FormLabel>
-                    <FormControl id="maxValue"
+                    <FormControl id={"maxValue-"+sensorId+"-"+id}
                                  type="number"
                                  onChange={handleOnChangeValuesRange}
                                  isInvalid={isValueRangeInvalid}
@@ -178,10 +180,10 @@ function ParameterForm({
                                  defaultValue={measurement.range ? measurement.range.max : null}/>
                 </FormGroup>
                 <FormGroup className="mt-3 mb-3">
-                    <FormLabel htmlFor="errorValue">
+                    <FormLabel htmlFor={"errorValue-"+sensorId+"-"+id}>
                         Wartość błędu:
                     </FormLabel>
-                    <FormControl id="errorValue"
+                    <FormControl id={"errorValue-"+sensorId+"-"+id}
                                  type="number"
                                  onInput={handleOnInputErrorValue}
                                  isInvalid={isErrorValueInvalid}

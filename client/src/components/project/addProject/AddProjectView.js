@@ -26,6 +26,74 @@ function AddProjectView() {
         }
         setIds(newIds);
     };
+    const handleSaveClick = () => {
+        const name = document.getElementById('name').value;
+        const acronym = document.getElementById('acronym').value;
+        const description = document.getElementById('description').value;
+        const timeMode = document.getElementById('timeMode').value;
+        const spatialMode = document.getElementById('spatialMode').value;
+        const measurementMode = document.getElementById('measurementMode').value;
+        const sensors = [];
+        for (let i = 0; i < ids.length; i++) {
+            const sensorId = document.getElementById('sensorId-' + i).value;
+            const longitude = !!document.getElementById('longitude-' + i) ?
+                document.getElementById('longitude-' + i).value : null;
+            const latitude = !!document.getElementById('latitude-' + i) ?
+                document.getElementById('latitude-' + i).value : null;
+            const altitude = !!document.getElementById('altitude-' + i) ?
+                document.getElementById('altitude-' + i).value : null;
+            let j = 0;
+            let measurement = document.getElementById('measurement-' + i + "-" + j);
+            const measurements = [];
+            while (measurement) {
+                const measurementName = document.getElementById('measurementName-' + i + '-' + j).value;
+                const measurementUnit = document.getElementById('measurementUnit-' + i + '-' + j).value;
+                const measurementDescription = document.getElementById('measurementDescription-' + i + '-' + j).value;
+                const aggregate = document.getElementById('aggregate-' + i + '-' + j).value;
+                const aggregationInterval = document.getElementById('aggregationInterval-' + i + '-' + j).value;
+                const maxBreak = document.getElementById('maxBreak-' + i + '-' + j).value;
+                const validate = document.getElementById('validate-' + i + '-' + j).value;
+                const minValue = document.getElementById('minValue-' + i + '-' + j).value;
+                const maxValue = document.getElementById('maxValue-' + i + '-' + j).value;
+                const range = {
+                    min: minValue,
+                    max: maxValue
+                };
+                const errorValue = document.getElementById('errorValue-' + i + '-' + j).value;
+                measurements.push({
+                    name: measurementName,
+                    description: measurementDescription,
+                    unit: measurementUnit,
+                    range: range,
+                    validate: validate,
+                    errorValue: errorValue,
+                    aggregate: aggregate,
+                    aggregationInterval: aggregationInterval,
+                    maxBreak: maxBreak
+                });
+                measurement = document.getElementById('measurement-' + i + "-" + ++j);
+            }
+            sensors.push({
+                deviceId: sensorId,
+                latitude: latitude,
+                longitude: longitude,
+                altitude: altitude,
+                measurementSchema: {
+                    measurements: measurements
+                }
+            });
+        }
+        const projectDto = {
+            name: name,
+            acronym: acronym,
+            description: description,
+            timeMode: timeMode,
+            spatialMode: spatialMode,
+            measurementMode: measurementMode,
+            sensors: sensors
+        };
+        console.log(projectDto);
+    };
 
     return (
         <Fragment>
@@ -52,8 +120,9 @@ function AddProjectView() {
                                             spatialMode={spatialMode}/>)}
                         </Card.Body>
                     </Card>
-                    <Button variant="dark" className="me-3 rounded-5 float-end">Zapisz
-                        projekt</Button>
+                    <Button className="me-3 rounded-5 float-end"
+                            variant="dark"
+                            onClick={handleSaveClick}>Zapisz projekt</Button>
                 </Card.Body>
             </Card>
             <Footer/>

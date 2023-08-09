@@ -28,15 +28,15 @@ function SensorForm({
     const [isLongitudeInvalid, setIsLongitudeInvalid] = useState(false);
     const [isLatitudeInvalid, setIsLatitudeInvalid] = useState(false);
     const handleOnChangeSensorId = () => {
-        const sensorId = document.getElementById("sensorId").value;
+        const sensorId = document.getElementById("sensorId-"+id).value;
         setIsSensorIdInvalid(isStringNullOrEmpty(sensorId));
     };
     const handleOnChangeLongitude = () => {
-        const longitude = document.getElementById("longitude").value;
+        const longitude = document.getElementById("longitude-"+id).value;
         setIsLongitudeInvalid(isNumberOutOfRange(longitude, -180.0, 180.0));
     };
     const handleOnChangeLatitude = () => {
-        const latitude = document.getElementById("latitude").value;
+        const latitude = document.getElementById("latitude-"+id).value;
         setIsLatitudeInvalid(isNumberOutOfRange(latitude, -90.0, 90.0));
     };
     const handleAddMeasurementClick = () => {
@@ -59,8 +59,8 @@ function SensorForm({
             <FormLabel as="h5" className="mt-3">Położenie czujnika:</FormLabel>
             <Row xs={3}>
                 <FormGroup className="mt-2 mb-3">
-                    <FormLabel htmlFor="longitude">Długość geograficzna:</FormLabel>
-                    <FormControl id="longitude"
+                    <FormLabel htmlFor={"longitude-" + id}>Długość geograficzna:</FormLabel>
+                    <FormControl id={"longitude-" + id}
                                  type="number"
                                  defaultValue={sensor ? sensor.longitude : null}
                                  onChange={handleOnChangeLongitude}
@@ -71,9 +71,8 @@ function SensorForm({
                     </FormControl.Feedback>
                 </FormGroup>
                 <FormGroup className="mt-2 mb-3">
-                    <FormLabel htmlFor="latitude">Szerokość
-                        geograficzna:</FormLabel>
-                    <FormControl id="latitude"
+                    <FormLabel htmlFor={"latitude-" + id}>Szerokość geograficzna:</FormLabel>
+                    <FormControl id={"latitude-" + id}
                                  type="number"
                                  defaultValue={sensor ? sensor.latitude : null}
                                  onChange={handleOnChangeLatitude}
@@ -84,8 +83,8 @@ function SensorForm({
                     </FormControl.Feedback>
                 </FormGroup>
                 <FormGroup className="mt-2 mb-3">
-                    <FormLabel htmlFor="altitude">Wysokość n.p.m.:</FormLabel>
-                    <FormControl id="altitude"
+                    <FormLabel htmlFor={"altitude-" + id}>Wysokość n.p.m.:</FormLabel>
+                    <FormControl id={"altitude-" + id}
                                  type="number"
                                  defaultValue={sensor ? sensor.altitude : null}
                                  placeholder="Wysokość"/>
@@ -100,9 +99,9 @@ function SensorForm({
                 <CloseButton className="float-end" onClick={handleRemoveSensorClick}/>
             </FormLabel>
             <FormGroup className="mt-3 mb-4">
-                <FormLabel htmlFor="sensorId">ID urządzenia pomiarowego:</FormLabel>
+                <FormLabel htmlFor={"sensorId-" + id}>ID urządzenia pomiarowego:</FormLabel>
                 <FormControl required
-                             id="sensorId"
+                             id={"sensorId-" + id}
                              type="text"
                              defaultValue={sensor ? sensor.deviceId : null}
                              placeholder="Identyfikator urządzenia pomiarowego"
@@ -120,6 +119,7 @@ function SensorForm({
                 <Card.Body>
                     {measurements.map((measurement, index) =>
                         <ParameterForm id={index}
+                                       sensorId={id}
                                        key={"measurement-" + measurement.id}
                                        measurement={measurement}
                                        handleAddMeasurementClick={() => handleAddMeasurementClick()}
@@ -128,7 +128,8 @@ function SensorForm({
                 </Card.Body>
             </Card>
             <div style={isAddSensorButtonVisible ? {} : {display: "none"}}>
-                <Button variant="outline-dark" className="ms-2 me-4 rounded-5 float-end"
+                <Button variant="outline-dark"
+                        className="ms-2 me-4 rounded-5 float-end"
                         onClick={handleAddSensorClick}>+</Button>
                 <h5 className="float-end mt-2">Dodaj czujnik</h5>
             </div>
