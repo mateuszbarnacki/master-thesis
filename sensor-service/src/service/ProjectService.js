@@ -1,3 +1,4 @@
+const axios = require("axios");
 const Double = require('mongodb').Double;
 
 class ProjectService {
@@ -46,10 +47,12 @@ class ProjectService {
         return await this.projectCollection.insertOne(project);
     }
 
-    async deleteProject(acronym) {
+    async deleteProject(name) {
         await this.#checkDbConnection();
-        const query = {'acronym': acronym};
-        return await this.projectCollection.deleteOne(query);
+        const query = {'name': name};
+        const result = await this.projectCollection.deleteOne(query);
+        const deleted = await axios.delete(process.env.AUTH_SERVICE_PROJECTS + name);
+        return result;
     }
 
     async #checkDbConnection(){

@@ -75,7 +75,7 @@ function ProjectView() {
             .catch(error => setIsAlert(true));
     };
     const deleteListElement = (project) => {
-        fetch(P.base + P.projects + '/' + project.acronym, {
+        fetch(P.base + P.projects + '/' + project.name, {
             method: 'DELETE',
             headers: headers
         })

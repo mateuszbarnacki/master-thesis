@@ -14,7 +14,7 @@ class ProjectController {
         this.router.get('/names', this.getProjectsNames);
         this.router.get('/', this.getProject);
         this.router.post('/', this.addProject);
-        this.router.delete('/:acronym', this.deleteProject);
+        this.router.delete('/:name', this.deleteProject);
     }
 
     async getProject(req, res) {
@@ -56,8 +56,8 @@ class ProjectController {
 
     async deleteProject(req, res) {
         try {
-            const acronym = req.params.acronym;
-            const result = await projectService.deleteProject(acronym);
+            const name = req.params.name;
+            const result = await projectService.deleteProject(name);
             return res.status(204).json(result);
         } catch (error) {
             return res.status(500).json({message: error.message});
