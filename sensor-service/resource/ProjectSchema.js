@@ -80,11 +80,11 @@ module.exports.schema = {
                                                 required: ['min', 'max'],
                                                 properties: {
                                                     min: {
-                                                        bsonType: 'double',
+                                                        bsonType: ['double', 'null'],
                                                         description: 'Minimal parameter value'
                                                     },
                                                     max: {
-                                                        bsonType: 'double',
+                                                        bsonType: ['double', 'null'],
                                                         description: 'Maximal parameter value'
                                                     }
                                                 },
@@ -108,7 +108,7 @@ module.exports.schema = {
                                                 description: 'Intervals between subsequent aggregations'
                                             },
                                             maxBreak: {
-                                                bsonType: 'int',
+                                                bsonType: ['int', 'null'],
                                                 description: 'Max break between subsequent measurements send by sensor'
                                             }
                                         },
