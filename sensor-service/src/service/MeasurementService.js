@@ -1,4 +1,5 @@
 const {parse} = require("csv-parse");
+const MD5 = require("crypto-js/md5");
 
 class MeasurementService {
     constructor(dbManager) {
@@ -80,9 +81,9 @@ class MeasurementService {
 const generateAPIKeyForProject = (project) => {
     const {acronym, name} = project;
     const date = new Date();
-    return acronym + '.' +
+    return MD5(name + '.' + acronym + '.' +
         date.toISOString().split('T')[0] + ' ' + date.getUTCHours() + ':' + date.getMinutes() + '.' +
-        name.length;
+        name.length).toString();
 };
 
 const getMeasurementSchema = (project, deviceId) => {
