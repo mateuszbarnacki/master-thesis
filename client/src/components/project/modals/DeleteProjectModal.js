@@ -9,6 +9,7 @@ function DeleteProjectModal({show, closeModal, deleteElement}) {
     const handleYesButtonClick = (item) => {
         deleteElement(item.acronym);
         closeModal(true);
+        document.getElementById('search').value = '';
     };
 
     return (

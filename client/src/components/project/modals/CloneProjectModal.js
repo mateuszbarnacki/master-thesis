@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 import ModalTitle from "react-bootstrap/ModalTitle";
-import CloneProjectForm from "../CloneProjectForm";
+import CloneProjectForm from "./CloneProjectForm";
 import {validateProject} from "../addProject/FormValidator";
 import * as P from "../../../api/paths";
 import * as C from "../../../api/constants";
@@ -46,6 +46,7 @@ function CloneProjectModal({project, show, closeModal}) {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }
                 closeModal();
+                window.location.reload();
                 return res.json();
             })
             .catch(error => {

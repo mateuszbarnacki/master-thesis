@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
-import ProjectForm from "./addProject/ProjectForm";
+import ProjectForm from "../addProject/ProjectForm";
 import CardHeader from "react-bootstrap/CardHeader";
-import SensorForm from "./addProject/SensorForm";
+import SensorForm from "../addProject/SensorForm";
 import {Fragment, useState} from "react";
 
 function CloneProjectForm({project}) {
