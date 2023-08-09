@@ -1,5 +1,5 @@
 import {Navigate} from "react-router-dom";
-import {localStorageAuthToken} from "../constants";
+import {localStorageAuthToken} from "../../api/constants";
 
 function PrivateRoute({ children }) {
     const isLogged = !!window.localStorage.getItem(localStorageAuthToken);

@@ -1,4 +1,4 @@
-import * as C from "../constants";
+import * as C from "../../api/constants";
 import {Navigate} from "react-router-dom";
 
 function ProjectCreatorRoute({children}) {
