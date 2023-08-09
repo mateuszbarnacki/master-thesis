@@ -47,7 +47,6 @@ function AddProjectView() {
     };
     const handleSaveClick = () => {
         const projectDto = ProjectBuilder.buildProject(ids.length);
-        console.log(projectDto);
         const validationResult = validateProject(projectDto);
         if (validationResult.length > 0) {
             const errorMessage = validationResult.join('\n');
