@@ -10,4 +10,11 @@ public interface ProjectService {
      * @return ProjectActionsDto Object with updated data.
      */
     ProjectActionsDto updateActions(ProjectActionsDto projectActionsDto);
+
+    /**
+     * This method deletes all occurrancess of project with given name.
+     *
+     * @param name Project name
+     */
+    void deleteProjectsByName(String name);
 }

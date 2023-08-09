@@ -66,4 +66,16 @@ class ProjectControllerTest {
 
         Mockito.verify(projectService).updateActions(ArgumentMatchers.any(ProjectActionsDto.class));
     }
+
+    @Test
+    @WithMockUser
+    void shouldDeleteProjectsByName() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/user-projects/{username}", "Test")
+                .with(SecurityMockMvcRequestPostProcessors.csrf());
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        Mockito.verify(projectService).deleteProjectsByName(ArgumentMatchers.anyString());
+    }
 }

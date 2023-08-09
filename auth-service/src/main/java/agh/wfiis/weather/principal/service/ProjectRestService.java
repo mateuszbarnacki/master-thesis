@@ -39,4 +39,9 @@ public class ProjectRestService implements ProjectService {
 
         return new ProjectActionsDto(projectMapper.mapProjectEntitiesToProjectDtos(entities));
     }
+
+    @Override
+    public void deleteProjectsByName(String name) {
+        projectRepository.deleteAllByName(name);
+    }
 }
