@@ -20,6 +20,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:19990/eureka
+  instance:
+    prefer-ip-address: true
 
 rsa:
   public-key: classpath:certs/public.pem

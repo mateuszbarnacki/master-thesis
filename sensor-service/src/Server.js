@@ -33,12 +33,12 @@ class Server {
                 app: process.env.APP_NAME,
                 hostName: process.env.APP_NAME + ':' + process.env.APP_PORT,
                 ipAddr: '127.0.0.1',
-                statusPageUrl: 'http://localhost:' + process.env.APP_PORT,
+                statusPageUrl: 'http://' + process.env.APP_NAME + ':' + process.env.APP_PORT,
                 port: {
                     '$': process.env.APP_PORT,
                     '@enabled': true
                 },
-                vipAddress: 'localhost',
+                vipAddress: process.env.APP_NAME,
                 dataCenterInfo: {
                     '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
                     name: 'MyOwn'
@@ -47,7 +47,9 @@ class Server {
             eureka: {
                 host: process.env.EUREKA_SERVER_HOST,
                 port: process.env.EUREKA_SERVER_PORT,
-                servicePath: '/eureka/apps/'
+                servicePath: '/eureka/apps/',
+                maxRetries: 10,
+                requestRetryDelay: 2000
             }
         });
         this.client.logger.level('debug');
