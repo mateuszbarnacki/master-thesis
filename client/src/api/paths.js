@@ -1,4 +1,4 @@
-export const base = "http://localhost:8080";
+export const base = "http://172.20.40.211:8080";
 
 export const measurements = "/measurements";
 
