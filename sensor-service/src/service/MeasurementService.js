@@ -8,13 +8,16 @@ class MeasurementService {
     }
 
     async getMeasurements(acronym) {
+        console.log('[INFO] Measurement service: get measurements');
         await this.#checkDbConnection();
         const data = await this.db.collection(acronym).find().toArray();
         const statusCode = 200;
+        console.log('[INFO] Measurement service: return measurements');
         return {data: data, statusCode: statusCode};
     }
 
     async getLatestMeasurements(acronym) {
+        console.log('[INFO] Measurement service: get latest measurements');
         await this.#checkDbConnection();
         const sort = {'_id': -1};
         const numberOfMeasurements = 3;
@@ -24,6 +27,7 @@ class MeasurementService {
             .limit(numberOfMeasurements)
             .toArray();
         const statusCode = 200;
+        console.log('[INFO] Measurement service: return latest measurements');
         return {
             data: data,
             statusCode: statusCode
@@ -31,6 +35,7 @@ class MeasurementService {
     }
 
     async addMeasurement(apiKey, acronym, deviceId, measurement) {
+        console.log('[INFO] Measurement service: add measurement');
         await this.#checkDbConnection();
         let result;
         const project = await this.#getProject(acronym);
@@ -48,10 +53,12 @@ class MeasurementService {
         } else {
             result = {data: {message: 'Invalid API Key!'}, statusCode: 401}
         }
+        console.log('[INFO] Measurement service: measurement added');
         return result;
     }
 
     async addMeasurementsFromFile(acronym, deviceId, stream) {
+        console.log('[INFO] Measurement service: add measurements from file');
         await this.#checkDbConnection();
         const project = await this.#getProject(acronym);
         const {measurements} = getMeasurementSchema(project, deviceId);
@@ -59,8 +66,10 @@ class MeasurementService {
         if (documents.length > 0) {
             const newMeasurements = await this.db.collection(acronym)
                     .insertMany(documents, {ordered: true});
+            console.log('[INFO] Measurement service: add measurements from file');
             return {data: newMeasurements, statusCode: 201};
         }
+        console.log('[INFO] Measurement service: measurements from file haven\'t been added yet');
         return {data: [], statusCode: 202};
     }
 

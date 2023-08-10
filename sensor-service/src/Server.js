@@ -1,5 +1,6 @@
 const express = require('express');
 const Eureka = require('eureka-js-client').Eureka;
+const {logRequest} = require('../src/logger/Logger');
 const MeasurementController = require('../src/controller/MeasurementController');
 const ProjectController = require('../src/controller/ProjectController');
 
@@ -20,6 +21,7 @@ class Server {
 
     #addMiddleware() {
         this.app.use(express.json());
+        this.app.use(logRequest);
     }
 
     #attachControllers() {
