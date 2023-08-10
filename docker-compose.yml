@@ -20,6 +20,7 @@ services:
     restart: on-failure
     depends_on:
       - postgres
+      - eureka-server
     ports:
       - "13402:13402"
     image: auth-service:latest
@@ -30,9 +31,20 @@ services:
     restart: on-failure
     depends_on:
       - mongodb
+      - eureka-server
     ports:
       - "13401:13401"
     image: sensor-service:latest
+
+  eureka-server:
+    build:
+      context: ./
+      dockerfile: ./eureka-server/Dockerfile
+    container_name: eureka-server
+    restart: on-failure
+    ports:
+      - "19990:19990"
+    image: eureka-server:latest
 
   client:
     build: client

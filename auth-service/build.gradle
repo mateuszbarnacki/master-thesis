@@ -12,6 +12,7 @@ ext {
     set("postgresqlVersion", '42.5.4')
     set("apacheCommonsVersion", '3.0')
     set("testContainersVersion", '1.18.3')
+    set('eurekaVersion', "4.0.1")
 }
 
 dependencies {
@@ -19,6 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaVersion}"
     implementation "org.postgresql:postgresql:${postgresqlVersion}"
     implementation "org.apache.commons:commons-lang3:${apacheCommonsVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
