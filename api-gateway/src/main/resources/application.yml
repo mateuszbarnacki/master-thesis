@@ -8,7 +8,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://172.20.40.211:3000"
+            allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods: "*"
 
