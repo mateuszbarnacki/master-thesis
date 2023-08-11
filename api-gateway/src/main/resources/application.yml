@@ -8,9 +8,9 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins: "http://localhost:3000", "http://172.20.40.211:3000"
             allowedHeaders: "*"
-            allowedMethods: "*"
+            allowedMethods: "GET", "POST", "PATCH", "DELETE"
 
 rsa:
   public-key: classpath:certs/public.pem
