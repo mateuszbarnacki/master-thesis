@@ -7,6 +7,7 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import AccessForm from "./AccessForm";
 import * as C from "../../../api/constants";
 import * as P from "../../../api/paths";
+import {useNavigate} from "react-router-dom";
 
 function AccessModal({
                          user,
@@ -16,6 +17,7 @@ function AccessModal({
                          updateCheckedProjects,
                          handleAlert
                      }) {
+    const navigate = useNavigate();
     const handleSuccessClick = () => {
         const roles = [];
         if (document.getElementById(user.username + '-researcher-modal-checkbox').checked) roles.push(C.ResearcherRole);
@@ -37,11 +39,16 @@ function AccessModal({
             },
             body: JSON.stringify(projectDto)
         })
-            .then(res => res.json())
-            .then(data => {
+            .then(res => {
+                if (res.status === 401) {
+                  navigate('/');
+                } else if (res.status !== 200) {
+                    return res.json().then(obj => {throw new Error(obj.message)});
+                }
                 updateCheckedProjects([]);
                 closeModal();
                 window.location.reload();
+                return res.json();
             })
             .catch(error => handleAlert(true));
     };

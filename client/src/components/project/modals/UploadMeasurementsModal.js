@@ -12,8 +12,10 @@ import FileInfo from "../../FileInfo";
 import FormLabel from "react-bootstrap/FormLabel";
 import * as P from "../../../api/paths";
 import * as C from "../../../api/constants";
+import {useNavigate} from "react-router-dom";
 
 function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAlert}) {
+    const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const handleCancelAction = () => {
         setFile(null);
@@ -31,10 +33,18 @@ function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAler
                 },
                 body: formData
             })
-                .then(res => res.json())
-                .then(data => {
+                .then(res => {
+                    if (res.status === 401) {
+                        navigate('/');
+                    }
+                    if (res.status !== 201) {
+                        return res.json().then(obj => {
+                            throw new Error(obj.message)
+                        });
+                    }
                     closeModal();
                     setFile(null);
+                    return res.json();
                 })
                 .catch(error => handleAlert(true))
         }

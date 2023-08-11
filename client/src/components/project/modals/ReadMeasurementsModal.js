@@ -10,8 +10,10 @@ import vs from "react-syntax-highlighter/src/styles/hljs/vs";
 import {useEffect, useState} from "react";
 import * as P from "../../../api/paths";
 import * as C from "../../../api/constants";
+import {useNavigate} from "react-router-dom";
 
 function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
+    const navigate = useNavigate();
     const [measurements, setMeasurements] = useState([]);
     const requestOptions = {
         method: 'GET',
@@ -21,7 +23,15 @@ function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
     };
     useEffect(() => {
         fetch(P.base + P.measurements + '/' + acronym + '/latest', requestOptions)
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 401) {
+                  navigate('/');
+                } else if (res.status !== 200) {
+                    return res.json().then(obj => {throw new Error(obj.message)});
+                }
+                closeModal();
+                return res.json();
+            })
             .then(data => setMeasurements(data))
             .catch(error => handleAlert(true));
     }, [acronym]);

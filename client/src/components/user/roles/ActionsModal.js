@@ -8,8 +8,10 @@ import Form from "react-bootstrap/Form";
 import ActionsTable from "./ActionsTable";
 import * as C from "../../../api/constants";
 import * as P from "../../../api/paths";
+import {useNavigate} from "react-router-dom";
 
 function ActionsModal({userProjects, show, closeModal, handleAlert}) {
+    const navigate = useNavigate();
     const handleSuccessClick = () => {
         const projects = [];
         const table = document.getElementById('modal-table');
@@ -39,10 +41,15 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
             },
             body: JSON.stringify(projectActionsDto)
         })
-            .then(res => res.json())
-            .then(data => {
+            .then(res => {
+                if (res.status === 401) {
+                    navigate('/');
+                } else if (res.status !== 200) {
+                    return res.json().then(obj => {throw new Error(obj.message)});
+                }
                 closeModal();
                 window.location.reload();
+                return res.json();
             })
             .catch(error => handleAlert(true));
     };
