@@ -47,7 +47,7 @@ function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAler
                     setFile(null);
                     return res.json();
                 })
-                .catch(error => handleAlert(true))
+                .catch(() => handleAlert(true))
         }
     };
 

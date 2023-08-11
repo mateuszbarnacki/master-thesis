@@ -25,7 +25,7 @@ function UserList({handleAlert}) {
                 return res.json();
             })
             .then(data => setUsersList(data))
-            .catch(error => {handleAlert(true)});
+            .catch(() => {handleAlert(true)});
     }, []);
 
     return (

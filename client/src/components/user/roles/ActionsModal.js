@@ -53,7 +53,7 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
                 window.location.reload();
                 return res.json();
             })
-            .catch(error => handleAlert(true));
+            .catch(() => handleAlert(true));
     };
 
     return (

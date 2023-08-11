@@ -52,7 +52,7 @@ function AccessModal({
                 window.location.reload();
                 return res.json();
             })
-            .catch(error => handleAlert(true));
+            .catch(() => handleAlert(true));
     };
 
     return (

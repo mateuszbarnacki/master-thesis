@@ -34,7 +34,7 @@ function LoginForm({setLoginError}) {
                 window.localStorage.setItem(localStorageRoles, roles);
                 window.localStorage.setItem(localStorageUser, user);
                 navigate(projectsListView);
-            }).catch(error => setLoginError(true));
+            }).catch(() => setLoginError(true));
     };
 
     return (

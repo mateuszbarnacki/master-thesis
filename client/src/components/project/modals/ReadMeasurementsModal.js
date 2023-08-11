@@ -34,7 +34,7 @@ function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
                 return res.json();
             })
             .then(data => setMeasurements(data))
-            .catch(error => handleAlert(true));
+            .catch(() => handleAlert(true));
     }, [acronym]);
 
     return (

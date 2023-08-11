@@ -57,7 +57,7 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
                 setProjects(data);
                 setProjectsCopy(data);
             })
-            .catch(error => handleAlert(true));
+            .catch(() => handleAlert(true));
     }, []);
 
     return (

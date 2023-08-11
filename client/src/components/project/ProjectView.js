@@ -81,14 +81,14 @@ function ProjectView() {
                                                     deleteElement={() => deleteListElement(data[0])}/>);
                 setProjectStructureCard(<ProjectStructureCard item={data[0]}/>);
             })
-            .catch(error => setIsAlert(true));
+            .catch(() => setIsAlert(true));
     };
     const deleteListElement = (project) => {
         fetch(P.server + P.projects + '/' + project.name, {
             method: 'DELETE',
             headers: headers
         })
-            .then(data => {
+            .then(() => {
                 const newProjects = projects.slice();
                 const index = newProjects.indexOf(project.name);
                 newProjects.splice(index, 1);
@@ -97,7 +97,7 @@ function ProjectView() {
                 setProjectInfoCard(defaultCard);
                 setProjectStructureCard(null);
             })
-            .catch(error => setIsAlert(true));
+            .catch(() => setIsAlert(true));
     };
 
     useEffect(() => {
@@ -119,7 +119,7 @@ function ProjectView() {
                     setList(data);
                     document.getElementById('search').value = '';
                 })
-                .catch(error => setIsAlert(true));
+                .catch(() => setIsAlert(true));
         } else {
             fetch(P.server + P.users + '/' + window.localStorage.getItem(localStorageUser) + P.projects, {
                 method: 'GET',
@@ -142,7 +142,7 @@ function ProjectView() {
                     setList(projects);
                     document.getElementById('search').value = '';
                 })
-                .catch(error => setIsAlert(true));
+                .catch(() => setIsAlert(true));
         }
     }, []);
 

@@ -57,11 +57,11 @@ function UserForm({handleAlert}) {
                 }
                 return res.json();
             })
-            .then(data => {
+            .then(() => {
                 setCheckedProjects([]);
                 window.location.reload();
             })
-            .catch(error => handleAlert(true));
+            .catch(() => handleAlert(true));
     };
 
     return (
