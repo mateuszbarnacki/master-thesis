@@ -1,1 +1,0 @@
-curl -d '{"username": "Admin", "email": "admin@agh.edu.pl", "description": "Admin user", "password": "admin", "roles": ["ADMIN"], "projects": []}' -H "Content-Type: application/json" -X POST http://localhost:8080/users
