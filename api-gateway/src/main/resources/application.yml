@@ -1,6 +1,16 @@
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://172.20.40.211:3000"
+            allowedHeaders: "*"
+            allowedMethods: "*"
 
 rsa:
   public-key: classpath:certs/public.pem
