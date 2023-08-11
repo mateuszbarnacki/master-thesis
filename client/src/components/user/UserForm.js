@@ -46,7 +46,10 @@ function UserForm({handleAlert}) {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(userDto)
         })
-            .then(data => setCheckedProjects([]))
+            .then(data => {
+                setCheckedProjects([]);
+                window.location.reload();
+            })
             .catch(error => handleAlert(true));
     };
 
