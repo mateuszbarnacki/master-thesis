@@ -35,7 +35,7 @@ function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAler
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate('/');
+                        navigate(P.loginPage);
                     }
                     if (res.status !== 201) {
                         return res.json().then(obj => {

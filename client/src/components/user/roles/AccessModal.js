@@ -41,7 +41,7 @@ function AccessModal({
         })
             .then(res => {
                 if (res.status === 401) {
-                  navigate('/');
+                  navigate(P.loginPage);
                 } else if (res.status !== 200) {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

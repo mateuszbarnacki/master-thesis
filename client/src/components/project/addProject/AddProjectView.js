@@ -64,9 +64,9 @@ function AddProjectView() {
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate('/');
+                    navigate(P.loginPage);
                 } else if (res.status === 201) {
-                    navigate('/list');
+                    navigate(P.projectsListPage);
                 } else {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

@@ -48,7 +48,7 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
         fetch(P.base + P.projects + '/names', requestOptions)
             .then(res => {
                 if (res.status === 401) {
-                       navigate('/');
+                       navigate(P.loginPage);
                 }
                 return res.json();
             })

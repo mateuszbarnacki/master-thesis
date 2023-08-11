@@ -32,7 +32,7 @@ function LoginForm({setLoginError}) {
                 window.localStorage.setItem(localStorageAuthToken, token);
                 window.localStorage.setItem(localStorageRoles, roles);
                 window.localStorage.setItem(localStorageUser, user);
-                navigate('/list');
+                navigate(P.projectsListPage);
             }).catch(error => setLoginError(true));
     };
 

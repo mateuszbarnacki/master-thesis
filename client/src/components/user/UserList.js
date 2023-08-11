@@ -19,7 +19,7 @@ function UserList({handleAlert}) {
         fetch(P.base + P.users + '/all', requestOptions)
             .then(res => {
                 if (res.status === 401) {
-                    navigate('/');
+                    navigate(P.loginPage);
                 }
                 return res.json();
             })

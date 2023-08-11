@@ -68,7 +68,7 @@ function ProjectView() {
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate('/');
+                    navigate(P.loginPage);
                 }
                 return res.json();
             })
@@ -108,7 +108,7 @@ function ProjectView() {
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate('/');
+                        navigate(P.loginPage);
                     }
                     return res.json();
                 })
@@ -127,7 +127,7 @@ function ProjectView() {
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate('/');
+                        navigate(P.loginPage);
                     }
                     return res.json();
                 })
