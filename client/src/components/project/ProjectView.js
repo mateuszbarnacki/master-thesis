@@ -15,8 +15,10 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import Col from "react-bootstrap/Col";
 import {isStringNullOrEmpty} from "./addProject/FormValidator";
+import {useNavigate} from "react-router-dom";
 
 function ProjectView() {
+    const navigate = useNavigate();
     const defaultCard = (
         <Card className="border-black m-3">
             <CardHeader as="h5">Karta zarządzania projektem</CardHeader>
@@ -64,7 +66,12 @@ function ProjectView() {
             method: 'GET',
             headers: headers
         })
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 401) {
+                    navigate('/');
+                }
+                return res.json();
+            })
             .then(data => {
                 setProjectInfoCard(<ProjectInfoCard item={data[0]}
                                                     actions={item.actions ? item.actions : null}
@@ -99,7 +106,12 @@ function ProjectView() {
                     'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
                 }
             })
-                .then(res => res.json())
+                .then(res => {
+                    if (res.status === 401) {
+                        navigate('/');
+                    }
+                    return res.json();
+                })
                 .then(data => {
                     setProjects(data);
                     setList(data);
@@ -113,7 +125,12 @@ function ProjectView() {
                     'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
                 }
             })
-                .then(res => res.json())
+                .then(res => {
+                    if (res.status === 401) {
+                        navigate('/');
+                    }
+                    return res.json();
+                })
                 .then(data => {
                     const projects = data.map(item => ({
                         name: item.name,

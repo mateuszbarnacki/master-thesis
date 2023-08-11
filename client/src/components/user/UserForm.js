@@ -7,10 +7,13 @@ import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import UserProjectsList from "./UserProjectsList";
 import * as P from "../../api/paths";
+import {useNavigate} from "react-router-dom";
 
 function UserForm({handleAlert}) {
+    const navigate = useNavigate();
     const [isPasswordInvalidRepeated, setIsPasswordInvalidRepeated] = useState(false);
     const [checkedProjects, setCheckedProjects] = useState([]);
+
     function handleRepeatedPasswordChange(event) {
         const password = document.getElementById("password").value;
         const repeatedPassword = document.getElementById("repeatedPassword").value;
@@ -20,6 +23,7 @@ function UserForm({handleAlert}) {
         }
         setIsPasswordInvalidRepeated(password !== repeatedPassword);
     }
+
     const validateEmail = (email) => {
         return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
     };
@@ -46,6 +50,12 @@ function UserForm({handleAlert}) {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(userDto)
         })
+            .then(res => {
+                if (res.status === 401) {
+                    navigate('/');
+                }
+                return res.json();
+            })
             .then(data => {
                 setCheckedProjects([]);
                 window.location.reload();

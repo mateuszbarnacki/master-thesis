@@ -4,8 +4,10 @@ import UserTab from "./UserTab";
 import {useEffect, useState} from "react";
 import * as P from '../../api/paths';
 import * as C from "../../api/constants";
+import {useNavigate} from "react-router-dom";
 
 function UserList({handleAlert}) {
+    const navigate = useNavigate();
     const [usersList, setUsersList] = useState([]);
     const requestOptions = {
         method: 'GET',
@@ -15,7 +17,12 @@ function UserList({handleAlert}) {
     };
     useEffect(() => {
         fetch(P.base + P.users + '/all', requestOptions)
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 401) {
+                    navigate('/');
+                }
+                return res.json();
+            })
             .then(data => setUsersList(data))
             .catch(error => {handleAlert(true)});
     }, []);
