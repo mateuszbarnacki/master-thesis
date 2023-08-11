@@ -4,8 +4,8 @@ import AccordionItem from "react-bootstrap/AccordionItem";
 import Button from "react-bootstrap/Button";
 import AccessModal from "./roles/AccessModal";
 import {Fragment, useState} from "react";
-import AccessForm from "./roles/AccessForm";
 import ActionsModal from "./roles/ActionsModal";
+import UnmodifiableAccessForm from "./roles/UnmodifiableAccessForm";
 import * as C from "../../api/constants";
 
 function UserTab({user, index, handleAlert}) {
@@ -18,10 +18,7 @@ function UserTab({user, index, handleAlert}) {
             <AccordionItem eventKey={index}>
                 <AccordionHeader>{user.username}</AccordionHeader>
                 <AccordionBody className="text-center">
-                    <AccessForm user={user}
-                                update={false}
-                                updateCheckedProjects={(values) => setCheckedProjects(values)}
-                                handleAlert={(value) => handleAlert(value)}/>
+                    <UnmodifiableAccessForm user={user}/>
                     <Button variant="dark" className="mt-3 me-3"
                             onClick={() => setShowManageRolesModal(true)}>
                         Edytuj uprawnienia

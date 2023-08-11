@@ -1,9 +1,9 @@
 import Table from "react-bootstrap/Table";
 import * as C from "../../../api/constants";
 
-function ActionsTable({userProjects}) {
+function UnmodifiableActionsTable({userProjects}) {
     return (
-        <Table id="modal-table" className="m-1">
+        <Table id="form-table" className="m-1">
             <thead className="border-black">
             <tr>
                 <th>#</th>
@@ -19,15 +19,11 @@ function ActionsTable({userProjects}) {
                         <td key={project.name + ' ' + userProjects.length}>{projectIndex + 1}</td>
                         <td style={{display: 'none'}}>{project.id}</td>
                         <td key={project.name + '-' + userProjects.length}>{project.name}</td>
-                        <td key={project.name + '-Add_Measurement-modal'}>
-                            <input type="checkbox"
-                                   className="custom-checkbox-input"
-                                   defaultChecked={project.actions.includes(C.AddMeasurementAction)}/>
+                        <td key={project.name + '-Add_Measurement'}>
+                            {project.actions.includes(C.AddMeasurementAction) ? 'x' : null}
                         </td>
-                        <td key={project.name + '-Read_Measurement-modal'}>
-                            <input type="checkbox"
-                                   className="custom-checkbox-input"
-                                   defaultChecked={project.actions.includes(C.ReadMeasurementsAction)}/>
+                        <td key={project.name + '-Read_Measurement'}>
+                            {project.actions.includes(C.ReadMeasurementsAction) ? 'x' : null}
                         </td>
                     </tr>))
             }
@@ -36,4 +32,4 @@ function ActionsTable({userProjects}) {
     );
 }
 
-export default ActionsTable;
+export default UnmodifiableActionsTable;
