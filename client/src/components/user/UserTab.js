@@ -6,7 +6,7 @@ import AccessModal from "./roles/AccessModal";
 import {Fragment, useState} from "react";
 import ActionsModal from "./roles/ActionsModal";
 import UnmodifiableAccessForm from "./roles/UnmodifiableAccessForm";
-import * as C from "../../api/constants";
+import {ResearcherRole} from "../../api/roles";
 
 function UserTab({user, index, handleAlert}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
@@ -23,7 +23,7 @@ function UserTab({user, index, handleAlert}) {
                             onClick={() => setShowManageRolesModal(true)}>
                         Edytuj uprawnienia
                     </Button>
-                    {user.roles.includes(C.ResearcherRole) ?
+                    {user.roles.includes(ResearcherRole) ?
                         <Button variant="dark" className="mt-3 ms-3"
                                 onClick={() => setShowManageProjectsModal(true)}>
                             Edytuj akcje

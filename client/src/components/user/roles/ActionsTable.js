@@ -1,5 +1,5 @@
 import Table from "react-bootstrap/Table";
-import * as C from "../../../api/constants";
+import {AddMeasurementAction, ReadMeasurementsAction} from "../../../api/actions";
 
 function ActionsTable({userProjects}) {
     return (
@@ -22,12 +22,12 @@ function ActionsTable({userProjects}) {
                         <td key={project.name + '-Add_Measurement-modal'}>
                             <input type="checkbox"
                                    className="custom-checkbox-input"
-                                   defaultChecked={project.actions.includes(C.AddMeasurementAction)}/>
+                                   defaultChecked={project.actions.includes(AddMeasurementAction)}/>
                         </td>
                         <td key={project.name + '-Read_Measurement-modal'}>
                             <input type="checkbox"
                                    className="custom-checkbox-input"
-                                   defaultChecked={project.actions.includes(C.ReadMeasurementsAction)}/>
+                                   defaultChecked={project.actions.includes(ReadMeasurementsAction)}/>
                         </td>
                     </tr>))
             }

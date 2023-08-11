@@ -1,11 +1,12 @@
+import {Fragment, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
-import {Fragment, useEffect, useState} from "react";
 import {isStringNullOrEmpty} from "../project/addProject/FormValidator";
 import * as P from "../../api/paths";
-import {useNavigate} from "react-router-dom";
-import * as C from "../../api/constants";
+import {localStorageAuthToken} from "../../api/constants";
+import {loginView} from "../../api/views";
 
 function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}) {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
     const requestOptions = {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+            'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
         }
     };
     const handleSearchOnChange = (event) => {
@@ -45,10 +46,10 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
 
     useEffect(() => {
         updateCheckedProjects(checkedProjects.slice());
-        fetch(P.base + P.projects + '/names', requestOptions)
+        fetch(P.server + P.projects + '/names', requestOptions)
             .then(res => {
                 if (res.status === 401) {
-                       navigate(P.loginPage);
+                       navigate(loginView);
                 }
                 return res.json();
             })
@@ -70,7 +71,7 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
                         {item}
                         <input type="checkbox" id={item + "-checkbox"}
                                className="float-end custom-checkbox-input"
-                               defaultChecked={checkedProjects && checkedProjects.includes(item)}
+                               defaultChecked={checkedProjects?.includes(item)}
                                onChange={(e) => handleCheckboxOnChange(e)}/>
                     </ListGroupItem>)}
             </ListGroup>

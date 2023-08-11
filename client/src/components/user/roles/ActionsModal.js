@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
@@ -6,9 +7,10 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ActionsTable from "./ActionsTable";
-import * as C from "../../../api/constants";
 import * as P from "../../../api/paths";
-import {useNavigate} from "react-router-dom";
+import {AddMeasurementAction, ReadMeasurementsAction} from "../../../api/actions";
+import {loginView} from "../../../api/views";
+import {localStorageAuthToken} from "../../../api/constants";
 
 function ActionsModal({userProjects, show, closeModal, handleAlert}) {
     const navigate = useNavigate();
@@ -22,8 +24,8 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
             let id = columns[1].innerHTML;
             let name = columns[2].innerHTML;
             let actions = [];
-            if (columns[3].children[0].checked) actions.push(C.AddMeasurementAction);
-            if (columns[4].children[0].checked) actions.push(C.ReadMeasurementsAction);
+            if (columns[3].children[0].checked) actions.push(AddMeasurementAction);
+            if (columns[4].children[0].checked) actions.push(ReadMeasurementsAction);
             projects.push({
                 id: id,
                 name: name,
@@ -33,17 +35,17 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
         const projectActionsDto = {
             projects: projects
         };
-        fetch(P.base + P.userProjects, {
+        fetch(P.server + P.userProjects, {
             method: 'PATCH',
             headers: {
-                'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken),
+                'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(projectActionsDto)
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate(P.loginPage);
+                    navigate(loginView);
                 } else if (res.status !== 200) {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

@@ -1,5 +1,5 @@
 import Table from "react-bootstrap/Table";
-import * as C from "../../../api/constants";
+import {AddMeasurementAction, ReadMeasurementsAction} from "../../../api/actions";
 
 function UnmodifiableActionsTable({userProjects}) {
     return (
@@ -20,10 +20,10 @@ function UnmodifiableActionsTable({userProjects}) {
                         <td style={{display: 'none'}}>{project.id}</td>
                         <td key={project.name + '-' + userProjects.length}>{project.name}</td>
                         <td key={project.name + '-Add_Measurement'}>
-                            {project.actions.includes(C.AddMeasurementAction) ? 'x' : null}
+                            {project.actions.includes(AddMeasurementAction) ? 'x' : null}
                         </td>
                         <td key={project.name + '-Read_Measurement'}>
-                            {project.actions.includes(C.ReadMeasurementsAction) ? 'x' : null}
+                            {project.actions.includes(ReadMeasurementsAction) ? 'x' : null}
                         </td>
                     </tr>))
             }

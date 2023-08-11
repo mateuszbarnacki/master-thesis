@@ -1,10 +1,11 @@
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import UserTab from "./UserTab";
-import {useEffect, useState} from "react";
 import * as P from '../../api/paths';
-import * as C from "../../api/constants";
-import {useNavigate} from "react-router-dom";
+import {localStorageAuthToken} from "../../api/constants";
+import {loginView} from "../../api/views";
 
 function UserList({handleAlert}) {
     const navigate = useNavigate();
@@ -12,14 +13,14 @@ function UserList({handleAlert}) {
     const requestOptions = {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+            'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
         }
     };
     useEffect(() => {
-        fetch(P.base + P.users + '/all', requestOptions)
+        fetch(P.server + P.users + '/all', requestOptions)
             .then(res => {
                 if (res.status === 401) {
-                    navigate(P.loginPage);
+                    navigate(loginView);
                 }
                 return res.json();
             })

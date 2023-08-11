@@ -9,7 +9,9 @@ import ProjectStructureCard from "./ProjectStructureCard";
 import Footer from "../Footer";
 import Alert from "react-bootstrap/Alert";
 import * as P from "../../api/paths";
-import * as C from "../../api/constants";
+import {localStorageAuthToken, localStorageRoles, localStorageUser} from "../../api/constants";
+import {loginView} from "../../api/views";
+import {AdminRole} from "../../api/roles";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
@@ -29,8 +31,8 @@ function ProjectView() {
             </Card.Body>
         </Card>
     );
-    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
-        window.localStorage.getItem(C.localStorageRoles) : [];
+    const roles = !!window.localStorage.getItem(localStorageRoles) ?
+        window.localStorage.getItem(localStorageRoles) : [];
     const [projects, setProjects] = useState([]);
     const [list, setList] = useState([]);
     const [projectInfoCard, setProjectInfoCard] = useState(defaultCard);
@@ -43,7 +45,7 @@ function ProjectView() {
         </Alert>
     );
     const headers = {
-        'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+        'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
     };
     const handleSearchOnChange = (event) => {
         const searchValue = event.target.value;
@@ -62,13 +64,13 @@ function ProjectView() {
     };
     const handleListOnClick = (item) => {
         const name = item.name ? item.name : item;
-        fetch(P.base + P.projects + '?name=' + name, {
+        fetch(P.server + P.projects + '?name=' + name, {
             method: 'GET',
             headers: headers
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate(P.loginPage);
+                    navigate(loginView);
                 }
                 return res.json();
             })
@@ -82,7 +84,7 @@ function ProjectView() {
             .catch(error => setIsAlert(true));
     };
     const deleteListElement = (project) => {
-        fetch(P.base + P.projects + '/' + project.name, {
+        fetch(P.server + P.projects + '/' + project.name, {
             method: 'DELETE',
             headers: headers
         })
@@ -99,16 +101,16 @@ function ProjectView() {
     };
 
     useEffect(() => {
-        if (roles.includes(C.AdminRole)) {
-            fetch(P.base + P.projects + '/names', {
+        if (roles.includes(AdminRole)) {
+            fetch(P.server + P.projects + '/names', {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+                    'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
                 }
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate(P.loginPage);
+                        navigate(loginView);
                     }
                     return res.json();
                 })
@@ -119,15 +121,15 @@ function ProjectView() {
                 })
                 .catch(error => setIsAlert(true));
         } else {
-            fetch(P.base + P.users + '/' + window.localStorage.getItem(C.localStorageUser) + P.projects, {
+            fetch(P.server + P.users + '/' + window.localStorage.getItem(localStorageUser) + P.projects, {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+                    'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
                 }
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate(P.loginPage);
+                        navigate(loginView);
                     }
                     return res.json();
                 })

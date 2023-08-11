@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import UserProjectsList from "./UserProjectsList";
 import * as P from "../../api/paths";
+import {loginView} from "../../api/views";
 import {useNavigate} from "react-router-dom";
 
 function UserForm({handleAlert}) {
@@ -45,14 +46,14 @@ function UserForm({handleAlert}) {
             roles: [],
             projects: checkedProjects
         };
-        fetch(P.base + P.users, {
+        fetch(P.server + P.users, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(userDto)
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate(P.loginPage);
+                    navigate(loginView);
                 }
                 return res.json();
             })
@@ -77,8 +78,9 @@ function UserForm({handleAlert}) {
                         <FormControl type="text" id="email" placeholder="Podaj email" required/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
-                        <FormLabel htmlFor="information" className="mb-3" as="h5">Informacje o
-                            użytkowniku:</FormLabel>
+                        <FormLabel htmlFor="information" className="mb-3" as="h5">
+                            Informacje o użytkowniku:
+                        </FormLabel>
                         <FormControl as="textarea" rows={3} id="information"
                                      placeholder="Podaj dodatkowe informacje na temat tego użytkownika"/>
                     </FormGroup>
@@ -94,8 +96,7 @@ function UserForm({handleAlert}) {
                                      onChange={handleRepeatedPasswordChange} required/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">
-                        <FormLabel htmlFor="repeatedPassword" className="mb-3" as="h5">Powtórz
-                            hasło:</FormLabel>
+                        <FormLabel htmlFor="repeatedPassword" className="mb-3" as="h5">Powtórz hasło:</FormLabel>
                         <FormControl type="password" id="repeatedPassword"
                                      placeholder="Powtórz hasło"
                                      isInvalid={isPasswordInvalidRepeated}
@@ -103,8 +104,7 @@ function UserForm({handleAlert}) {
                         <FormControl.Feedback type="invalid">
                             Hasła nie zgadzają się ze sobą
                         </FormControl.Feedback>
-                        <Button variant="dark" className="mt-4" type="submit">Dodaj
-                            użytkownika</Button>
+                        <Button variant="dark" className="mt-4" type="submit">Dodaj użytkownika</Button>
                     </FormGroup>
                 </Form>
             </Card.Body>

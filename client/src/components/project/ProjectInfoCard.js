@@ -7,11 +7,13 @@ import CloneProjectModal from "./modals/CloneProjectModal";
 import DeleteProjectModal from "./modals/DeleteProjectModal";
 import ReadMeasurementsModal from "./modals/ReadMeasurementsModal";
 import UploadMeasurementsModal from "./modals/UploadMeasurementsModal";
-import * as C from '../../api/constants';
+import {localStorageRoles} from '../../api/constants';
+import {AddMeasurementAction, ReadMeasurementsAction} from "../../api/actions";
+import {AdminRole, ResearcherRole, ProjectCreatorRole} from "../../api/roles";
 
 function ProjectInfoCard({item, actions, handleAlert, deleteElement}) {
-    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
-        window.localStorage.getItem(C.localStorageRoles) : [];
+    const roles = !!window.localStorage.getItem(localStorageRoles) ?
+        window.localStorage.getItem(localStorageRoles) : [];
     const [showUploadMeasurementsModal, setShowUploadMeasurementsModal] = useState(false);
     const [showReadMeasurementsModal, setShowReadMeasurementsModal] = useState(false);
     const [showCloneProjectModal, setShowCloneProjectModal] = useState(false);
@@ -40,30 +42,30 @@ function ProjectInfoCard({item, actions, handleAlert, deleteElement}) {
                             <Card.Text>{item.description}</Card.Text>
                         </>) : <Card.Title>Akcje</Card.Title>}
                     <ButtonGroup className="mb-2">
-                        {(roles.includes(C.ResearcherRole) && actions && actions.includes(C.AddMeasurementAction))
-                        || roles.includes(C.AdminRole) ?
+                        {(roles.includes(ResearcherRole) && actions && actions.includes(AddMeasurementAction))
+                        || roles.includes(AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowUploadMeasurementsModal(true)}>
                                 Dodaj pomiar
                             </Button>
                             : null
                         }
-                        {(roles.includes(C.ResearcherRole) && actions && actions.includes(C.ReadMeasurementsAction))
-                        || roles.includes(C.AdminRole) ?
+                        {(roles.includes(ResearcherRole) && actions && actions.includes(ReadMeasurementsAction))
+                        || roles.includes(AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowReadMeasurementsModal(true)}>
                                 Czytaj pomiary
                             </Button>
                             : null
                         }
-                        {roles.includes(C.ProjectCreatorRole) || roles.includes(C.AdminRole) ?
+                        {roles.includes(ProjectCreatorRole) || roles.includes(AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowCloneProjectModal(true)}>
                                 Sklonuj
                             </Button>
                             : null
                         }
-                        {roles.includes(C.AdminRole) ?
+                        {roles.includes(AdminRole) ?
                             <Button variant="outline-dark" style={{border: "1px solid black"}}
                                     onClick={() => setShowDeleteProjectModal(true)}>
                                 Usuń

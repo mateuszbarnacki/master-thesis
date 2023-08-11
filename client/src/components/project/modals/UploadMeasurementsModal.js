@@ -1,3 +1,5 @@
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormSelect from "react-bootstrap/FormSelect";
@@ -7,12 +9,11 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import DragAndDropFile from "../../DragAndDropFile";
-import {useState} from "react";
 import FileInfo from "../../FileInfo";
 import FormLabel from "react-bootstrap/FormLabel";
 import * as P from "../../../api/paths";
-import * as C from "../../../api/constants";
-import {useNavigate} from "react-router-dom";
+import {localStorageAuthToken} from "../../../api/constants";
+import {loginView} from "../../../api/views";
 
 function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAlert}) {
     const navigate = useNavigate();
@@ -26,16 +27,16 @@ function UploadMeasurementsModal({sensors, acronym, show, closeModal, handleAler
             const formData = new FormData();
             formData.append('file', file);
             const deviceId = document.getElementById('sensorId').value;
-            fetch(P.base + P.measurements + '/upload/' + acronym + '/' + deviceId, {
+            fetch(P.server + P.measurements + '/upload/' + acronym + '/' + deviceId, {
                 method: "POST",
                 headers: {
-                    "Authorization": "Bearer " + window.localStorage.getItem(C.localStorageAuthToken)
+                    "Authorization": "Bearer " + window.localStorage.getItem(localStorageAuthToken)
                 },
                 body: formData
             })
                 .then(res => {
                     if (res.status === 401) {
-                        navigate(P.loginPage);
+                        navigate(loginView);
                     }
                     if (res.status !== 201) {
                         return res.json().then(obj => {

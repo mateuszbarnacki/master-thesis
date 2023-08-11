@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 import * as P from "../../api/paths";
 import {localStorageAuthToken, localStorageRoles, localStorageUser} from "../../api/constants";
+import {projectsListView} from "../../api/views";
 
 function LoginForm({setLoginError}) {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function LoginForm({setLoginError}) {
             username: e.target.login.value,
             password: e.target.password.value
         };
-        fetch(P.base + P.authentication,
+        fetch(P.server + P.authentication,
             {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -32,7 +33,7 @@ function LoginForm({setLoginError}) {
                 window.localStorage.setItem(localStorageAuthToken, token);
                 window.localStorage.setItem(localStorageRoles, roles);
                 window.localStorage.setItem(localStorageUser, user);
-                navigate(P.projectsListPage);
+                navigate(projectsListView);
             }).catch(error => setLoginError(true));
     };
 

@@ -1,8 +1,4 @@
-export const base = "http://172.20.40.211:8080";
-
-export const loginPage = '/';
-
-export const projectsListPage = '/list';
+export const server = "http://172.20.40.211:8080";
 
 export const measurements = "/measurements";
 

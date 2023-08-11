@@ -1,3 +1,5 @@
+import {useState} from "react";
+import Alert from "react-bootstrap/Alert";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import Modal from "react-bootstrap/Modal";
 import ModalFooter from "react-bootstrap/ModalFooter";
@@ -6,10 +8,8 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import CloneProjectForm from "./CloneProjectForm";
 import {validateProject} from "../addProject/FormValidator";
 import * as P from "../../../api/paths";
-import * as C from "../../../api/constants";
 import * as ProjectBuilder from "../addProject/ProjectBuilder";
-import Alert from "react-bootstrap/Alert";
-import {useState} from "react";
+import {localStorageAuthToken} from "../../../api/constants";
 
 function CloneProjectModal({project, show, closeModal}) {
     const [isAlert, setIsAlert] = useState(false);
@@ -33,10 +33,10 @@ function CloneProjectModal({project, show, closeModal}) {
             setIsAlert(true);
             return;
         }
-        fetch(P.base + P.projects, {
+        fetch(P.server + P.projects, {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem(C.localStorageAuthToken),
+                "Authorization": "Bearer " + window.localStorage.getItem(localStorageAuthToken),
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(projectDto)

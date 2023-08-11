@@ -1,3 +1,5 @@
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
@@ -7,10 +9,9 @@ import Button from "react-bootstrap/Button";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import vs from "react-syntax-highlighter/src/styles/hljs/vs";
-import {useEffect, useState} from "react";
 import * as P from "../../../api/paths";
-import * as C from "../../../api/constants";
-import {useNavigate} from "react-router-dom";
+import {localStorageAuthToken} from "../../../api/constants";
+import {loginView} from "../../../api/views";
 
 function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
     const navigate = useNavigate();
@@ -18,14 +19,14 @@ function ReadMeasurementsModal({acronym, show, closeModal, handleAlert}) {
     const requestOptions = {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken)
+            'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
         }
     };
     useEffect(() => {
-        fetch(P.base + P.measurements + '/' + acronym + '/latest', requestOptions)
+        fetch(P.server + P.measurements + '/' + acronym + '/latest', requestOptions)
             .then(res => {
                 if (res.status === 401) {
-                  navigate(P.loginPage);
+                  navigate(loginView);
                 } else if (res.status !== 200) {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

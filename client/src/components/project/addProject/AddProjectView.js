@@ -1,16 +1,17 @@
-import Card from "react-bootstrap/Card";
 import {Fragment, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import CardHeader from "react-bootstrap/CardHeader";
 import SensorForm from "./SensorForm";
 import Menu from "../../Menu";
 import ProjectForm from "./ProjectForm";
-import CardHeader from "react-bootstrap/CardHeader";
 import Footer from "../../Footer";
-import {useNavigate} from "react-router-dom";
 import {validateProject} from "./FormValidator";
 import * as P from "../../../api/paths";
-import Alert from "react-bootstrap/Alert";
-import * as C from "../../../api/constants";
+import {loginView, projectsListView} from "../../../api/views";
+import {localStorageAuthToken} from "../../../api/constants";
 import * as ProjectBuilder from "../addProject/ProjectBuilder";
 
 function AddProjectView() {
@@ -54,19 +55,19 @@ function AddProjectView() {
             setIsAlert(true);
             return;
         }
-        fetch(P.base + P.projects, {
+        fetch(P.server + P.projects, {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem(C.localStorageAuthToken),
+                "Authorization": "Bearer " + window.localStorage.getItem(localStorageAuthToken),
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(projectDto)
         })
             .then(res => {
                 if (res.status === 401) {
-                    navigate(P.loginPage);
+                    navigate(loginView);
                 } else if (res.status === 201) {
-                    navigate(P.projectsListPage);
+                    navigate(projectsListView);
                 } else {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

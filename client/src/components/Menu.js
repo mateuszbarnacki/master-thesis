@@ -5,12 +5,13 @@ import NavLink from "react-bootstrap/NavLink";
 import logo from '../assets/agh_logo.jpg';
 import './styles.css';
 import {Fragment} from "react";
-import * as C from "../api/constants";
+import {localStorageAuthToken, localStorageRoles} from "../api/constants";
+import {AdminRole, ProjectCreatorRole} from "../api/roles";
 
 function Menu() {
-    const isLogged = !!window.localStorage.getItem(C.localStorageAuthToken);
-    const roles = !!window.localStorage.getItem(C.localStorageRoles) ?
-        window.localStorage.getItem(C.localStorageRoles) : [];
+    const isLogged = !!window.localStorage.getItem(localStorageAuthToken);
+    const roles = !!window.localStorage.getItem(localStorageRoles) ?
+        window.localStorage.getItem(localStorageRoles) : [];
     const unauthorizedOptions = (
         <Nav className="me-auto">
         </Nav>
@@ -18,12 +19,13 @@ function Menu() {
     const authorizedOptions = (
         <Nav className="me-auto">
             <NavLink href="/list">Lista projektów</NavLink>
-            {roles.includes(C.ProjectCreatorRole) || roles.includes(C.AdminRole) ?
+            {roles.includes(ProjectCreatorRole) || roles.includes(AdminRole) ?
                 <NavLink href="/add">Dodaj projekt</NavLink> : null}
-            {roles.includes(C.AdminRole) ? <NavLink href="/users">Użytkownicy</NavLink> : null}
+            {roles.includes(AdminRole) ? <NavLink href="/users">Użytkownicy</NavLink> : null}
             <NavLink href="/"
-                     onClick={() => window.localStorage.removeItem(C.localStorageAuthToken)}>Wyloguj
-                się</NavLink>
+                     onClick={() => window.localStorage.removeItem(localStorageAuthToken)}>
+                Wyloguj się
+            </NavLink>
         </Nav>
     );
 

@@ -5,9 +5,11 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import Button from "react-bootstrap/Button";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import AccessForm from "./AccessForm";
-import * as C from "../../../api/constants";
 import * as P from "../../../api/paths";
 import {useNavigate} from "react-router-dom";
+import {ResearcherRole, ProjectCreatorRole} from "../../../api/roles";
+import {localStorageAuthToken} from "../../../api/constants";
+import {loginView} from "../../../api/views";
 
 function AccessModal({
                          user,
@@ -20,8 +22,8 @@ function AccessModal({
     const navigate = useNavigate();
     const handleSuccessClick = () => {
         const roles = [];
-        if (document.getElementById(user.username + '-researcher-modal-checkbox').checked) roles.push(C.ResearcherRole);
-        if (document.getElementById(user.username + '-project-creator-modal-checkbox').checked) roles.push(C.ProjectCreatorRole);
+        if (document.getElementById(user.username + '-researcher-modal-checkbox').checked) roles.push(ResearcherRole);
+        if (document.getElementById(user.username + '-project-creator-modal-checkbox').checked) roles.push(ProjectCreatorRole);
         const projects = checkedProjects.map(item => ({
             name: item,
             actions: []
@@ -31,17 +33,17 @@ function AccessModal({
             roles: roles,
             projects: projects
         };
-        fetch(P.base + P.users, {
+        fetch(P.server + P.users, {
             method: 'PATCH',
             headers: {
-                'Authorization': 'Bearer ' + window.localStorage.getItem(C.localStorageAuthToken),
+                'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(projectDto)
         })
             .then(res => {
                 if (res.status === 401) {
-                  navigate(P.loginPage);
+                  navigate(loginView);
                 } else if (res.status !== 200) {
                     return res.json().then(obj => {throw new Error(obj.message)});
                 }

@@ -4,7 +4,7 @@ import FormGroup from "react-bootstrap/FormGroup";
 import FormCheck from "react-bootstrap/FormCheck";
 import Form from "react-bootstrap/Form";
 import UserProjectsList from "../UserProjectsList";
-import * as C from "../../../api/constants";
+import {ResearcherRole, ProjectCreatorRole} from "../../../api/roles";
 
 function AccessForm({user, updateCheckedProjects, handleAlert}) {
     return (
@@ -14,15 +14,15 @@ function AccessForm({user, updateCheckedProjects, handleAlert}) {
                 <FormGroup className="mt-1 mb-1">
                     <FormLabel htmlFor="researcher-checkbox">Badacz</FormLabel>
                     <FormCheck id={user.username + "-researcher-modal-checkbox"}
-                               defaultChecked={user.roles.includes(C.ResearcherRole)}/>
+                               defaultChecked={user.roles.includes(ResearcherRole)}/>
                 </FormGroup>
                 <FormGroup className="mt-1 mb-1">
                     <FormLabel htmlFor="project-creator-checkbox">Twórca projektów</FormLabel>
                     <FormCheck id={user.username + "-project-creator-modal-checkbox"}
-                               defaultChecked={user.roles.includes(C.ProjectCreatorRole)}/>
+                               defaultChecked={user.roles.includes(ProjectCreatorRole)}/>
                 </FormGroup>
             </Row>
-            {user.roles.includes(C.ResearcherRole) ?
+            {user.roles.includes(ResearcherRole) ?
                 (<>
                     <FormLabel as="h5" className="text-start mt-4">Udział w projektach:</FormLabel>
                     <UserProjectsList id="access-form-list"
