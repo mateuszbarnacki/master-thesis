@@ -40,7 +40,10 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
             body: JSON.stringify(projectActionsDto)
         })
             .then(res => res.json())
-            .then(data => closeModal())
+            .then(data => {
+                closeModal();
+                window.location.reload();
+            })
             .catch(error => handleAlert(true));
     };
 
@@ -51,7 +54,7 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
             </ModalHeader>
             <ModalBody>
                 <Form className="text-center">
-                    <ActionsTable id="modal-table" userProjects={userProjects} update={true}/>
+                    <ActionsTable userProjects={userProjects}/>
                 </Form>
             </ModalBody>
             <ModalFooter className="modal-center">

@@ -41,6 +41,7 @@ function AccessModal({
             .then(data => {
                 updateCheckedProjects([]);
                 closeModal();
+                window.location.reload();
             })
             .catch(error => handleAlert(true));
     };
@@ -52,7 +53,6 @@ function AccessModal({
             </ModalHeader>
             <ModalBody className="text-center">
                 <AccessForm user={user}
-                            update={true}
                             handleAlert={(value) => handleAlert(value)}
                             updateCheckedProjects={(values) => updateCheckedProjects(values)}/>
             </ModalBody>
