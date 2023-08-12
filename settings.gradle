@@ -1,5 +1,5 @@
 rootProject.name = 'weather'
 
 include 'auth-service'
-include 'eureka-server'
+include 'service-registry'
 

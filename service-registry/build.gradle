@@ -21,6 +21,6 @@ dependencies {
 
 tasks {
     bootJar {
-        archiveFileName.set("eureka-server.jar")
+        archiveFileName.set("service-registry.jar")
     }
 }

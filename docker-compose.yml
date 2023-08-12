@@ -36,15 +36,15 @@ services:
       - "13401:13401"
     image: sensor-service:latest
 
-  eureka-server:
+  service-registry:
     build:
       context: ./
-      dockerfile: ./eureka-server/Dockerfile
-    container_name: eureka-server
+      dockerfile: ./service-registry/Dockerfile
+    container_name: service-registry
     restart: on-failure
     ports:
       - "19990:19990"
-    image: eureka-server:latest
+    image: service-registry:latest
 
   client:
     build: client
