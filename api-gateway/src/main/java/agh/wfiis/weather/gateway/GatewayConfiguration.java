@@ -78,7 +78,7 @@ public class GatewayConfiguration {
                         .and()
                         .method(HttpMethod.PATCH)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
-                        .uri("http://AUTH-SERVICE:13042/user-projects"))
+                        .uri("http://AUTH-SERVICE:13402/user-projects"))
                 .route(p -> p
                         .path("/user-projects/**")
                         .and()
