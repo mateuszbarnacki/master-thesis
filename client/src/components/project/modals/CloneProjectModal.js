@@ -12,6 +12,7 @@ import * as ProjectBuilder from "../addProject/ProjectBuilder";
 import {localStorageAuthToken} from "../../../api/constants";
 
 function CloneProjectModal({project, show, closeModal}) {
+    const [updatedProjectLength, setUpdatedProjectLength] = useState(project ? project.sensors.length : 1);
     const [isAlert, setIsAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const alert = (
@@ -25,7 +26,7 @@ function CloneProjectModal({project, show, closeModal}) {
         </Alert>
     );
     const handleSaveClick = () => {
-        const projectDto = ProjectBuilder.buildProject(project ? project.sensors.length : 1);
+        const projectDto = ProjectBuilder.buildProject(updatedProjectLength);
         const validationResult = validateProject(projectDto);
         if (validationResult.length > 0) {
             const errorMessage = validationResult.join('\n');
@@ -63,7 +64,7 @@ function CloneProjectModal({project, show, closeModal}) {
                 </ModalTitle>
             </ModalHeader>
             {isAlert ? alert : null}
-            <CloneProjectForm project={project}/>
+            <CloneProjectForm project={project} changeProjectLength={project => setUpdatedProjectLength(project)}/>
             <ModalFooter className="modal-center">
                 <Button variant="danger" onClick={closeModal} size="lg">Anuluj</Button>
                 <Button variant="success" onClick={handleSaveClick} size="lg">Zapisz</Button>

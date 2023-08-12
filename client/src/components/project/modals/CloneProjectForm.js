@@ -4,7 +4,7 @@ import CardHeader from "react-bootstrap/CardHeader";
 import SensorForm from "../addProject/SensorForm";
 import {Fragment, useState} from "react";
 
-function CloneProjectForm({project}) {
+function CloneProjectForm({project, changeProjectLength}) {
     const [sensors, setSensors] = useState(project ? project.sensors : {deviceId: 0});
     const [counter, setCounter] = useState(project ? project.sensors.length + 1 : 1);
     const [cloneSpatialMode, setCloneSpatialMode] = useState(project.spatialMode);
@@ -13,6 +13,7 @@ function CloneProjectForm({project}) {
         newIds.push({deviceId: counter});
         setSensors(newIds);
         setCounter(counter + 1);
+        changeProjectLength(newIds.length);
     };
     const handleRemoveSensorClick = (id) => {
         const newIds = sensors.slice();
@@ -22,6 +23,7 @@ function CloneProjectForm({project}) {
             setCounter(counter + 1);
         }
         setSensors(newIds);
+        changeProjectLength(newIds.length);
     };
 
     return (
@@ -40,7 +42,7 @@ function CloneProjectForm({project}) {
                                     handleAddSensorClick={() => handleAddSensorClick()}
                                     handleRemoveSensorClick={() => handleRemoveSensorClick(index)}
                                     isAddSensorButtonVisible={index === sensors.length - 1}
-                        spatialMode={cloneSpatialMode}/>)}
+                                    spatialMode={cloneSpatialMode}/>)}
                 </Card.Body>
             </Card>
         </Fragment>
