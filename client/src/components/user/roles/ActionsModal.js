@@ -12,7 +12,7 @@ import {AddMeasurementAction, ReadMeasurementsAction} from "../../../api/actions
 import {loginView} from "../../../api/views";
 import {localStorageAuthToken} from "../../../api/constants";
 
-function ActionsModal({userProjects, show, closeModal, handleAlert}) {
+function ActionsModal({userProjects, show, closeModal, showAlert}) {
     const navigate = useNavigate();
     const handleSuccessClick = () => {
         const projects = [];
@@ -53,7 +53,7 @@ function ActionsModal({userProjects, show, closeModal, handleAlert}) {
                 window.location.reload();
                 return res.json();
             })
-            .catch(() => handleAlert(true));
+            .catch(() => showAlert(true));
     };
 
     return (

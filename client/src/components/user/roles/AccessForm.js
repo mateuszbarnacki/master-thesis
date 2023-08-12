@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import UserProjectsList from "../UserProjectsList";
 import {ResearcherRole, ProjectCreatorRole} from "../../../api/roles";
 
-function AccessForm({user, updateCheckedProjects, handleAlert}) {
+function AccessForm({user, updateCheckedProjects, showAlert}) {
     return (
         <Form>
             <FormLabel as="h5" className="text-start">Role:</FormLabel>
@@ -28,7 +28,7 @@ function AccessForm({user, updateCheckedProjects, handleAlert}) {
                     <UserProjectsList id="access-form-list"
                                       userProjects={user.projects.map(item => item.name)}
                                       updateCheckedProjects={(values) => updateCheckedProjects(values)}
-                                      handleAlert={(value) => handleAlert(value)}/>
+                                      showAlert={(value) => showAlert(value)}/>
                 </>)
                 : null}
         </Form>

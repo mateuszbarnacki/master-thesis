@@ -8,7 +8,7 @@ import * as P from "../../api/paths";
 import {localStorageAuthToken} from "../../api/constants";
 import {loginView} from "../../api/views";
 
-function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}) {
+function UserProjectsList({id, userProjects, updateCheckedProjects, showAlert}) {
     const navigate = useNavigate();
     const [projects, setProjects] = useState([]);
     const [projectsCopy, setProjectsCopy] = useState([]);
@@ -50,14 +50,19 @@ function UserProjectsList({id, userProjects, updateCheckedProjects, handleAlert}
             .then(res => {
                 if (res.status === 401) {
                        navigate(loginView);
+                } else if (res.status === 200) {
+                    return res.json();
+                } else {
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
                 }
-                return res.json();
             })
             .then(data => {
                 setProjects(data);
                 setProjectsCopy(data);
             })
-            .catch(() => handleAlert(true));
+            .catch((error) => showAlert(error.message));
     }, []);
 
     return (

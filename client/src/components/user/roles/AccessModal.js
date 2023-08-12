@@ -17,7 +17,7 @@ function AccessModal({
                          closeModal,
                          checkedProjects,
                          updateCheckedProjects,
-                         handleAlert
+                         showAlert
                      }) {
     const navigate = useNavigate();
     const handleSuccessClick = () => {
@@ -52,7 +52,7 @@ function AccessModal({
                 window.location.reload();
                 return res.json();
             })
-            .catch(() => handleAlert(true));
+            .catch((error) => showAlert(error.message));
     };
 
     return (
@@ -62,7 +62,7 @@ function AccessModal({
             </ModalHeader>
             <ModalBody className="text-center">
                 <AccessForm user={user}
-                            handleAlert={(value) => handleAlert(value)}
+                            showAlert={(value) => showAlert(value)}
                             updateCheckedProjects={(values) => updateCheckedProjects(values)}/>
             </ModalBody>
             <ModalFooter className="modal-center">

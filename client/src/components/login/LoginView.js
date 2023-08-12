@@ -12,7 +12,7 @@ function LoginView() {
     window.localStorage.removeItem(localStorageRoles);
     window.localStorage.removeItem(localStorageUser);
     const [loginError, setLoginError] = useState(false);
-    const loginAlert = (
+    const alert = (
         <Alert variant="danger" onClose={() => setLoginError(false)} dismissible>
             <Alert.Heading>Błąd logowania</Alert.Heading>
             Podczas logowania wystąpił nieoczekiwany błąd. Spróbuj ponownie.
@@ -22,7 +22,7 @@ function LoginView() {
     return (
         <Fragment>
             <Menu/>
-            {loginError ? loginAlert : null}
+            {loginError ? alert : null}
             <Container>
                 <Row className="justify-content-center">
                     <LoginForm setLoginError={(value) => setLoginError(value)}/>

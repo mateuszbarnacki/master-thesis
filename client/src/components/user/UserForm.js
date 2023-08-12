@@ -10,7 +10,7 @@ import * as P from "../../api/paths";
 import {loginView} from "../../api/views";
 import {useNavigate} from "react-router-dom";
 
-function UserForm({handleAlert}) {
+function UserForm({showAlert}) {
     const navigate = useNavigate();
     const [isPasswordInvalidRepeated, setIsPasswordInvalidRepeated] = useState(false);
     const [checkedProjects, setCheckedProjects] = useState([]);
@@ -54,14 +54,16 @@ function UserForm({handleAlert}) {
             .then(res => {
                 if (res.status === 401) {
                     navigate(loginView);
+                } else if (res.status === 201) {
+                    setCheckedProjects([]);
+                    window.location.reload();
+                } else {
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
                 }
-                return res.json();
             })
-            .then(() => {
-                setCheckedProjects([]);
-                window.location.reload();
-            })
-            .catch(() => handleAlert(true));
+            .catch((error) => showAlert(error.message));
     };
 
     return (
@@ -87,7 +89,7 @@ function UserForm({handleAlert}) {
                     <FormGroup className="m-3 mt-4">
                         <FormLabel className="mb-3" as="h5">Uczestnictwo w projektach:</FormLabel>
                         <UserProjectsList id="user-form-list"
-                                          handleAlert={(value) => handleAlert(value)}
+                                          handleAlert={(value) => showAlert(value)}
                                           updateCheckedProjects={(values) => setCheckedProjects(values)}/>
                     </FormGroup>
                     <FormGroup className="m-3 mt-4">

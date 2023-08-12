@@ -8,7 +8,7 @@ import ActionsModal from "./roles/ActionsModal";
 import UnmodifiableAccessForm from "./roles/UnmodifiableAccessForm";
 import {ResearcherRole} from "../../api/roles";
 
-function UserTab({user, index, handleAlert}) {
+function UserTab({user, index, showAlert}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
     const [showManageProjectsModal, setShowManageProjectsModal] = useState(false);
     const [checkedProjects, setCheckedProjects] = useState([]);
@@ -35,10 +35,10 @@ function UserTab({user, index, handleAlert}) {
                          closeModal={() => setShowManageRolesModal(false)}
                          checkedProjects={checkedProjects}
                          updateCheckedProjects={(values) => setCheckedProjects(values)}
-                         handleAlert={(value) => handleAlert(value)}/>
+                         showAlert={(value) => showAlert(value)}/>
             <ActionsModal userProjects={user.projects} show={showManageProjectsModal}
                           closeModal={() => setShowManageProjectsModal(false)}
-                          handleAlert={(value) => handleAlert(value)}/>
+                          showAlert={(value) => showAlert(value)}/>
         </Fragment>
     );
 }

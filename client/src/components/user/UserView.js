@@ -10,24 +10,32 @@ import Alert from "react-bootstrap/Alert";
 
 function UserView() {
     const [isAlert, setIsAlert] = useState(false);
-    const fetchAlert = (
-        <Alert variant="danger" onClose={() => setIsAlert(false)} dismissible>
+    const [alertMessage, setAlertMessage] = useState('');
+    const alert = (
+        <Alert variant="danger" onClose={() => {
+            setAlertMessage('');
+            setIsAlert(false);
+        }} dismissible>
             <Alert.Heading>Błąd serwera</Alert.Heading>
-            Podczas pobrania danych z serwera wystąpił nieoczekiwany błąd.
+            Podczas pobrania danych z serwera wystąpił nieoczekiwany błąd: {alertMessage}
         </Alert>
     );
+    const showAlert = (message) => {
+        setAlertMessage(message);
+        setIsAlert(true);
+    };
 
     return (
         <Fragment>
             <Menu/>
-            {isAlert ? fetchAlert : null}
+            {isAlert ? alert : null}
             <Container fluid className="mt-4">
                 <Row className="m-5">
                     <Col className="m-1">
-                        <UserList handleAlert={(value) => setIsAlert(value)}/>
+                        <UserList showAlert={(message) => showAlert(message)}/>
                     </Col>
                     <Col className="m-1">
-                        <UserForm handleAlert={(value) => setIsAlert(value)}/>
+                        <UserForm showAlert={(message) => showAlert(message)}/>
                     </Col>
                 </Row>
             </Container>

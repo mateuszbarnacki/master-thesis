@@ -38,15 +38,16 @@ function ProjectView() {
     const [projectInfoCard, setProjectInfoCard] = useState(defaultCard);
     const [isAlert, setIsAlert] = useState(false);
     const [projectStructureCard, setProjectStructureCard] = useState(null);
-    const fetchAlert = (
-        <Alert variant="danger" onClose={() => setIsAlert(false)} dismissible>
+    const [alertMessage, setAlertMessage] = useState('');
+    const alert = (
+        <Alert variant="danger" onClose={() => {
+            setIsAlert(false);
+            setAlertMessage('');
+        }} dismissible>
             <Alert.Heading>Błąd serwera</Alert.Heading>
-            Podczas pobrania danych z serwera wystąpił nieoczekiwany błąd.
+            Podczas pobrania danych z serwera wystąpił nieoczekiwany błąd: {alertMessage}
         </Alert>
     );
-    const headers = {
-        'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
-    };
     const handleSearchOnChange = (event) => {
         const searchValue = event.target.value;
         if (isStringNullOrEmpty(searchValue)) {
@@ -66,13 +67,20 @@ function ProjectView() {
         const name = item.name ? item.name : item;
         fetch(P.server + P.projects + '?name=' + name, {
             method: 'GET',
-            headers: headers
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
+            }
         })
             .then(res => {
                 if (res.status === 401) {
                     navigate(loginView);
+                } else if (res.status === 200) {
+                    return res.json();
+                } else {
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
                 }
-                return res.json();
             })
             .then(data => {
                 setProjectInfoCard(<ProjectInfoCard item={data[0]}
@@ -81,23 +89,39 @@ function ProjectView() {
                                                     deleteElement={() => deleteListElement(data[0])}/>);
                 setProjectStructureCard(<ProjectStructureCard item={data[0]}/>);
             })
-            .catch(() => setIsAlert(true));
+            .catch(error => {
+                setAlertMessage(error.message);
+                setIsAlert(true);
+            });
     };
     const deleteListElement = (project) => {
         fetch(P.server + P.projects + '/' + project.name, {
             method: 'DELETE',
-            headers: headers
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
+            }
         })
-            .then(() => {
-                const newProjects = projects.slice();
-                const index = newProjects.indexOf(project.name);
-                newProjects.splice(index, 1);
-                setProjects(newProjects);
-                setList(newProjects);
-                setProjectInfoCard(defaultCard);
-                setProjectStructureCard(null);
+            .then(res => {
+                if (res.status === 401) {
+                    navigate(loginView);
+                } else if (res.status === 204) {
+                    const newProjects = projects.slice();
+                    const index = newProjects.indexOf(project.name);
+                    newProjects.splice(index, 1);
+                    setProjects(newProjects);
+                    setList(newProjects);
+                    setProjectInfoCard(defaultCard);
+                    setProjectStructureCard(null);
+                } else {
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
+                }
             })
-            .catch(() => setIsAlert(true));
+            .catch(error => {
+                setAlertMessage(error.message);
+                setIsAlert(true);
+            });
     };
 
     useEffect(() => {
@@ -111,15 +135,23 @@ function ProjectView() {
                 .then(res => {
                     if (res.status === 401) {
                         navigate(loginView);
+                    } else if (res.status === 200) {
+                        return res.json();
+                    } else {
+                        return res.json().then(obj => {
+                            throw new Error(obj.message)
+                        });
                     }
-                    return res.json();
                 })
                 .then(data => {
                     setProjects(data);
                     setList(data);
                     document.getElementById('search').value = '';
                 })
-                .catch(() => setIsAlert(true));
+                .catch(error => {
+                    setAlertMessage(error.message);
+                    setIsAlert(true);
+                });
         } else {
             fetch(P.server + P.users + '/' + window.localStorage.getItem(localStorageUser) + P.projects, {
                 method: 'GET',
@@ -130,8 +162,13 @@ function ProjectView() {
                 .then(res => {
                     if (res.status === 401) {
                         navigate(loginView);
+                    } else if (res.status === 200) {
+                        return res.json();
+                    } else {
+                        return res.json().then(obj => {
+                            throw new Error(obj.message)
+                        });
                     }
-                    return res.json();
                 })
                 .then(data => {
                     const projects = data.map(item => ({
@@ -142,14 +179,17 @@ function ProjectView() {
                     setList(projects);
                     document.getElementById('search').value = '';
                 })
-                .catch(() => setIsAlert(true));
+                .catch(error => {
+                    setAlertMessage(error.message);
+                    setIsAlert(true);
+                });
         }
     }, []);
 
     return (
         <Fragment>
             <Menu/>
-            {isAlert ? fetchAlert : null}
+            {isAlert ? alert : null}
             <Container style={{marginTop: "2vh"}}>
                 <Row>
                     <Col className="project-column">
