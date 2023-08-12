@@ -25,66 +25,66 @@ public class GatewayConfiguration {
                         .and()
                         .method(HttpMethod.GET)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.READ_PROJECT, this.jwtDecoder)))
-                        .uri("http://sensor-service:13401/projects/"))
+                        .uri("http://SENSOR-SERVICE/projects/"))
                 .route(p -> p
                         .path("/projects")
                         .and()
                         .method(HttpMethod.POST)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.CREATE_PROJECT, this.jwtDecoder)))
-                        .uri("http://sensor-service:13401/projects/"))
+                        .uri("http://SENSOR-SERVICE/projects/"))
                 .route(p -> p
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.DELETE)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.DELETE_PROJECT, this.jwtDecoder)))
-                        .uri("http://sensor-service:13401/projects/"))
+                        .uri("http://SENSOR-SERVICE/projects/"))
                 .route(p -> p
                         .path("/measurements/upload/**")
                         .and()
                         .method(HttpMethod.POST)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.ADD_MEASUREMENT, this.jwtDecoder)))
-                        .uri("http://sensor-service:13401/measurements/upload"))
+                        .uri("http://SENSOR-SERVICE/measurements/upload"))
                 .route(p -> p
                         .path("/measurements/**")
-                        .uri("http://sensor-service:13401/measurements/"))
+                        .uri("http://SENSOR-SERVICE/measurements/"))
                 .route(p -> p
                         .path("/authentication/**")
-                        .uri("http://auth-service:13402/authentication/"))
+                        .uri("http://AUTH-SERVICE/authentication/"))
                 .route(p -> p
                         .path("/users")
                         .and()
                         .method(HttpMethod.POST)
-                        .uri("http://auth-service:13402/users/"))
+                        .uri("http://AUTH-SERVICE/users/"))
                 .route(p -> p
                         .path("/users")
                         .and()
                         .method(HttpMethod.PATCH)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
-                        .uri("http://auth-service:13402/users/"))
+                        .uri("http://AUTH-SERVICE/users/"))
                 .route(p -> p
                         .path("/users/all")
                         .and()
                         .method(HttpMethod.GET)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
-                        .uri("http://auth-service:13402/users/all"))
+                        .uri("http://AUTH-SERVICE/users/all"))
                 .route(p -> p
                         .path("/users/{username}/projects")
                         .and()
                         .method(HttpMethod.GET)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.READ_PROJECT, this.jwtDecoder)))
-                        .uri("http://auth-service:13402/users"))
+                        .uri("http://AUTH-SERVICE/users"))
                 .route(p -> p
                         .path("/user-projects")
                         .and()
                         .method(HttpMethod.PATCH)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
-                        .uri("http://auth-service:13402/user-projects"))
+                        .uri("http://AUTH-SERVICE/user-projects"))
                 .route(p -> p
                         .path("/user-projects/**")
                         .and()
                         .method(HttpMethod.DELETE)
                         .filters(f -> f.filter(new PrivilegeFilter(Privilege.UPDATE_PRIVILEGES, this.jwtDecoder)))
-                        .uri("http://auth-service:13402/user-projects/**"))
+                        .uri("http://AUTH-SERVICE/user-projects/**"))
                 .build();
     }
 }
