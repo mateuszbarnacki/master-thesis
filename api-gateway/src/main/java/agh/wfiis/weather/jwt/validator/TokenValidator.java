@@ -15,7 +15,6 @@ public class TokenValidator {
     public TokenValidator() {
         this.tokenValidators = List.of(
                 new ExpirationDateValidator(),
-                new ClaimsValidator(),
                 new IssuerValidator());
     }
 
@@ -62,23 +61,5 @@ class IssuerValidator implements JwtValidator {
 
     private List<String> buildErrorMessageList(String issuer) {
         return JWT_ISSUER.equals(issuer) ? Collections.emptyList() : List.of(ERROR_MESSAGE);
-    }
-}
-
-class ClaimsValidator implements JwtValidator {
-    private static final String SCOPE_CLAIM = "scope";
-    private static final String ERROR_MESSAGE = "Empty privileges list!";
-
-    @Override
-    public ValidationResult validate(Jwt jwt) {
-        String scope = jwt.getClaimAsString(SCOPE_CLAIM);
-        return new ValidationResult(buildErrorMessageList(scope));
-    }
-
-    private List<String> buildErrorMessageList(String scope) {
-        return Optional.ofNullable(scope)
-                .filter(String::isBlank)
-                .map(user -> List.of(ERROR_MESSAGE))
-                .orElse(Collections.emptyList());
     }
 }

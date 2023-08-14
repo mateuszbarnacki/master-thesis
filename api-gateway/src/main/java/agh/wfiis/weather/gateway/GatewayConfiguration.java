@@ -21,6 +21,11 @@ public class GatewayConfiguration {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
+                        .path("/projects/names")
+                        .and()
+                        .method(HttpMethod.GET)
+                        .uri("http://SENSOR-SERVICE:13401/projects/names"))
+                .route(p -> p
                         .path("/projects/**")
                         .and()
                         .method(HttpMethod.GET)

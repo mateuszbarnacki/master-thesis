@@ -37,7 +37,7 @@ class TokenValidatorTest {
 
     @Test
     void shouldReturnSingleErrorMessage() {
-        Jwt jwt = givenInvalidJwtWithEmptyScope();
+        Jwt jwt = givenInvalidJwtFromYesterday();
 
         ValidationResult validationResult = whenJwtIsValidated(jwt);
 
@@ -65,12 +65,12 @@ class TokenValidatorTest {
         return generateJwt(claimsSet);
     }
 
-    private Jwt givenInvalidJwtWithEmptyScope() {
-        Instant now = Instant.now();
+    private Jwt givenInvalidJwtFromYesterday() {
+        Instant yesterday = Instant.now().minus(1, ChronoUnit.DAYS);
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer(VALID_ISSUER)
-                .issuedAt(now)
-                .expiresAt(now.plus(10, ChronoUnit.SECONDS))
+                .issuedAt(yesterday)
+                .expiresAt(yesterday.plus(10, ChronoUnit.SECONDS))
                 .claim(CLAIM_SCOPE, Strings.EMPTY)
                 .build();
 
@@ -102,13 +102,12 @@ class TokenValidatorTest {
     }
 
     private void thenValidationResultContainsErrorMessage(ValidationResult validationResult) {
-        Assertions.assertEquals("Empty privileges list!", validationResult.getErrorMessage());
+        Assertions.assertEquals("JWT is already expired!", validationResult.getErrorMessage());
     }
 
     private void thenValidationResultContainsThreeErrorMessages(ValidationResult validationResult) {
         Assertions.assertEquals("""
                 JWT is already expired!
-                Empty privileges list!
                 Invalid JWT issuer!""", validationResult.getErrorMessage());
     }
 }

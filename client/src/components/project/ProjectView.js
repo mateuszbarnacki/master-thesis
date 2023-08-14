@@ -9,7 +9,7 @@ import ProjectStructureCard from "./ProjectStructureCard";
 import Footer from "../Footer";
 import Alert from "react-bootstrap/Alert";
 import * as P from "../../api/paths";
-import {localStorageAuthToken} from "../../api/constants";
+import {localStorageAuthToken, localStorageRoles} from "../../api/constants";
 import {loginView} from "../../api/views";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -20,6 +20,8 @@ import {useNavigate} from "react-router-dom";
 
 function ProjectView() {
     const navigate = useNavigate();
+    const roles = !!window.localStorage.getItem(localStorageRoles) ?
+        window.localStorage.getItem(localStorageRoles) : [];
     const defaultCard = (
         <Card className="border-black m-3">
             <CardHeader as="h5">Karta zarządzania projektem</CardHeader>
@@ -61,6 +63,9 @@ function ProjectView() {
         }
     };
     const handleListOnClick = (item) => {
+        if (roles.length === 0) {
+            return;
+        }
         fetch(P.server + P.projects + '?name=' + item, {
             method: 'GET',
             headers: {
