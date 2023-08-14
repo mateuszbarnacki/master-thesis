@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Alert from "react-bootstrap/Alert";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import Modal from "react-bootstrap/Modal";
@@ -12,7 +12,7 @@ import * as ProjectBuilder from "../addProject/ProjectBuilder";
 import {localStorageAuthToken} from "../../../api/constants";
 
 function CloneProjectModal({project, show, closeModal}) {
-    const [updatedProjectLength, setUpdatedProjectLength] = useState(project ? project.sensors.length : 1);
+    const [updatedProjectLength, setUpdatedProjectLength] = useState(1);
     const [isAlert, setIsAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const alert = (
@@ -55,6 +55,10 @@ function CloneProjectModal({project, show, closeModal}) {
                 setIsAlert(true);
             });
     };
+
+    useEffect(() => {
+        setUpdatedProjectLength(project.sensors.length);
+    }, [project]);
 
     return (
         <Modal size="xl" show={show} centered>
