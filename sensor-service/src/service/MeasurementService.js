@@ -40,6 +40,10 @@ class MeasurementService {
         let result;
         const project = await this.#getProject(acronym);
 
+        if (project.timeMode === 'OFFLINE') {
+            throw new Error('Could not send measurement from sensor to \'offline\' project!');
+        }
+
         if (apiKey === generateAPIKeyForProject(project)) {
             const parametersToValidate = getParametersToValidate(project, deviceId);
             const errors = validate(parametersToValidate, measurement);
