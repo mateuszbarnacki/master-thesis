@@ -24,12 +24,8 @@ function UnmodifiableAccessForm({user}) {
                                disabled/>
                 </FormGroup>
             </Row>
-            {user.roles.includes(ResearcherRole) ?
-                (<>
-                    <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli Badacz:</FormLabel>
-                    <UnmodifiableActionsTable userProjects={user.projects}/>
-                </>)
-                : null}
+            <FormLabel as="h5" className="text-start mt-4">Widoczność akcji dla roli Badacz:</FormLabel>
+            <UnmodifiableActionsTable userProjects={user.projects}/>
         </Form>
     );
 }

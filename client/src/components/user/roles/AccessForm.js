@@ -22,15 +22,11 @@ function AccessForm({user, updateCheckedProjects, showAlert}) {
                                defaultChecked={user.roles.includes(ProjectCreatorRole)}/>
                 </FormGroup>
             </Row>
-            {user.roles.includes(ResearcherRole) ?
-                (<>
-                    <FormLabel as="h5" className="text-start mt-4">Udział w projektach:</FormLabel>
-                    <UserProjectsList id="access-form-list"
-                                      userProjects={user.projects.map(item => item.name)}
-                                      updateCheckedProjects={(values) => updateCheckedProjects(values)}
-                                      showAlert={(value) => showAlert(value)}/>
-                </>)
-                : null}
+            <FormLabel as="h5" className="text-start mt-4">Udział w projektach:</FormLabel>
+            <UserProjectsList id="access-form-list"
+                              userProjects={user.projects.map(item => item.name)}
+                              updateCheckedProjects={(values) => updateCheckedProjects(values)}
+                              showAlert={(value) => showAlert(value)}/>
         </Form>
     );
 }
