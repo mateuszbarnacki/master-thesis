@@ -8,6 +8,9 @@ export function isNumberOutOfRange(value, minValue, maxValue) {
 
 export function validateProject(projectDto) {
     const errors = [];
+    if (projectDto.measurementMode === 'SINGLE' && projectDto.sensors.length > 1) {
+        errors.push('Projekt z typem pomiaru \'pojedynczy\' nie może zawierać więcej niż jednego czujnika');
+    }
     errors.push(validateRequiredString('Nazwa projektu', projectDto.name).toString());
     errors.push(validateAcronym(projectDto.acronym).toString());
     errors.push(validateSensors(projectDto.sensors).toString());

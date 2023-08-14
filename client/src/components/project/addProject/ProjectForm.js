@@ -17,7 +17,8 @@ function ProjectForm({
                          timeMode,
                          spatialMode,
                          measurementMode,
-                         changeSpatialMode
+                         changeSpatialMode,
+                         changeMeasurementMode
                      }) {
     const [isNameInvalid, setIsNameInvalid] = useState(false);
     const [isAcronymInvalid, setIsAcronymInvalid] = useState(false);
@@ -47,16 +48,18 @@ function ProjectForm({
                     <FormGroup className="mt-3">
                         <FormLabel htmlFor="acronym">Akronim:</FormLabel>
                         <FormText>
-                        <p>
-                            - możliwe jest wykorzystanie liter, cyfr oraz myślnika<br/>
-                            - maksymalnie 10 znaków<br/>
-                            - słowa mogą być rozdzielone za pomocą myślnika<br/>
-                            - nie można używać znaków regionalnych<br/>
-                            - cyfra nie może być pierwszym znakiem<br/>
-                        </p>
+                            <p>
+                                - możliwe jest wykorzystanie liter, cyfr oraz myślnika<br/>
+                                - maksymalnie 10 znaków<br/>
+                                - słowa mogą być rozdzielone za pomocą myślnika<br/>
+                                - nie można używać znaków regionalnych<br/>
+                                - cyfra nie może być pierwszym znakiem<br/>
+                            </p>
                         </FormText>
-                        <FormControl required id="acronym" type="text" placeholder="Nazwa projektu w serwisie www"
-                                     isInvalid={isAcronymInvalid} defaultValue={acronym ? acronym : null}
+                        <FormControl required id="acronym" type="text"
+                                     placeholder="Nazwa projektu w serwisie www"
+                                     isInvalid={isAcronymInvalid}
+                                     defaultValue={acronym ? acronym : null}
                                      onChange={handleOnChangeAcronym}/>
                         <FormControl.Feedback type="invalid">
                             Proszę uzupełnić akronim
@@ -90,7 +93,8 @@ function ProjectForm({
                         <FormGroup className="mt-3 mb-3">
                             <FormLabel htmlFor="measurementMode">Typ pomiaru:</FormLabel>
                             <FormSelect id="measurementMode"
-                                        defaultValue={measurementMode ? measurementMode : null}>
+                                        defaultValue={measurementMode ? measurementMode : null}
+                                        onChange={(e) => changeMeasurementMode(e.target.value)}>
                                 <option value="SINGLE">pojedynczy</option>
                                 <option value="NETWORK">sieć</option>
                             </FormSelect>

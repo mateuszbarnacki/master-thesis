@@ -8,6 +8,7 @@ function CloneProjectForm({project, changeProjectLength}) {
     const [sensors, setSensors] = useState(project ? project.sensors : {deviceId: 0});
     const [counter, setCounter] = useState(project ? project.sensors.length + 1 : 1);
     const [cloneSpatialMode, setCloneSpatialMode] = useState(project.spatialMode);
+    const [cloneMeasurementMode, setCloneMeasurementMode] = useState(project.measurementMode);
     const handleAddSensorClick = () => {
         const newIds = sensors.slice();
         newIds.push({deviceId: counter});
@@ -31,7 +32,8 @@ function CloneProjectForm({project, changeProjectLength}) {
             <ProjectForm name={project.name} acronym={project.acronym}
                          description={project.description} timeMode={project.timeMode}
                          spatialMode={project.spatialMode} measurementMode={project.measurementMode}
-                         changeSpatialMode={(value) => setCloneSpatialMode(value)}/>
+                         changeSpatialMode={(value) => setCloneSpatialMode(value)}
+                         changeMeasurementMode={(value) => setCloneMeasurementMode(value)}/>
             <Card className="border-black m-3 bg-light-subtle">
                 <CardHeader>Etap 2. Uzupełnij informacje o czujnikach</CardHeader>
                 <Card.Body>
@@ -41,7 +43,7 @@ function CloneProjectForm({project, changeProjectLength}) {
                                     sensor={sensor}
                                     handleAddSensorClick={() => handleAddSensorClick()}
                                     handleRemoveSensorClick={() => handleRemoveSensorClick(index)}
-                                    isAddSensorButtonVisible={index === sensors.length - 1}
+                                    isAddSensorButtonVisible={cloneMeasurementMode !== 'SINGLE' && index === sensors.length - 1}
                                     spatialMode={cloneSpatialMode}/>)}
                 </Card.Body>
             </Card>

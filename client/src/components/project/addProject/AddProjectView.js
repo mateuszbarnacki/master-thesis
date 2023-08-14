@@ -21,6 +21,7 @@ function AddProjectView() {
     const [ids, setIds] = useState(Array.of(0));
     const [counter, setCounter] = useState(1);
     const [spatialMode, setSpatialMode] = useState("STATIONARY");
+    const [measurementMode, setMeasurementMode] = useState("SINGLE");
     const alert = (
         <Alert variant="danger" dismissible
                onClose={() => {
@@ -69,7 +70,9 @@ function AddProjectView() {
                 } else if (res.status === 201) {
                     navigate(projectsListView);
                 } else {
-                    return res.json().then(obj => {throw new Error(obj.message)});
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
                 }
             })
             .catch(error => {
@@ -91,7 +94,8 @@ function AddProjectView() {
                   }}>
                 <Card.Body>
                     <Card.Text as="h4">Dodaj nowy projekt</Card.Text>
-                    <ProjectForm changeSpatialMode={(value) => setSpatialMode(value)}/>
+                    <ProjectForm changeSpatialMode={(value) => setSpatialMode(value)}
+                                 changeMeasurementMode={(value) => setMeasurementMode(value)}/>
                     <Card className="border-black m-3 bg-light-subtle">
                         <CardHeader>Etap 2. Uzupełnij informacje o czujnikach</CardHeader>
                         <Card.Body>
@@ -100,7 +104,7 @@ function AddProjectView() {
                                             key={"sensor-" + sensorId}
                                             handleAddSensorClick={() => handleAddSensorClick()}
                                             handleRemoveSensorClick={() => handleRemoveSensorClick(index)}
-                                            isAddSensorButtonVisible={index === ids.length - 1}
+                                            isAddSensorButtonVisible={measurementMode !== 'SINGLE' && index === ids.length - 1}
                                             spatialMode={spatialMode}/>)}
                         </Card.Body>
                     </Card>

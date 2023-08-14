@@ -26,7 +26,7 @@ function ParameterForm({
     };
     const handleOnChangeAggregate = () => {
         const aggregate = document.getElementById("aggregate-"+sensorId+"-"+id).value;
-        if (aggregate === "tak") {
+        if (aggregate === "true") {
             document.getElementById("aggregationInterval-"+sensorId+"-"+id).disabled = false;
             document.getElementById("maxBreak-"+sensorId+"-"+id).disabled = false;
         } else {
@@ -41,7 +41,7 @@ function ParameterForm({
     };
     const handleOnChangeValidate = () => {
         const validate = document.getElementById("validate-"+sensorId+"-"+id).value;
-        if (validate === "tak") {
+        if (validate === "true") {
             setIsValuesRangeInvalid(checkValuesRange());
             document.getElementById("minValue-"+sensorId+"-"+id).disabled = false;
             document.getElementById("maxValue-"+sensorId+"-"+id).disabled = false;
