@@ -9,9 +9,8 @@ import ProjectStructureCard from "./ProjectStructureCard";
 import Footer from "../Footer";
 import Alert from "react-bootstrap/Alert";
 import * as P from "../../api/paths";
-import {localStorageAuthToken, localStorageRoles, localStorageUser} from "../../api/constants";
+import {localStorageAuthToken} from "../../api/constants";
 import {loginView} from "../../api/views";
-import {AdminRole} from "../../api/roles";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
@@ -31,8 +30,6 @@ function ProjectView() {
             </Card.Body>
         </Card>
     );
-    const roles = !!window.localStorage.getItem(localStorageRoles) ?
-        window.localStorage.getItem(localStorageRoles) : [];
     const [projects, setProjects] = useState([]);
     const [list, setList] = useState([]);
     const [projectInfoCard, setProjectInfoCard] = useState(defaultCard);
@@ -64,8 +61,7 @@ function ProjectView() {
         }
     };
     const handleListOnClick = (item) => {
-        const name = item.name ? item.name : item;
-        fetch(P.server + P.projects + '?name=' + name, {
+        fetch(P.server + P.projects + '?name=' + item, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
@@ -83,11 +79,10 @@ function ProjectView() {
                 }
             })
             .then(data => {
-                setProjectInfoCard(<ProjectInfoCard item={data[0]}
-                                                    actions={item.actions ? item.actions : null}
+                setProjectInfoCard(<ProjectInfoCard project={data[0]}
                                                     handleAlert={setIsAlert}
                                                     deleteElement={() => deleteListElement(data[0])}/>);
-                setProjectStructureCard(<ProjectStructureCard item={data[0]}/>);
+                setProjectStructureCard(<ProjectStructureCard project={data[0]}/>);
             })
             .catch(error => {
                 setAlertMessage(error.message);
@@ -125,65 +120,32 @@ function ProjectView() {
     };
 
     useEffect(() => {
-        if (roles.includes(AdminRole)) {
-            fetch(P.server + P.projects + '/names', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
+        fetch(P.server + P.projects + '/names', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
+            }
+        })
+            .then(res => {
+                if (res.status === 401) {
+                    navigate(loginView);
+                } else if (res.status === 200) {
+                    return res.json();
+                } else {
+                    return res.json().then(obj => {
+                        throw new Error(obj.message)
+                    });
                 }
             })
-                .then(res => {
-                    if (res.status === 401) {
-                        navigate(loginView);
-                    } else if (res.status === 200) {
-                        return res.json();
-                    } else {
-                        return res.json().then(obj => {
-                            throw new Error(obj.message)
-                        });
-                    }
-                })
-                .then(data => {
-                    setProjects(data);
-                    setList(data);
-                    document.getElementById('search').value = '';
-                })
-                .catch(error => {
-                    setAlertMessage(error.message);
-                    setIsAlert(true);
-                });
-        } else {
-            fetch(P.server + P.users + '/' + window.localStorage.getItem(localStorageUser) + P.projects, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + window.localStorage.getItem(localStorageAuthToken)
-                }
+            .then(data => {
+                setProjects(data);
+                setList(data);
+                document.getElementById('search').value = '';
             })
-                .then(res => {
-                    if (res.status === 401) {
-                        navigate(loginView);
-                    } else if (res.status === 200) {
-                        return res.json();
-                    } else {
-                        return res.json().then(obj => {
-                            throw new Error(obj.message)
-                        });
-                    }
-                })
-                .then(data => {
-                    const projects = data.map(item => ({
-                        name: item.name,
-                        actions: item.actions
-                    }));
-                    setProjects(projects);
-                    setList(projects);
-                    document.getElementById('search').value = '';
-                })
-                .catch(error => {
-                    setAlertMessage(error.message);
-                    setIsAlert(true);
-                });
-        }
+            .catch(error => {
+                setAlertMessage(error.message);
+                setIsAlert(true);
+            });
     }, []);
 
     return (
@@ -199,11 +161,11 @@ function ProjectView() {
                                       onKeyDown={(e) => handleOnKeyDown(e)}/>
                         <ListGroup variant="flush" className="projects-list mt-3 mb-3">
                             {list.map(item =>
-                                <ListGroupItem key={item.name ? item.name : item}
+                                <ListGroupItem key={item}
                                                action
                                                variant="light"
                                                onClick={() => handleListOnClick(item)}>
-                                    {item.name ? item.name : item}
+                                    {item}
                                 </ListGroupItem>)}
                         </ListGroup>
                     </Col>

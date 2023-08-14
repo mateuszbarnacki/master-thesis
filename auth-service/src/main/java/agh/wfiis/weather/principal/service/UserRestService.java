@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,11 +49,19 @@ public class UserRestService implements UserService, UserDetailsService {
     }
 
     @Override
-    public Collection<ProjectDto> getUserProjects(String username) {
-        return userRepository.findByUsername(username)
-                .map(userMapper::mapUserEntityToUserInfoDto)
-                .map(UserInfoDto::projects)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, username)));
+    public Collection<ProjectDto> getUserProject(String username, String project) {
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        if (userEntity.isEmpty()) {
+            throw new UsernameNotFoundException(String.format(USERNAME_ERROR_MESSAGE, username));
+        }
+        UserInfoDto userInfoDto = userMapper.mapUserEntityToUserInfoDto(userEntity.get());
+        if (userInfoDto.roles().contains(UserRole.ADMIN)) {
+            return Collections.emptySet();
+        }
+        return userInfoDto.projects()
+                .stream()
+                .filter(projectDto -> projectDto.name().equals(project))
+                .collect(Collectors.toSet());
     }
 
     @Override

@@ -32,9 +32,10 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping(value = "/{username}/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<ProjectDto> getUserProjects(@PathVariable("username") String username) {
-        return userService.getUserProjects(username);
+    @GetMapping(value = "/{username}/{project}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<ProjectDto> getUserProject(@PathVariable("username") String username,
+                                                 @PathVariable("project") String project) {
+        return userService.getUserProject(username, project);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

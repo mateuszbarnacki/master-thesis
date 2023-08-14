@@ -100,23 +100,23 @@ class UserRestServiceTest {
     }
 
     @Test
-    void shouldGetUserProjects() {
+    void shouldGetUserProject() {
         UserInfoDto userWithOneProject = getUserWithOneProject();
         Mockito.when(userRepository.findByUsername(TEST_USERNAME))
                 .thenReturn(Optional.of(new UserEntity()));
         Mockito.when(userMapper.mapUserEntityToUserInfoDto(ArgumentMatchers.any(UserEntity.class)))
                 .thenReturn(userWithOneProject);
 
-        Collection<ProjectDto> projects = whenGetUserProjects(TEST_USERNAME);
+        Collection<ProjectDto> projects = whenGetUserProjects(TEST_USERNAME, "agh_proj");
 
         thenProjectCollectionContainsExactlyOneProject(projects);
     }
 
     @Test
-    void shouldNotGetUserProjectsBecauseUserDoesNotExist() {
+    void shouldNotGetUserProjectBecauseUserDoesNotExist() {
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.empty());
 
-        thenGetUserProjectsThrowUsernameNotFoundException(TEST_USERNAME);
+        thenGetUserProjectsThrowUsernameNotFoundException(TEST_USERNAME, "agh_proj");
     }
 
     private UserDto givenUserDto() {
@@ -134,8 +134,8 @@ class UserRestServiceTest {
                 Set.of(new ProjectDto(-2L, "agh", Set.of())));
     }
 
-    private Collection<ProjectDto> whenGetUserProjects(String username) {
-        return userRestService.getUserProjects(username);
+    private Collection<ProjectDto> whenGetUserProjects(String username, String project) {
+        return userRestService.getUserProject(username, project);
     }
 
     private UserDetails whenLoadUserByUsername(String username) {
@@ -172,9 +172,9 @@ class UserRestServiceTest {
         Assertions.assertEquals(1, projects.size());
     }
 
-    private void thenGetUserProjectsThrowUsernameNotFoundException(String username) {
+    private void thenGetUserProjectsThrowUsernameNotFoundException(String username, String project) {
         Assertions.assertThrowsExactly(UsernameNotFoundException.class,
-                () -> userRestService.getUserProjects(username));
+                () -> userRestService.getUserProject(username, project));
     }
 
     private UserInfoDto getUserWithOneProject() {

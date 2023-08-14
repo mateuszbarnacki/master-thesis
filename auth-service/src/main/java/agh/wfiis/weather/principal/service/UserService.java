@@ -18,9 +18,11 @@ public interface UserService {
     /**
      * This method returns list of projects in which user with given username is enrolled.
      *
+     * @param username User name.
+     * @param project Project name.
      * @return Collection<ProjectDto> Collection of projects.
      */
-    Collection<ProjectDto> getUserProjects(String username);
+    Collection<ProjectDto> getUserProject(String username, String project);
 
     /**
      * This method is used to create new user.

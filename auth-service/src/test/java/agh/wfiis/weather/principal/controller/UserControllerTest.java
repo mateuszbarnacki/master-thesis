@@ -112,11 +112,12 @@ class UserControllerTest {
 
     @Test
     @WithMockUser
-    void shouldGetUserProjects() throws Exception {
+    void shouldGetUserProject() throws Exception {
         String username = "Tester";
-        Mockito.when(userService.getUserProjects(username))
+        String project = "proj_test";
+        Mockito.when(userService.getUserProject(username, project))
                 .thenReturn(Set.of(new ProjectDto(-123L, "proj_test", Set.of(ProjectAction.ADD_MEASUREMENT))));
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/{username}/projects", username);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/{username}/{project}", username, project);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -124,6 +125,6 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("proj_test"));
 
-        Mockito.verify(userService).getUserProjects(ArgumentMatchers.anyString());
+        Mockito.verify(userService).getUserProject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
     }
 }
