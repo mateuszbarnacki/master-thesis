@@ -24,17 +24,22 @@ function LoginForm({setLoginError}) {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(authenticationDto)
             })
-            .then(response => response.json())
-            .then(json => {
-                setLoginError(false);
-                const token = json.token;
-                const roles = json.roles;
-                const user = json.username;
-                window.localStorage.setItem(localStorageAuthToken, token);
-                window.localStorage.setItem(localStorageRoles, roles);
-                window.localStorage.setItem(localStorageUser, user);
-                navigate(projectsListView);
-            }).catch(() => setLoginError(true));
+            .then(response => {
+                if (response.status === 200) {
+                    setLoginError(false);
+                    const json = response.json();
+                    const token = json.token;
+                    const roles = json.roles;
+                    const user = json.username;
+                    window.localStorage.setItem(localStorageAuthToken, token);
+                    window.localStorage.setItem(localStorageRoles, roles);
+                    window.localStorage.setItem(localStorageUser, user);
+                    navigate(projectsListView);
+                } else {
+                    throw new Error('Authorization error');
+                }
+            })
+            .catch(() => setLoginError(true));
     };
 
     return (
