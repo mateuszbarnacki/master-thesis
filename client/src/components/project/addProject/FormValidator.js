@@ -31,6 +31,7 @@ function validateMeasurements(measurements) {
     for (const measurement of measurements) {
         errors.push(validateRequiredString('Nazwa parametru', measurement.name).toString());
         errors.push(validateRequiredString('Jednostka', measurement.unit).toString());
+        errors.push(validateRange(measurement.validate, measurement.range).toString());
         errors.push(validateRequiredNumber('Wartość błędu', measurement.errorValue).toString());
     }
     return errors.filter(item => !isStringNullOrEmpty(item)).join('\n');
@@ -62,6 +63,20 @@ function validateAcronym(acronym) {
     }
     if (/^\d$/.test(acronym[0])) {
         errors.push('Pierwszy znak akronimu nie może być cyfrą');
+    }
+    return errors.filter(item => !isStringNullOrEmpty(item)).join('\n');
+}
+
+function validateRange(validate, range) {
+    const errors = [];
+    if (validate && isNaN(range.min)) {
+        errors.push('Minimalna wartość zakresu jest pusta');
+    }
+    if (validate && isNaN(range.max)) {
+        errors.push('Maksymalna wartość zakresu jest pusta');
+    }
+    if (validate && range.min >= range.max) {
+        errors.push('Wartość minimalna w testowanym zakresie jest większa lub równa wartości maksymalnej');
     }
     return errors.filter(item => !isStringNullOrEmpty(item)).join('\n');
 }

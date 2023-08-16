@@ -61,7 +61,7 @@ function ParameterForm({
     const checkValuesRange = () => {
         const minValue = document.getElementById("minValue-"+sensorId+"-"+id).value;
         const maxValue = document.getElementById("maxValue-"+sensorId+"-"+id).value;
-        return !minValue || !maxValue || maxValue - minValue < 0;
+        return !minValue || !maxValue || maxValue - minValue <= 0;
     };
 
     return (
