@@ -52,9 +52,11 @@ class MeasurementService {
                 const newMeasurement = await this.db.collection(acronym).insertOne(measurement);
                 result = {data: newMeasurement, statusCode: 201};
             } else {
+                console.log(errors.join());
                 result = {data: {message: errors.join()}, statusCode: 500}
             }
         } else {
+            console.log('Invalid API Key!');
             result = {data: {message: 'Invalid API Key!'}, statusCode: 401}
         }
         console.log('[INFO] Measurement service: measurement added');
