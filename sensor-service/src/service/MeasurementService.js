@@ -52,11 +52,11 @@ class MeasurementService {
                 const newMeasurement = await this.db.collection(acronym).insertOne(measurement);
                 result = {data: newMeasurement, statusCode: 201};
             } else {
-                console.log(errors.join());
+                console.log('[ERROR] ' +  errors.join().toString());
                 result = {data: {message: errors.join()}, statusCode: 500}
             }
         } else {
-            console.log('Invalid API Key!');
+            console.log('[ERROR] Invalid API Key!');
             result = {data: {message: 'Invalid API Key!'}, statusCode: 401}
         }
         console.log('[INFO] Measurement service: measurement added');
@@ -138,8 +138,8 @@ const parseFile = async (stream, acronym, measurements) => {
                 }
             })
             .on('error', (error) => {
-                console.log(error.message);
-                console.log(errors);
+                console.log('[ERROR] ' + error.message);
+                console.log('[ERROR] ' +  errors.join().toString());
                 reject([{data: error.message}]);
             })
             .on('end', async () => {
