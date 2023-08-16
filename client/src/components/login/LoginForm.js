@@ -26,18 +26,20 @@ function LoginForm({setLoginError}) {
             })
             .then(response => {
                 if (response.status === 200) {
-                    setLoginError(false);
-                    const json = response.json();
-                    const token = json.token;
-                    const roles = json.roles;
-                    const user = json.username;
-                    window.localStorage.setItem(localStorageAuthToken, token);
-                    window.localStorage.setItem(localStorageRoles, roles);
-                    window.localStorage.setItem(localStorageUser, user);
-                    navigate(projectsListView);
+                    return response.json();
                 } else {
                     throw new Error('Authorization error');
                 }
+            })
+            .then(json => {
+                setLoginError(false);
+                const token = json.token;
+                const roles = json.roles;
+                const user = json.username;
+                window.localStorage.setItem(localStorageAuthToken, token);
+                window.localStorage.setItem(localStorageRoles, roles);
+                window.localStorage.setItem(localStorageUser, user);
+                navigate(projectsListView);
             })
             .catch(() => setLoginError(true));
     };
