@@ -19,7 +19,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://service-registry:19990/eureka
+      defaultZone: http://localhost:19990/eureka
   instance:
     prefer-ip-address: true
 
