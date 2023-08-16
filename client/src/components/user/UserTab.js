@@ -6,7 +6,7 @@ import AccessModal from "./roles/AccessModal";
 import {Fragment, useState} from "react";
 import ActionsModal from "./roles/ActionsModal";
 import UnmodifiableAccessForm from "./roles/UnmodifiableAccessForm";
-import {ResearcherRole} from "../../api/roles";
+import {AdminRole, ResearcherRole} from "../../api/roles";
 
 function UserTab({user, index, showAlert}) {
     const [showManageRolesModal, setShowManageRolesModal] = useState(false);
@@ -16,18 +16,24 @@ function UserTab({user, index, showAlert}) {
     return (
         <Fragment>
             <AccordionItem eventKey={index}>
-                <AccordionHeader>{user.username}</AccordionHeader>
+                <AccordionHeader>
+                    {user.username} {user.roles.includes(AdminRole) ? '[Administrator]' : null}
+                </AccordionHeader>
                 <AccordionBody className="text-center">
-                    <UnmodifiableAccessForm user={user}/>
-                    <Button variant="dark" className="mt-3 me-3"
-                            onClick={() => setShowManageRolesModal(true)}>
-                        Edytuj uprawnienia
-                    </Button>
-                    {user.roles.includes(ResearcherRole) ?
-                        <Button variant="dark" className="mt-3 ms-3"
-                                onClick={() => setShowManageProjectsModal(true)}>
-                            Edytuj akcje
-                        </Button> : null}
+                    {user.roles.includes(AdminRole) ? null :
+                        <Fragment>
+                            <UnmodifiableAccessForm user={user}/>
+                            <Button variant="dark" className="mt-3 me-3"
+                                    onClick={() => setShowManageRolesModal(true)}>
+                                Edytuj uprawnienia
+                            </Button>
+                            {user.roles.includes(ResearcherRole) ?
+                                <Button variant="dark" className="mt-3 ms-3"
+                                        onClick={() => setShowManageProjectsModal(true)}>
+                                    Edytuj akcje
+                                </Button> : null}
+                        </Fragment>
+                    }
                 </AccordionBody>
             </AccordionItem>
             <AccessModal user={user}
@@ -40,7 +46,8 @@ function UserTab({user, index, showAlert}) {
                           closeModal={() => setShowManageProjectsModal(false)}
                           showAlert={(value) => showAlert(value)}/>
         </Fragment>
-    );
+    )
+        ;
 }
 
 export default UserTab;

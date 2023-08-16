@@ -44,7 +44,6 @@ public class UserRestService implements UserService, UserDetailsService {
     public Collection<UserInfoDto> getUsers() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .map(userMapper::mapUserEntityToUserInfoDto)
-                .filter(userInfoDto -> !userInfoDto.roles().contains(UserRole.ADMIN))
                 .toList();
     }
 
