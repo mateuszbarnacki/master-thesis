@@ -1,0 +1,42 @@
+@startuml
+
+<style>
+    frame {
+        Minimumwidth 100
+        Maximumwidth 300
+    }
+    database {
+        Minimumwidth 80
+        Maximumwidth 300
+    }
+</style>
+
+
+database "MongoDB" {
+  database "TempTest" {
+      frame "Data i czas: 2023-08-09T08:18:52\t Temperatura: 13°C" {
+      }
+      frame "Data i czas: 2023-08-09T08:19:02\t Temperatura: 14°C" {
+      }
+  }
+  database "HumTest" {
+     frame "Data i czas: 2023-08-23T05:42:11\t Humidity: 78%" {
+     }
+     frame "Data i czas: 2023-08-23T05:43:11\t Humidity: 77%" {
+     }
+     frame "Data i czas: 2023-08-23T05:44:11\t Humidity: 78%" {
+     }
+  }
+  database "Project" {
+    frame "name: TemperatureTest \t\t\t acronym: TempTest \t\t\t\t\t ..." {
+    }
+    frame "name: HumidityTest \t\t\t\t acronym: HumTest \t\t\t\t\t\t ..." {
+    }
+  }
+}
+
+"Data i czas: 2023-08-09T08:18:52\t Temperatura: 13°C" -down[hidden]- "Data i czas: 2023-08-09T08:19:02\t Temperatura: 14°C"
+"Data i czas: 2023-08-23T05:42:11\t Humidity: 78%" -down[hidden]- "Data i czas: 2023-08-23T05:43:11\t Humidity: 77%"
+"Data i czas: 2023-08-23T05:43:11\t Humidity: 77%" -down[hidden]- "Data i czas: 2023-08-23T05:44:11\t Humidity: 78%"
+"name: TemperatureTest \t\t\t acronym: TempTest \t\t\t\t\t " -down[hidden]- "name: HumidityTest \t\t\t\t acronym: HumTest \t\t\t\t\t\t "
+@enduml
