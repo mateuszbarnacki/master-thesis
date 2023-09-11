@@ -1,16 +1,22 @@
 @startuml
+skinparam monochrome true
 component "Client App" as app
-component "Sensor Service" as sensors
-component "Auth Service" as auth
-component "\tAPI Gateway\t" as gateway
-database " Project, Measurement\n          MongoDB" as sensorsDB
-database "      Auth\nPostgreSQL" as authDB
+component "Service Registry" as serviceRegistry
+
+rectangle microservices [{{
+    component "Sensor Service" as sensors
+    component "Auth Service" as auth
+    component "\tAPI Gateway\t" as gateway
+    database " Project, Measurement\n          MongoDB" as sensorsDB
+    database "      Auth\nPostgreSQL" as authDB
+    sensors-d->sensorsDB
+    auth-d->authDB
+    gateway-r->auth
+    gateway-d->sensors
+}}]
 
 app-d->HTTP
-gateway-l-HTTP
-sensors-d->sensorsDB
-auth-d->authDB
-gateway-r->auth
-gateway-d->sensors
+HTTP-r-microservices
+serviceRegistry<-->microservices
 
 @enduml
