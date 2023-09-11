@@ -1,0 +1,63 @@
+@startuml
+!include <c4/C4_Component>
+skinparam monochrome true
+set separator ::
+
+<style>
+class {
+    Minimumwidth 100
+    Maximumwidth 650
+}
+</style>
+
+class src::db::DbManager{
+    {field} url : String
+    {field} mongo : Promise<MongoClient>
+    {field} dbConnection : Db
+    {field} projectCollection : Collection<Any>
+    {method} getConnection() : Db
+    {method} getProjectCollection() : Collection<Any>
+    {method} closeConnection() : void
+}
+
+class src::service::MeasurementService{
+    {field} dbManager : DbManager
+    {field} db : Db
+    {method} getMeasurements() : Promise<Any>
+    {method} getLatestMeasurements(): Promise<Any>
+    {method} addMeasurement(measurement : Any) : Promise<Any>
+    {method} addMeasurementsFromFile(acronym : String, deviceId : String, stream : Stream) : Promise<Any>
+}
+
+class src::service::ProjectService{
+    {field} dbManager : DbManager
+    {field} projectCollection : Collection<Any>
+    {method} getProjectByAcronym(acronym : String) : Promise<Any>
+    {method} getProjectByName(name : String): Promise<Any>
+    {method} getProjectsNames(): Promise<Any>
+    {method} addProject(project : Any) : Promise<Any>
+    {method} deleteProject(name : String) : Promise<Any>
+}
+
+class src::controller::MeasurementController{
+    {field} router : IRouter
+    {method} getMeasurements(req : Any, res : Any) : Promise<Any>
+    {method} getLatestMeasurement(req : Any, res : Any) : Promise<Any>
+    {method} addMeasurement(req : Any, res : Any) : Promise<Any>
+    {method} addMeasurementsFromFile(req : Any, res : Any) : Promise<Any>
+}
+
+class src::controller::ProjectController{
+    {field} router : IRouter
+    {method} getProject(req : Any, res : Any) : Promise<Any>
+    {method} getProjectsNames(req : Any, res : Any) : Promise<Any>
+    {method} addProject(req : Any, res : Any) : Promise<Any>
+    {method} deleteProject(req : Any, res : Any) : Promise<Any>
+}
+
+src::controller::MeasurementController ----> src::service::MeasurementService
+src::controller::ProjectController ----> src::service::ProjectService
+src::service::MeasurementService --> src::db::DbManager
+src::service::ProjectService --> src::db::DbManager
+
+@enduml
