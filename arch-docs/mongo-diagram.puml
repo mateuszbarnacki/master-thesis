@@ -12,7 +12,7 @@
 </style>
 
 
-database "MongoDB" {
+database "weather" {
   database "TempTest" {
       frame "Data i czas: 2023-08-09T08:18:52\t Temperatura: 13°C" {
       }
