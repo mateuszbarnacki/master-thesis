@@ -1,0 +1,106 @@
+@startuml
+!include <c4/C4_Component>
+skinparam monochrome true
+set separator ::
+<style>
+class {
+    Minimumwidth 100
+    Maximumwidth 600
+}
+</style>
+
+class agh.wfiis.weather::principal::controller::ProjectController {
+    {method} updateActions(projectActionsDto : ProjectActionsDto) : ProjectActionsDto
+    {method} deleteProjectsByName(name : String) : void
+}
+
+class agh.wfiis.weather::principal::controller::UserController {
+    {method} getUsers() : Collection<UserInfoDto>
+    {method} getUserProject(username : String, project : String) : Collection<ProjectDto>
+    {method} registerUser(userDto : UserDto) : void
+    {method} updateRolesAndProjects(userInfoDto : UserInfoDto) : UserInfoDto
+}
+
+interface agh.wfiis.weather::principal::service::ProjectService {
+    {method} updateActions(projectActionsDto : ProjectActionsDto) : ProjectActionsDto
+    {method} deleteProjectsByName(name : String) : void
+}
+
+interface agh.wfiis.weather::principal::service::UserService {
+    {method} getUsers() : Collection<UserInfoDto>
+    {method} getUserProject(username : String, project : String) : Collection<ProjectDto>
+    {method} registerUser(userDto : UserDto) : void
+    {method} updateRolesAndProjects(userInfoDto : UserInfoDto) : UserInfoDto
+}
+
+class agh.wfiis.weather::principal::service::ProjectRestService {
+    {method} updateActions(projectActionsDto : ProjectActionsDto) : ProjectActionsDto
+    {method} deleteProjectsByName(name : String) : void
+}
+
+class agh.wfiis.weather::principal::service::UserRestService {
+    {method} loadUserByUsername(username : String) : UserDetails
+    {method} getUsers() : Collection<UserInfoDto>
+    {method} getUserProject(username : String, project : String) : Collection<ProjectDto>
+    {method} registerUser(userDto : UserDto) : void
+    {method} updateRolesAndProjects(userInfoDto : UserInfoDto) : UserInfoDto
+}
+
+class agh.wfiis.weather::principal::service::UserMapper {
+    {method} mapUserDtoToUserEntity(userDto: UserDto) : UserEntity
+    {method} mapUserInfoToUserEntity(userInfoDto : UserInfoDto) : UserEntity
+    {method} mapUserEntityToUserInfoDto(entity : UserEntity) : UserInfoDto
+}
+
+class agh.wfiis.weather::principal::service::RoleMapper {
+    {method} mapUserRolesToRoleEntities(role : Set<UserRole>) : Set<RoleEntity>
+    {method} mapRoleEntitiesToUserRoles(roleEntities : Set<RoleEntity>) : Set<UserRole>
+}
+
+class agh.wfiis.weather::principal::service::ProjectMapper {
+    {method} mapProjectEntitiesToProjectDtos(entities : Set<ProjectEntity>) : Set<ProjectDto>
+    {method} mapProjectDtosToEntities(dtos : Set<ProjectDto>) : Set<ProjectEntity>
+    {method} mapProjectNamesToEntities(projects : Set<String>) : Set<ProjectEntity>
+}
+
+class agh.wfiis.weather::principal::service::ActionMapper {
+    {method} mapActionEntitiesToProjectActions(actionEntities : Set<ActionEntity>) : Set<ProjectAction>
+    {method} mapProjectActionsToActionEntities(actions : Set<ProjectAction>) : Set<ActionEntity>
+}
+
+interface agh.wfiis.weather::principal::repository::RoleRepository {
+    {method} findByName(name : String) : Optional<RoleEntity>
+}
+
+interface agh.wfiis.weather::principal::repository::ActionRepository {
+    {method} findActionEntityByName(name : String) : Optional<ActionEntity>
+}
+
+interface agh.wfiis.weather::principal::repository::UserRepository {
+    {method} findByUsername(username : String) : Optional<UserEntity>
+}
+
+interface agh.wfiis.weather::principal::repository::ProjectRepository {
+    {method} deleteAllByName(name : String) : void
+}
+
+'User
+agh.wfiis.weather::principal::service::UserService <|.. agh.wfiis.weather::principal::service::UserRestService
+agh.wfiis.weather::principal::service::UserRestService --* agh.wfiis.weather::principal::service::UserMapper
+agh.wfiis.weather::principal::service::UserMapper --* agh.wfiis.weather::principal::service::RoleMapper
+agh.wfiis.weather::principal::service::UserRestService -* agh.wfiis.weather::principal::repository::UserRepository
+
+'Project
+agh.wfiis.weather::principal::service::ProjectService <|.. agh.wfiis.weather::principal::service::ProjectRestService
+agh.wfiis.weather::principal::service::ProjectRestService --* agh.wfiis.weather::principal::service::ProjectMapper
+agh.wfiis.weather::principal::service::ProjectRestService --* agh.wfiis.weather::principal::service::ActionMapper
+agh.wfiis.weather::principal::service::ProjectMapper --* agh.wfiis.weather::principal::service::ActionMapper
+agh.wfiis.weather::principal::service::ProjectRestService --* agh.wfiis.weather::principal::repository::ProjectRepository
+agh.wfiis.weather::principal::service::RoleMapper --* agh.wfiis.weather::principal::repository::RoleRepository
+agh.wfiis.weather::principal::service::ActionMapper --* agh.wfiis.weather::principal::repository::ActionRepository
+agh.wfiis.weather::principal::service::ProjectMapper --[hidden]-- agh.wfiis.weather::principal::service::UserMapper
+
+agh.wfiis.weather::principal::controller::UserController --* agh.wfiis.weather::principal::service::UserService
+agh.wfiis.weather::principal::controller::ProjectController --* agh.wfiis.weather::principal::service::ProjectService
+
+@enduml

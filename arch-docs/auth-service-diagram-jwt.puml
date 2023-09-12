@@ -1,0 +1,33 @@
+@startuml
+!include <c4/C4_Component>
+skinparam monochrome true
+set separator ::
+<style>
+class {
+    Minimumwidth 100
+    Maximumwidth 600
+}
+</style>
+
+class agh.wfiis.weather::auth::controller::AuthenticationController {
+    {method} createToken(dto : AuthenticationDto) : AuthenticationResponseDto
+}
+
+class agh.wfiis.weather::auth::jwt::JwtFactory {
+    {method} generate(authentication : Authentication, scope : String) : Jwt
+}
+
+interface agh.wfiis.weather::auth::jwt::service::JwtService {
+    {method} createToken(authentication : Authentication) : AuthenticationResponseDto
+}
+
+class agh.wfiis.weather::auth::jwt::service::RestJwtService {
+    {method} createToken(authentication : Authentication) : AuthenticationResponseDto
+}
+
+agh.wfiis.weather::auth::jwt::service::JwtService <|.. agh.wfiis.weather::auth::jwt::service::RestJwtService
+agh.wfiis.weather::auth::jwt::service::RestJwtService --* agh.wfiis.weather::auth::jwt::JwtFactory
+agh.wfiis.weather::auth::controller::AuthenticationController --* agh.wfiis.weather::auth::jwt::service::JwtService
+
+
+@enduml
