@@ -55,9 +55,9 @@ class src::controller::ProjectController{
     {method} deleteProject(req : Any, res : Any) : Promise<Any>
 }
 
-src::controller::MeasurementController ----> src::service::MeasurementService
-src::controller::ProjectController ----> src::service::ProjectService
-src::service::MeasurementService --> src::db::DbManager
-src::service::ProjectService --> src::db::DbManager
+src::controller::MeasurementController ---* src::service::MeasurementService
+src::controller::ProjectController ---* src::service::ProjectService
+src::service::MeasurementService ---* src::db::DbManager
+src::service::ProjectService ---* src::db::DbManager
 
 @enduml
